@@ -20,12 +20,20 @@
         "16": "icons/mindtab/mindtab16.svg",
         "32": "icons/mindtab/mindtab32.svg",
         "48": "icons/mindtab/mindtab48.svg",
-        "128": "icons/mindtab/mindtab128.svg"
+        "128": "icons/mindtab/mindtab128.svg",
+        "A128": "icons/mindtab/mindtabA128.svg",
+        "A32": "icons/mindtab/mindtabA32.svg",
+        "A48": "icons/mindtab/mindtabA48.svg",
+        "A": "icons/mindtab/mindtabA.svg",
+        "flashcard": "icons/mindtab/flashcard.svg",
+        "tone": "icons/mindtab/tone.svg"
     },
     "action": {
      "default_icon": {
      "32": "icons/mindtab/mindtabA32.svg",
-     "48": "icons/mindtab/mindtabA48.svg"
+     "48": "icons/mindtab/mindtabA48.svg",
+     "128": "icons/mindtab/mindtabA128.svg",
+     "A": "icons/mindtab/mindtabA.svg"
      }
     },
     "web_accessible_resources": [
