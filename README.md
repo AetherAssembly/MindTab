@@ -11,9 +11,6 @@ Built with modular architecture, aesthetic flexibility, and designed for users w
 
 ## 🚀 Features
 
-- **Tab History Tracker**  
-  View and restore recently closed tabs with thumbnails, titles, and timestamps.
-
 - **Tone Analyzer**  
   Subtle tone detection embedded into your digital communication experience.
 
@@ -28,6 +25,8 @@ Built with modular architecture, aesthetic flexibility, and designed for users w
 ## 📁 Project Structure
 
 - MindTab/
+  - config/
+    - toneConfig.json
   - content_scripts/
     - toneTranslator.js
     - tabTracker.js
@@ -35,14 +34,18 @@ Built with modular architecture, aesthetic flexibility, and designed for users w
     - flashcard.js
     - config.json
   - icons/
-    - mindtab.svg 
-    - restore.svg
-    - tone.svg
+    - mindtab/
+      - mindtab.svg
+      - mindtab16.svg
+      - mindtab32.svg
+      - mindtab48.svg
+      - mindtab128.svg
+      - mindtabA32.svg
+      - mindtabA48.svg
     - flashcard.svg 
+    - tone.svg
   - utils/
     - toneUtils.js
-    - storageUtils.js
-    - tagger.js
   - background.js
   - LICENSE
   - manifest.json
@@ -51,7 +54,8 @@ Built with modular architecture, aesthetic flexibility, and designed for users w
 
 ---
 
-## 🧑‍💻 Developer Setup
+## ⌨️ Make your own! 
+***I FULLY SUPPORT YOU USING MINE TO MAKE YOUR OWN, BUT IF YOU POST IT ANYWHERE PLEASE CREDIT ME!***
 
 1. Clone the repo  
    `git clone https://github.com/aster1630/mindtab.git`
@@ -68,11 +72,11 @@ Built with modular architecture, aesthetic flexibility, and designed for users w
 
 1. Go to `https://chromewebstore.google.com/`
 
-2. Search for ------ by ------
+2. Search for Mindtab by Aster1680
 
-
+3. Install the Extention and Feel free to leave a review!
 
 ---
 
 ## 📝 License
-[LICENSE]
+[LICENSE](LICENSE)

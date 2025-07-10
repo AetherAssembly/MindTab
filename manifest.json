@@ -17,16 +17,15 @@
         }
     ],
     "icons": {
-        "16": "icons/mindtab16.svg",
-        "32": "icons/mindtab32.svg",
-        "48": "icons/mindtab48.svg",
-        "128": "icons/mindtab128.svg"
+        "16": "icons/mindtab/mindtab16.svg",
+        "32": "icons/mindtab/mindtab32.svg",
+        "48": "icons/mindtab/mindtab48.svg",
+        "128": "icons/mindtab/mindtab128.svg"
     },
     "action": {
      "default_icon": {
-     "16": "icons/mindtab16.svg",
-     "32": "icons/mindtabA32.svg",
-     "48": "icons/mindtabA48.svg"
+     "32": "icons/mindtab/mindtabA32.svg",
+     "48": "icons/mindtab/mindtabA48.svg"
      }
     },
     "web_accessible_resources": [
