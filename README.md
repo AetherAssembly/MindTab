@@ -2,7 +2,6 @@
 
 **MindTab** is a unified browser extension that enhances productivity through:
 
-- 🚪 **"What Was That Tab?"** – Visual tab memory with thumbnails, smart tagging, and instant restore.
 - 💬 **Tone Translator** – Injected tone summaries for emails and posts to improve communication awareness.
 - 📚 **Flash Learning** – Micro-flashcards triggered during idle or browsing moments to build knowledge passively.
 
@@ -28,32 +27,26 @@ Built with modular architecture, aesthetic flexibility, and designed for users w
 
 ## 📁 Project Structure
 
-MindTab/
-├── manifest.json
-├── background.js
-├── popup/
-│   ├── popup.html
-│   ├── popup.js
-│   └── popup.css
-├── icons/
-│   ├── mindtab.svg
-│   ├── restore.svg
-│   ├── tone.svg
-│   └── flashcard.svg
-├── content_scripts/
-│   ├── toneTranslator.js
-│   └── tabTracker.js
-├── flashcard/
-│   ├── flashcard.js
-│   └── config.json
-├── utils/
-│   ├── toneUtils.js
-│   ├── storageUtils.js
-│   └── tagger.js
-|
-├── README.md
-|
-└── LICENCE
+- MindTab/
+  - content_scripts/
+    - toneTranslator.js
+    - tabTracker.js
+ - flashcard/ 
+    - flashcard.js
+    - config.json
+  - icons/
+    - mindtab.svg 
+    - restore.svg
+    - tone.svg
+    - flashcard.svg 
+  - utils/
+    - toneUtils.js
+    - storageUtils.js
+    - tagger.js
+  - background.js
+  - LICENSE
+  - manifest.json
+  - README.md
 
 
 ---

@@ -1,17 +1,9 @@
 {
     "name": "MindTab",
     "version": "1.0",
-    "description": "Visual tab memory, tone translation, and flash learning.",
+    "description": "Tone translation, and flash learning.",
     "manifest_version": 3,
-    "action": {
-        "default_popup": "popup.html",
-        "default_icon": {
-            "16": "icons/mindtab16.svg",
-            "32": "icons/mindtab32.svg",
-            "48": "icons/mindtab48.svg"
-        }
-    },
-    "permissions": ["tabs","storage","sessions"],
+    "permissions": ["storage"],
     "host_permissions": ["<all_urls>"],
     "background": {
         "service_worker": "background.js"
@@ -19,17 +11,28 @@
     "content_scripts": [
         {
             "matches":["<all_urls>"],
-            "js":["content_scripts/toneTranslor.js"],
+            "js":["content_scripts/toneTranslator.js"],
+            "css": ["content_scripts/toneTranslator.css"],
             "run_at": "document_idle"
         }
     ],
-    "commands":{
-        "restore_tab":{
-            "suggested_key":{
-                "default": "Ctrl+Shift+Z",
-                "mac": "Command+Shift+Z"
-            },
-            "description": "Restore the last closed tab"
+    "icons": {
+        "16": "icons/mindtab16.svg",
+        "32": "icons/mindtab32.svg",
+        "48": "icons/mindtab48.svg",
+        "128": "icons/mindtab128.svg"
+    },
+    "action": {
+     "default_icon": {
+     "16": "icons/mindtab16.svg",
+     "32": "icons/mindtabA32.svg",
+     "48": "icons/mindtabA48.svg"
+     }
+    },
+    "web_accessible_resources": [
+        {
+            "resources": ["content_scripts/toneTranslator.css"],
+            "matches": ["<all_urls>"]
         }
-    }
+    ]
 }

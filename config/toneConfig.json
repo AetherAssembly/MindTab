@@ -1,0 +1,37 @@
+[
+  {
+    "label": "Friendly",
+    "triggers": ["hello", "hi", "hey", "just checking", "thanks", "smile", "hope you're well"],
+    "suggestion": "Hey! Just wanted to follow up 😊"
+  },
+  {
+    "label": "Formal",
+    "triggers": ["dear", "regards", "sincerely", "to whom it may concern", "thank you for your time"],
+    "suggestion": "Dear [Name], I hope this message finds you well."
+  },
+  {
+    "label": "Assertive",
+    "triggers": ["need", "must", "require", "asap", "deadline", "expect"],
+    "suggestion": "This needs to be completed by end of day to stay on schedule."
+  },
+  {
+    "label": "Empathetic",
+    "triggers": ["sorry", "issue", "problem", "unfortunately", "apologize", "trouble"],
+    "suggestion": "I understand this might be frustrating—thank you for your patience."
+  },
+  {
+    "label": "Encouraging",
+    "triggers": ["great job", "impressed", "keep going", "proud", "you're doing well", "keep it up"],
+    "suggestion": "You're making great progress—keep it up!"
+  },
+  {
+    "label": "Concise",
+    "triggers": ["i just wanted to", "quick question", "i was wondering if"],
+    "suggestion": "Let me know if this works for you."
+  },
+  {
+    "label": "Neutral",
+    "triggers": ["let me know", "any questions", "follow up", "checking in"],
+    "suggestion": "Let me know if you have any questions."
+  }
+]
