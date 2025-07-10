@@ -23,7 +23,7 @@
   <a href="#contributing"><img src="https://img.shields.io/badge/Contributing-FF6B6B?style=for-the-badge&logo=github&logoColor=white" alt="Contributing"></a>
   <a href="https://aster1630.carrd.co"><img src="https://img.shields.io/badge/Portfolio-9B59B6?style=for-the-badge&logo=user&logoColor=white" alt="My Carrd"></a>
   <a href="https://github.com/aster1630"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Profile"></a>
-  <a href="https://discord.gg/yourinvite"><img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"></a>
+  <a href="asters.world"><img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"></a>
 
 </div>
 
