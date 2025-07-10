@@ -40,8 +40,10 @@ Built with modular architecture, aesthetic flexibility, and designed for users w
       - mindtab32.svg
       - mindtab48.svg
       - mindtab128.svg
+      - mindtabA.svg
       - mindtabA32.svg
       - mindtabA48.svg
+      - mindtabA128.svg
     - flashcard.svg 
     - tone.svg
   - utils/
