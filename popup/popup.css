@@ -1,0 +1,14 @@
+.grid {
+    display: flex;
+    justify-content: space-around;
+    background: #1e1e1e;
+    padding: 10px;
+}
+button img {
+    width: 32px;
+    height: 32px;
+    transition: scale 0.2s ease;
+}
+button:hover img {
+    scale: 1.1;
+}
