@@ -18,7 +18,6 @@
 
   <!-- Botões de Navegação -->
   <a href="#-recursos"><img src="https://img.shields.io/badge/Recursos-4A90E2?style=for-the-badge&logo=star&logoColor=white" alt="Recursos"></a>
-  <a href="#-instalação"><img src="https://img.shields.io/badge/Instalação-7B68EE?style=for-the-badge&logo=download&logoColor=white" alt="Instalação"></a>
   <a href="#-estrutura-do-projeto"><img src="https://img.shields.io/badge/Estrutura-50C878?style=for-the-badge&logo=folder&logoColor=white" alt="Estrutura do Projeto"></a>
   <a href="#-contribuir"><img src="https://img.shields.io/badge/Contribuir-FF6B6B?style=for-the-badge&logo=github&logoColor=white" alt="Contribuir"></a>
   <a href="https://aster1630.carrd.co"><img src="https://img.shields.io/badge/Portfólio-9B59B6?style=for-the-badge&logo=user&logoColor=white" alt="Meu Carrd"></a>
