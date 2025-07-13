@@ -1,7 +1,8 @@
-fetch("flashcard/config.json")
+fetch("config.json")
   .then(res => res.json())
   .then(cards => {
     const deck = document.querySelector(".deck");
+    if (!deck) return; // Prevent error if .deck is missing
     cards.forEach(({ question, answer }) => {
       const card = document.createElement("div");
       card.className = "card";
@@ -16,4 +17,7 @@ fetch("flashcard/config.json")
       card.onclick = () => card.classList.toggle("flipped");
       deck.appendChild(card);
     });
+  })
+  .catch(err => {
+    console.error("Failed to load flashcards:", err);
   });
