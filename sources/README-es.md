@@ -17,10 +17,10 @@
   <br><br>
 
   <!-- Botones de Navegación -->
-  <a href="#características"><img src="https://img.shields.io/badge/Características-4A90E2?style=for-the-badge&logo=star&logoColor=white" alt="Características"></a>
-  <a href="#instalación"><img src="https://img.shields.io/badge/Instalación-7B68EE?style=for-the-badge&logo=download&logoColor=white" alt="Instalación"></a>
-  <a href="#estructura-del-proyecto"><img src="https://img.shields.io/badge/Estructura-50C878?style=for-the-badge&logo=folder&logoColor=white" alt="Estructura del Proyecto"></a>
-  <a href="#contribuir"><img src="https://img.shields.io/badge/Contribuir-FF6B6B?style=for-the-badge&logo=github&logoColor=white" alt="Contribuir"></a>
+  <a href="#-características"><img src="https://img.shields.io/badge/Características-4A90E2?style=for-the-badge&logo=star&logoColor=white" alt="Características"></a>
+  <a href="#-instalación"><img src="https://img.shields.io/badge/Instalación-7B68EE?style=for-the-badge&logo=download&logoColor=white" alt="Instalación"></a>
+  <a href="#-estructura-del-proyecto"><img src="https://img.shields.io/badge/Estructura-50C878?style=for-the-badge&logo=folder&logoColor=white" alt="Estructura del Proyecto"></a>
+  <a href="#-contribuir"><img src="https://img.shields.io/badge/Contribuir-FF6B6B?style=for-the-badge&logo=github&logoColor=white" alt="Contribuir"></a>
   <a href="https://aster1630.carrd.co"><img src="https://img.shields.io/badge/Portafolio-9B59B6?style=for-the-badge&logo=user&logoColor=white" alt="Mi Carrd"></a>
   <a href="https://github.com/aster1630"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="Perfil de GitHub"></a>
   <a href="https://discord.gg/yourinvite"><img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"></a>
