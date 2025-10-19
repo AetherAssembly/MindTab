@@ -1,13 +1,13 @@
 // utils/toneUtils.js
 
-export async function loadToneConfig() {
+async function loadToneConfig() {
   const res = await fetch(chrome.runtime.getURL("config/toneConfig.json"));
   return await res.json();
 }
 
-export function classifyTone(text, config) {
+function classifyTone(text, config) {
   const suggestions = [];
-  const lower = text.toLowerCase();
+  const lower = (text || '').toLowerCase();
 
   if (!config) return [{
     label: "Neutral",
@@ -15,7 +15,7 @@ export function classifyTone(text, config) {
   }];
 
   for (const tone of config) {
-    if (tone.triggers.some(trigger => lower.includes(trigger))) {
+    if (Array.isArray(tone.triggers) && tone.triggers.some(trigger => lower.includes(trigger))) {
       suggestions.push({
         label: tone.label,
         text: tone.suggestion
@@ -25,7 +25,7 @@ export function classifyTone(text, config) {
 
   if (suggestions.length === 0) {
     // Fallback: Neutral
-    const neutral = config.find(t => t.label === "Neutral");
+    const neutral = Array.isArray(config) ? config.find(t => t.label === "Neutral") : null;
     suggestions.push({
       label: "Neutral",
       text: neutral ? neutral.suggestion : "Let me know if you have any questions."
@@ -33,4 +33,17 @@ export function classifyTone(text, config) {
   }
 
   return suggestions;
+}
+
+// Expose for non-module usage (content scripts & pages)
+try {
+  window.loadToneConfig = loadToneConfig;
+  window.classifyTone = classifyTone;
+} catch (e) {
+  // If window is not available (e.g., worker), skip global attach
+}
+
+// For environments that support modules, also export named functions
+if (typeof exports !== 'undefined') {
+  try { exports.loadToneConfig = loadToneConfig; exports.classifyTone = classifyTone; } catch (e) {}
 }
