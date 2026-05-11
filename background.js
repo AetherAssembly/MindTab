@@ -1,79 +1,139 @@
-// background.js
+// MindTab background service worker
 
-// Simple promise wrappers for chrome.storage.local
-const storageGet = (keys) => new Promise(resolve => chrome.storage.local.get(keys, resolve));
-const storageSet = (obj) => new Promise(resolve => chrome.storage.local.set(obj, resolve));
+const DEFAULTS = {
+  feedSanitizer: true,
+  adBlocker: true,
+  toneTranslator: true,
+  flashcards: true,
+  toneApiUrl: ''
+};
 
-// Default throttle (milliseconds)
-const DEFAULT_FLASHCARD_THROTTLE_MS = 30 * 60 * 1000; // 30 minutes
+// Community-maintained filter lists in standard ABP/uBlock cosmetic format.
+// uBlock Origin: updated continuously by the community, hosted on GitHub.
+// AdGuard:       same format, broader coverage of social media annoyances.
+const DEFAULT_FILTER_LISTS = [
+  'https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/annoyances-social.txt',
+  'https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/quick-fixes.txt',
+  'https://raw.githubusercontent.com/AdguardTeam/AdguardFilters/master/AnnoyancesFilter/sections/social-widget.txt'
+];
 
-async function seedDefaults() {
-  const defaults = {
-    toneEnabled: true,
-    flashcardsEnabled: true,
-    lastFlashcardOpen: 0,
-    flashcardThrottleMs: DEFAULT_FLASHCARD_THROTTLE_MS
-  };
+// Domains to extract cosmetic selectors for.
+const TARGET_DOMAINS = ['youtube.com', 'instagram.com', 'facebook.com'];
 
-  const data = await storageGet(Object.keys(defaults));
-  const toSet = {};
-  for (const k of Object.keys(defaults)) {
-    if (typeof data[k] === 'undefined') toSet[k] = defaults[k];
-  }
+// ─── Filter list parser ───────────────────────────────────────────────────────
+// Parses standard ABP/uBlock cosmetic filter lines (domain##selector).
+// Skips network rules, procedural filters, and global (no-domain) rules.
 
-  // Seed flashcards from bundled config if not present
-  if (typeof data.flashcards === 'undefined') {
-    try {
-      const res = await fetch(chrome.runtime.getURL('flashcard/config.json'));
-      const cards = await res.json();
-      toSet.flashcards = cards;
-    } catch (e) {
-      console.warn('Could not load bundled flashcard config', e);
+function parseFilterList(text) {
+  const result = {};
+  for (const d of TARGET_DOMAINS) result[d] = new Set();
+
+  for (const raw of text.split('\n')) {
+    const line = raw.trim();
+    if (!line || line.startsWith('!') || line.startsWith('[') || line.startsWith('@@')) continue;
+
+    const sep = line.indexOf('##');
+    if (sep === -1) continue;
+
+    const domainsPart = line.substring(0, sep);
+    if (!domainsPart) continue; // global rule — skip to avoid over-blocking
+
+    const selector = line.substring(sep + 2);
+    if (!selector) continue;
+
+    // Procedural/extended filters like :has(), :matches-css() can't be used
+    // as plain querySelectorAll selectors — skip them.
+    if (selector.includes(':matches') || selector.includes(':upward(') ||
+        selector.includes(':is(') && selector.includes(':not(') ||
+        (selector.startsWith(':') && selector.includes('('))) continue;
+
+    const lineDomains = domainsPart.split(',').map(d => d.trim().toLowerCase());
+
+    for (const target of TARGET_DOMAINS) {
+      if (lineDomains.some(d => {
+        if (d.startsWith('~')) return false; // exclusion rule
+        return d === target || target.endsWith('.' + d);
+      })) {
+        result[target].add(selector);
+      }
     }
   }
 
-  if (Object.keys(toSet).length) await storageSet(toSet);
+  return Object.fromEntries(
+    Object.entries(result).map(([k, v]) => [k, [...v]])
+  );
 }
 
-chrome.runtime.onInstalled.addListener(() => {
-  console.log('MindTab Extension Installed');
-  // Seed defaults asynchronously
-  seedDefaults().catch(err => console.warn('seedDefaults failed', err));
-});
+// ─── Fetcher ──────────────────────────────────────────────────────────────────
 
-// Optional: Listen for keyboard shortcuts (if reintroduced)
-chrome.commands.onCommand.addListener((command) => {
-  if (command === 'open_flashcard') {
-    chrome.tabs.create({ url: chrome.runtime.getURL('flashcard/flashcard.html') });
-  }
-});
+async function updateFilterLists() {
+  const { mindtab } = await chrome.storage.sync.get('mindtab');
+  const urls = mindtab?.filterListUrls ?? DEFAULT_FILTER_LISTS;
 
-// Handle requests from content scripts to 'maybe' show flashcards.
-// Background does not open tabs; it only authorizes the content script to render an overlay.
-chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  if (!msg || msg.action !== 'maybeOpenFlashcard') return;
+  const merged = {};
+  for (const d of TARGET_DOMAINS) merged[d] = new Set();
 
-  (async () => {
+  let successCount = 0;
+  let lastError = null;
+
+  for (const url of urls) {
     try {
-      const data = await storageGet(['lastFlashcardOpen', 'flashcardsEnabled', 'flashcardThrottleMs']);
-      const enabled = typeof data.flashcardsEnabled === 'boolean' ? data.flashcardsEnabled : true;
-      if (!enabled) { sendResponse({ opened: false, reason: 'disabled' }); return; }
+      const res  = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      const parsed = parseFilterList(text);
 
-      const last = data && data.lastFlashcardOpen ? data.lastFlashcardOpen : 0;
-      const throttle = typeof data.flashcardThrottleMs === 'number' ? data.flashcardThrottleMs : DEFAULT_FLASHCARD_THROTTLE_MS;
-      const now = Date.now();
-
-      if (now - last > throttle) {
-        await storageSet({ lastFlashcardOpen: now });
-        sendResponse({ opened: true });
-      } else {
-        sendResponse({ opened: false, nextAllowed: last + throttle });
+      for (const [domain, selectors] of Object.entries(parsed)) {
+        selectors.forEach(s => merged[domain].add(s));
       }
+      successCount++;
     } catch (e) {
-      console.warn('maybeOpenFlashcard failed', e);
-      sendResponse({ opened: false });
+      console.warn(`[MindTab] Filter list fetch failed (${url}):`, e.message);
+      lastError = e.message;
     }
-  })();
+  }
 
-  return true; // keep message channel open for async sendResponse
+  const totals = Object.fromEntries(
+    Object.entries(merged).map(([k, v]) => [k, v.size])
+  );
+
+  await chrome.storage.local.set({
+    mindtabExternalFilters: Object.fromEntries(
+      Object.entries(merged).map(([k, v]) => [k, [...v]])
+    ),
+    mindtabFiltersUpdated: Date.now(),
+    mindtabFiltersStatus: successCount > 0
+      ? `Updated — ${Object.values(totals).reduce((a, b) => a + b, 0)} selectors across ${Object.keys(totals).length} sites`
+      : `All ${urls.length} sources failed. Last error: ${lastError}`
+  });
+
+  console.log('[MindTab] Filter lists updated:', totals);
+}
+
+// ─── Lifecycle ────────────────────────────────────────────────────────────────
+
+chrome.runtime.onInstalled.addListener(async () => {
+  const { mindtab } = await chrome.storage.sync.get('mindtab');
+  if (!mindtab) {
+    await chrome.storage.sync.set({ mindtab: DEFAULTS });
+  }
+  // Fetch immediately on install, then set up daily alarm.
+  await updateFilterLists();
+  chrome.alarms.create('mindtab-filter-update', { periodInMinutes: 1440 });
+});
+
+chrome.alarms.onAlarm.addListener(alarm => {
+  if (alarm.name === 'mindtab-filter-update') updateFilterLists();
+});
+
+// Allow the popup to trigger a manual update and read status.
+chrome.runtime.onMessage.addListener((msg, _sender, reply) => {
+  if (msg.type === 'UPDATE_FILTERS') {
+    updateFilterLists().then(() => reply({ ok: true })).catch(e => reply({ ok: false, error: e.message }));
+    return true;
+  }
+  if (msg.type === 'GET_FILTER_STATUS') {
+    chrome.storage.local.get(['mindtabFiltersUpdated', 'mindtabFiltersStatus']).then(reply);
+    return true;
+  }
 });

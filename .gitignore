@@ -1,0 +1,33 @@
+# OS files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build output
+dist/
+build/
+web-ext-artifacts/
+
+# Packed extension files
+*.crx
+*.xpi
+*.zip
+
+# Node (if build tooling is added later)
+node_modules/
+npm-debug.log*
+package-lock.json
+
+# Safari Xcode conversion output
+*.xcodeproj/
+DerivedData/
+/server/public

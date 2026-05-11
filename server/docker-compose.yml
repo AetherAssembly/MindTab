@@ -1,0 +1,21 @@
+services:
+  languagetool:
+    image: erikvl87/languagetool:latest
+    restart: unless-stopped
+    environment:
+      - Java_Xms=256m
+      - Java_Xmx=512m
+    expose:
+      - "8010"
+
+  proxy:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      - PORT=3000
+      - LANGUAGETOOL_URL=http://languagetool:8010
+      - CORS_ORIGIN=${CORS_ORIGIN:-*}
+    depends_on:
+      - languagetool

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindTab — Flashcard Manager</title>
+  <link rel="stylesheet" href="cards.css">
+</head>
+<body>
+  <div class="page">
+    <header class="page-header">
+      <div class="header-title">
+        <img src="../icons/mindtab48.svg" alt="MindTab" width="28" height="28">
+        <h1>Flashcard Manager</h1>
+      </div>
+      <p class="header-sub">Custom cards are stored in your browser. Default cards are always included.</p>
+    </header>
+
+    <section class="section">
+      <h2 class="section-title">Add a Card</h2>
+      <div class="add-form">
+        <div class="field">
+          <label for="input-q">Question</label>
+          <input type="text" id="input-q" placeholder="What is the capital of Japan?" maxlength="200">
+        </div>
+        <div class="field">
+          <label for="input-a">Answer</label>
+          <input type="text" id="input-a" placeholder="Tokyo" maxlength="300">
+        </div>
+        <button id="btn-add" class="btn btn-primary">Add Card</button>
+        <span id="add-msg" class="status-msg" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Your Custom Cards <span id="custom-count" class="count-badge">0</span></h2>
+        <button id="btn-clear" class="btn btn-danger" style="display:none">Clear All</button>
+      </div>
+      <ul id="custom-list" class="card-list">
+        <li class="empty-state" id="empty-msg">No custom cards yet. Add one above!</li>
+      </ul>
+    </section>
+
+    <section class="section section-defaults">
+      <div class="section-header">
+        <h2 class="section-title">Default Cards <span class="count-badge" id="default-count">0</span></h2>
+        <span class="readonly-tag">Read-only</span>
+      </div>
+      <ul id="default-list" class="card-list card-list--dim"></ul>
+    </section>
+  </div>
+
+  <script src="cards.js"></script>
+</body>
+</html>

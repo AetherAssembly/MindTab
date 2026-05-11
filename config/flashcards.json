@@ -1,0 +1,39 @@
+{
+  "settings": {
+    "showAfterMinutes": 15,
+    "displayDurationSeconds": 12,
+    "position": "bottom-left"
+  },
+  "defaultCards": [
+    { "q": "What is the capital of France?", "a": "Paris" },
+    { "q": "What is the speed of light (approx)?", "a": "3×10⁸ m/s (299,792,458 m/s)" },
+    { "q": "Who wrote Romeo and Juliet?", "a": "William Shakespeare" },
+    { "q": "What is the chemical symbol for gold?", "a": "Au (from Latin 'aurum')" },
+    { "q": "What is the powerhouse of the cell?", "a": "The mitochondria" },
+    { "q": "In what year did World War II end?", "a": "1945" },
+    { "q": "What is the square root of 144?", "a": "12" },
+    { "q": "What planet is closest to the Sun?", "a": "Mercury" },
+    { "q": "What is the largest ocean on Earth?", "a": "The Pacific Ocean" },
+    { "q": "Who painted the Mona Lisa?", "a": "Leonardo da Vinci" },
+    { "q": "What is the hardest natural substance on Earth?", "a": "Diamond" },
+    { "q": "How many bones are in the adult human body?", "a": "206" },
+    { "q": "What is the chemical formula for water?", "a": "H₂O" },
+    { "q": "Who invented the telephone?", "a": "Alexander Graham Bell (1876)" },
+    { "q": "What is the largest planet in our solar system?", "a": "Jupiter" },
+    { "q": "What is the smallest prime number?", "a": "2" },
+    { "q": "What language has the most native speakers?", "a": "Mandarin Chinese" },
+    { "q": "What does DNA stand for?", "a": "Deoxyribonucleic acid" },
+    { "q": "What year did humans first land on the Moon?", "a": "1969 (Apollo 11)" },
+    { "q": "How many sides does a hexagon have?", "a": "6" },
+    { "q": "What is the boiling point of water at sea level?", "a": "100°C / 212°F" },
+    { "q": "What is the most abundant gas in Earth's atmosphere?", "a": "Nitrogen (~78%)" },
+    { "q": "What does HTTP stand for?", "a": "HyperText Transfer Protocol" },
+    { "q": "What is the Pythagorean theorem?", "a": "a² + b² = c²  (for right triangles)" },
+    { "q": "How many continents are there on Earth?", "a": "7" },
+    { "q": "What is the capital of Japan?", "a": "Tokyo" },
+    { "q": "Who developed the theory of relativity?", "a": "Albert Einstein" },
+    { "q": "What is the chemical symbol for iron?", "a": "Fe (from Latin 'ferrum')" },
+    { "q": "How many chambers does the human heart have?", "a": "4 (two atria, two ventricles)" },
+    { "q": "What does CPU stand for?", "a": "Central Processing Unit" }
+  ]
+}

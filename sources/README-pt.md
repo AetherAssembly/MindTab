@@ -1,133 +1,96 @@
 # MindTab
 
 <div align="center">
-  <img src="icons/mindtab/mindtab128.svg" alt="Logo MindTab" width="128" height="128">
-  
-  **MindTab** é uma extensão de navegador unificada que melhora a produtividade através de ferramentas inteligentes de comunicação e aprendizado.
+  <img src="../icons/mindtab128.svg" alt="Logo MindTab" width="128" height="128">
+
+  **MindTab** é uma extensão de navegador gratuita e de código aberto que combina um filtro de feed, bloqueador de anúncios maliciosos, assistente de escrita estilo Grammarly e aprendizado passivo com flashcards — tudo em um pacote leve.
 
   <br>
 
-  <!-- Traduções de Idiomas -->
   <a href="../README.md"><img src="https://img.shields.io/badge/lang-en-blue?style=for-the-badge&logo=googletranslate&logoColor=white" alt="English"></a>
   <a href="README-es.md"><img src="https://img.shields.io/badge/lang-es-red?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Español"></a>
   <a href="README-fr.md"><img src="https://img.shields.io/badge/lang-fr-white?style=for-the-badge&logo=googletranslate&logoColor=black" alt="Français"></a>
   <a href="README-de.md"><img src="https://img.shields.io/badge/lang-de-black?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Deutsch"></a>
-  <a href="README-pt.md"><img src="https://img.shields.io/badge/lang-pt--br-green?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Português"></a>
+  <a href="#português"><img src="https://img.shields.io/badge/lang-pt--br-green?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Português"></a>
 
-  <br><br>
-
-  <!-- Botões de Navegação -->
-  <a href="#-recursos"><img src="https://img.shields.io/badge/Recursos-4A90E2?style=for-the-badge&logo=star&logoColor=white" alt="Recursos"></a>
-  <a href="#-estrutura-do-projeto"><img src="https://img.shields.io/badge/Estrutura-50C878?style=for-the-badge&logo=folder&logoColor=white" alt="Estrutura do Projeto"></a>
-  <a href="#-contribuir"><img src="https://img.shields.io/badge/Contribuir-FF6B6B?style=for-the-badge&logo=github&logoColor=white" alt="Contribuir"></a>
-  <a href="https://aster1630.carrd.co"><img src="https://img.shields.io/badge/Portfólio-9B59B6?style=for-the-badge&logo=user&logoColor=white" alt="Meu Carrd"></a>
-  <a href="https://github.com/aster1630"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="Perfil GitHub"></a>
-  <a href="https://discord.gg/yourinvite"><img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"></a>
-
+  
 </div>
 
 ---
 
-## 🚀 Recursos
+## 🚀 Funcionalidades
 
-- **💬 Tradutor de Tom**  
-  Resumos de tom integrados para e-mails e postagens para melhorar a consciência comunicativa.
+### 🧹 Filtro de Feed
+Remove YouTube Shorts, Instagram Reels e Facebook Reels do seu feed usando um MutationObserver, funcionando mesmo quando as páginas carregam dinamicamente. Os seletores são totalmente personalizáveis em `config/filters.json`.
 
-- **📚 Aprendizado Flash**  
-  Micro-flashcards acionados durante momentos de inatividade ou navegação para construir conhecimento passivamente.
+### 🛡️ Bloqueador de Anúncios Maliciosos
+Verifica links e iframes em busca de padrões de golpe: botões de download falsos, pop-ups de "você ganhou", alertas de vírus falsos e muito mais. As listas de palavras-chave e padrões de URL ficam em `config/filters.json`.
 
-- **🎨 Interface Orientada por SVG**  
-  Interface elegante e personalizável usando ícones SVG feitos à mão para clareza e personalização.
+### ✍️ Assistente de Escrita *(alternativa gratuita ao Grammarly)*
+Um painel flutuante que aparece quando você digita em qualquer campo de texto, e-mail ou publicação em redes sociais. Funciona completamente de forma local — nenhum texto é enviado a nenhum lugar sem sua permissão.
 
-- **🔧 Arquitetura Modular**  
-  Construído com flexibilidade em mente: fácil de personalizar e estender funcionalidades.
+**Análise local (sempre ativa):**
+- Detecção de tom — Agressivo, Passivo-Agressivo, Formal, Casual, Positivo, Urgente
+- Detecção de voz passiva
+- Contagem de palavras fracas/de preenchimento (`"muito"`, `"basicamente"`, `"literalmente"`, etc.)
+- Avisos para frases muito longas (mais de 30 palavras)
+- Detecção de palavras de preenchimento
+- Detecção de palavras repetidas
+- Estatísticas em tempo real — contagem de palavras, frases, nível de leitura
 
----
+**Com um servidor de gramática (opcional):**
+Conecte o MindTab a um servidor [LanguageTool](https://languagetool.org/) para obter sugestões completas de gramática e ortografia. O LanguageTool é gratuito e de código aberto.
 
-## 📁 Estrutura do Projeto
-
-```
-MindTab/
-├── config/
-│   └── toneConfig.json          # Configuração do analisador de tom
-├── content_scripts/
-│   ├── toneTranslator.js        # Script principal do tradutor de tom
-│   └── tabTracker.js            # Rastreamento de atividade das abas
-├── flashcard/
-│   ├── flashcard.js             # Lógica dos flashcards
-│   └── config.json              # Configuração dos flashcards
-├── icons/
-│   ├── mindtab/
-│   │   ├── mindtab.svg          # Logo principal SVG
-│   │   ├── mindtab16.svg        # Ícone 16x16 para a barra de ferramentas
-│   │   ├── mindtab32.svg        # Ícone 32x32 para extensões
-│   │   ├── mindtab48.svg        # Ícone 48x48 para a página de extensões
-│   │   ├── mindtab128.svg       # Ícone 128x128 para Chrome Web Store
-│   │   ├── mindtabA.svg         # Variante alternativa do logo
-│   │   ├── mindtabA32.svg       # Variante alternativa 32x32
-│   │   ├── mindtabA48.svg       # Variante alternativa 48x48
-│   │   └── mindtabA128.svg      # Variante alternativa 128x128
-│   ├── flashcard.svg            # Ícone para flashcards
-│   └── tone.svg                 # Ícone para analisador de tom
-├── sources/
-│   ├── README-es.md
-│   ├── README-fr.md
-│   ├── README-de.md
-│   └── README-pt.md
-├── utils/
-│   └── toneUtils.js             # Funções utilitárias para análise de tom
-├── background.js                # Script de background da extensão
-├── LICENSE                      # Arquivo de licença do projeto
-├── manifest.json                # Manifesto da extensão Chrome
-└── README.md                    # Documentação principal do projeto
-```
+### ⚡ Aprendizado com Flashcards
+Uma sobreposição discreta de flashcards aparece após um período de inatividade configurável (padrão: 15 minutos) enquanto você navega. Os cartões podem ser adicionados, editados e excluídos no gerenciador integrado.
 
 ---
 
 ## 🛠️ Instalação
 
-### Instalação Rápida (Chrome Web Store)
-1. Visite a [Chrome Web Store](https://chromewebstore.google.com/)
-2. Procure por "MindTab by Aster1630"
-3. Clique em "Adicionar ao Chrome" e aproveite!
-4. Sinta-se à vontade para deixar uma avaliação! ⭐
+### Firefox (Principal)
+1. Vá para `about:debugging` → **Este Firefox** → **Carregar extensão temporária**
+2. Selecione `MindTab/manifest.json`
 
-### Instalação do Desenvolvedor
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/aster1630/mindtab.git
-   ```
+### Chrome / Edge
+1. Vá para `chrome://extensions`
+2. Ative o **Modo de desenvolvedor** (canto superior direito)
+3. Clique em **Carregar sem compactação** → selecione a pasta `MindTab/`
 
-2. Carregue a extensão:
-   - Navegue para `chrome://extensions`
-   - Ative o Modo do Desenvolvedor
-   - Clique em "Carregar sem compactação" e selecione o diretório `MindTab/`
-
-3. Personalize flashcards, lógica de tom ou injete novos SVGs!
+### Safari
+```bash
+xcrun safari-web-extension-converter MindTab/ --project-location . --app-name MindTab
+```
+Abra o projeto Xcode gerado, compile-o e ative a extensão nas configurações do Safari.
 
 ---
 
-## 🤝 Contribuir
+## ⚙️ Personalização
 
-***EU APOIO COMPLETAMENTE VOCÊ USAR O MEU PARA FAZER O SEU, MAS SE VOCÊ POSTAR EM QUALQUER LUGAR, POR FAVOR ME CREDITE!***
+Edite `config/filters.json` para adicionar seletores CSS de feed ou padrões de anúncios.
+Edite `config/flashcards.json` para ajustar o tempo dos flashcards ou adicionar perguntas padrão.
+Edite `config/toneConfig.json` para adicionar novas definições de tom.
 
-Seja corrigindo bugs, adicionando recursos ou melhorando a documentação, contribuições são bem-vindas!
+---
+
+## 🤝 Contribuindo
+
+Sinta-se livre para usar isso na sua escola, trabalho ou comunidade! Se publicar em algum lugar, por favor dê crédito ao Aster1630.
 
 1. Faça um fork do repositório
-2. Crie sua branch de recurso (`git checkout -b feature/RecursoIncrível`)
-3. Commit suas mudanças (`git commit -m 'Adicionar algum RecursoIncrível'`)
-4. Faça push para a branch (`git push origin feature/RecursoIncrível`)
-5. Abra um Pull Request
+2. Crie uma branch (`git checkout -b feature/MinhaFuncionalidade`)
+3. Faça commit das suas alterações
+4. Faça push para o fork e abra um Pull Request
 
 ---
 
 ## 📝 Licença
 
-Este projeto está licenciado sob o arquivo [LICENSE](LICENSE) no repositório.
+Licenciado sob a Licença MIT — veja [LICENSE](../LICENSE) para detalhes.
 
 ---
 
 <div align="center">
-  <p>Feito com ❤️ por <a href="https://aster1630.carrd.co">Aster1630</a></p>
-  <p>⭐ Dê uma estrela para este repo se você achou útil!</p>
+  <p>Criado com ética e simplicidade por <a href="https://aster1630.carrd.co">Aster1630</a></p>
+  <p>⭐ Dê uma estrela se o MindTab melhorar sua navegação!</p>
 </div>

@@ -1,0 +1,62 @@
+{
+  "_comment_filterLists": "These URLs are fetched by the background service worker every 24h. Selectors parsed from them are merged with the bundled ones below. Add/remove URLs via chrome.storage.sync key 'mindtab.filterListUrls'.",
+  "filterListUrls": [
+    "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/annoyances-social.txt",
+    "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/quick-fixes.txt",
+    "https://raw.githubusercontent.com/AdguardTeam/AdguardFilters/master/AnnoyancesFilter/sections/social-widget.txt"
+  ],
+  "_comment_feedSanitizer": "Bundled fallback selectors — used when filter lists haven't been fetched yet or fetch fails.",
+  "feedSanitizer": {
+    "youtube": [
+      "ytd-rich-section-renderer[is-shorts]",
+      "ytd-reel-shelf-renderer",
+      "ytd-shorts-grid-renderer",
+      "ytd-guide-entry-renderer a[href^='/shorts']",
+      "ytd-mini-guide-entry-renderer a[href^='/shorts']",
+      "a.yt-simple-endpoint[href^='/shorts']"
+    ],
+    "instagram": [
+      "a[href='/reels/']",
+      "a[href^='/reels/']",
+      "div[role='listitem'] a[href*='/reels']"
+    ],
+    "facebook": [
+      "a[aria-label='Reels']",
+      "a[href*='/reel/']",
+      "div[data-pagelet*='Reels']"
+    ]
+  },
+  "adBlocker": {
+    "textKeywords": [
+      "download now",
+      "click here to download",
+      "you have been selected",
+      "congratulations you won",
+      "you have won",
+      "virus detected",
+      "your computer is infected",
+      "your pc is infected",
+      "your device has a virus",
+      "act now",
+      "claim your prize",
+      "claim your reward",
+      "free gift card",
+      "install now",
+      "update required",
+      "warning: your",
+      "scan your computer",
+      "you are the winner",
+      "limited time offer",
+      "you've been chosen"
+    ],
+    "hrefPatterns": [
+      "download-now",
+      "free-prize",
+      "claim-reward",
+      "virus-alert",
+      "malware-scan",
+      "win-prize",
+      "free-gift-card"
+    ]
+  }
+}

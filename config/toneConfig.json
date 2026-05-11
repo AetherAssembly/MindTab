@@ -1,37 +1,65 @@
-[
-  {
-    "label": "Friendly",
-    "triggers": ["hello", "hi", "hey", "just checking", "thanks", "smile", "hope you're well"],
-    "suggestion": "Hey! Just wanted to follow up 😊"
-  },
-  {
-    "label": "Formal",
-    "triggers": ["dear", "regards", "sincerely", "to whom it may concern", "thank you for your time"],
-    "suggestion": "Dear [Name], I hope this message finds you well."
-  },
-  {
-    "label": "Assertive",
-    "triggers": ["need", "must", "require", "asap", "deadline", "expect"],
-    "suggestion": "This needs to be completed by end of day to stay on schedule."
-  },
-  {
-    "label": "Empathetic",
-    "triggers": ["sorry", "issue", "problem", "unfortunately", "apologize", "trouble"],
-    "suggestion": "I understand this might be frustrating—thank you for your patience."
-  },
-  {
-    "label": "Encouraging",
-    "triggers": ["great job", "impressed", "keep going", "proud", "you're doing well", "keep it up"],
-    "suggestion": "You're making great progress—keep it up!"
-  },
-  {
-    "label": "Concise",
-    "triggers": ["i just wanted to", "quick question", "i was wondering if"],
-    "suggestion": "Let me know if this works for you."
-  },
-  {
-    "label": "Neutral",
-    "triggers": ["let me know", "any questions", "follow up", "checking in"],
-    "suggestion": "Let me know if you have any questions."
+{
+  "minWords": 15,
+  "tones": {
+    "aggressive": {
+      "label": "Aggressive",
+      "emoji": "😠",
+      "color": "#e74c3c",
+      "keywords": [
+        "hate", "terrible", "worst", "awful", "stupid", "idiot",
+        "disgusting", "furious", "outraged", "shut up", "you're wrong",
+        "ridiculous", "pathetic", "incompetent", "unacceptable"
+      ]
+    },
+    "passive_aggressive": {
+      "label": "Passive-Aggressive",
+      "emoji": "🙃",
+      "color": "#e67e22",
+      "keywords": [
+        "fine", "whatever", "i guess", "sure thing", "thanks a lot",
+        "good luck with that", "noted", "as per my last", "going forward",
+        "as discussed", "per my email", "friendly reminder", "just checking in"
+      ]
+    },
+    "formal": {
+      "label": "Formal",
+      "emoji": "🎩",
+      "color": "#4A90E2",
+      "keywords": [
+        "sincerely", "regards", "hereby", "pursuant", "henceforth",
+        "aforementioned", "pertaining to", "please be advised", "kindly",
+        "at your earliest convenience", "i am writing to", "please find attached",
+        "dear sir", "to whom it may concern"
+      ]
+    },
+    "casual": {
+      "label": "Casual",
+      "emoji": "😊",
+      "color": "#2ecc71",
+      "keywords": [
+        "hey", "yeah", "gonna", "wanna", "kinda", "lol", "tbh",
+        "ngl", "btw", "haha", "lmk", "imo", "fyi", "omg", "idk"
+      ]
+    },
+    "positive": {
+      "label": "Positive",
+      "emoji": "✨",
+      "color": "#27ae60",
+      "keywords": [
+        "great", "excellent", "amazing", "wonderful", "fantastic",
+        "love", "appreciate", "thank you", "grateful", "thrilled",
+        "excited", "happy to", "delighted", "pleasure", "brilliant"
+      ]
+    },
+    "urgent": {
+      "label": "Urgent",
+      "emoji": "⚡",
+      "color": "#9b59b6",
+      "keywords": [
+        "asap", "immediately", "urgent", "critical", "emergency",
+        "right away", "as soon as possible", "time sensitive",
+        "deadline", "by end of day", "eod", "time-critical", "priority"
+      ]
+    }
   }
-]
+}
