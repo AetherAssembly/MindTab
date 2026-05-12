@@ -8,12 +8,13 @@
   "_comment_feedSanitizer": "Bundled fallback selectors — used when filter lists haven't been fetched yet or fetch fails.",
   "feedSanitizer": {
     "youtube": [
-      "ytd-rich-section-renderer[is-shorts]",
       "ytd-reel-shelf-renderer",
+      "ytd-rich-shelf-renderer[is-shorts]",
+      "ytd-rich-section-renderer:has(ytd-rich-shelf-renderer[is-shorts])",
       "ytd-shorts-grid-renderer",
-      "ytd-guide-entry-renderer a[href^='/shorts']",
-      "ytd-mini-guide-entry-renderer a[href^='/shorts']",
-      "a.yt-simple-endpoint[href^='/shorts']"
+      "ytd-guide-entry-renderer:has(a[title='Shorts'])",
+      "ytd-mini-guide-entry-renderer:has(a[title='Shorts'])",
+      "yt-chip-cloud-chip-renderer:has(a[href*='shorts'])"
     ],
     "instagram": [
       "a[href='/reels/']",

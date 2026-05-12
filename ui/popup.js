@@ -1,3 +1,4 @@
+// Keep in sync with DEFAULTS in background.js
 const DEFAULTS = {
   feedSanitizer: true,
   adBlocker: true,

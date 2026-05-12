@@ -16,18 +16,38 @@ function initFeedSanitizer() {
   const query = selectors.join(', ');
 
   function clean() {
+    let delta = 0;
     try {
       document.querySelectorAll(query).forEach(el => {
-        // Walk up to hide the nearest meaningful container
         let target = el;
-        const p = el.parentElement;
-        if (p && p !== document.body && p.children.length <= 4) target = p;
-        target.style.setProperty('display', 'none', 'important');
+        // For plain <a> links, walk up to the nearest custom element (ytd-*) or
+        // small container — the <a> itself is never the right thing to hide.
+        if (el.tagName === 'A') {
+          let p = el.parentElement;
+          while (p && p !== document.body) {
+            if (p.tagName.includes('-') || p.children.length <= 3) {
+              target = p;
+              break;
+            }
+            p = p.parentElement;
+          }
+        }
+        if (!target.dataset.mtHidden) {
+          target.dataset.mtHidden = '1';
+          target.style.setProperty('display', 'none', 'important');
+          delta++;
+        }
       });
     } catch (_) {}
+    if (delta > 0) chrome.runtime.sendMessage({ type: 'BADGE_COUNT', delta }).catch(() => {});
   }
 
   clean();
+
+  // YouTube is a SPA — re-run after each client-side navigation.
+  if (host.includes('youtube.com')) {
+    window.addEventListener('yt-navigate-finish', clean);
+  }
 
   let debounce;
   const observer = new MutationObserver(() => {

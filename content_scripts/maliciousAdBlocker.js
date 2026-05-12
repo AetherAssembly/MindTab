@@ -15,6 +15,7 @@ function initAdBlocker() {
   }
 
   function scan() {
+    let delta = 0;
     document.querySelectorAll('a[href], iframe[src]').forEach(el => {
       if (el.dataset.mtChecked) return;
       el.dataset.mtChecked = '1';
@@ -26,7 +27,9 @@ function initAdBlocker() {
       const p = el.parentElement;
       if (p && p !== document.body && p.children.length <= 3) target = p;
       target.style.setProperty('display', 'none', 'important');
+      delta++;
     });
+    if (delta > 0) chrome.runtime.sendMessage({ type: 'BADGE_COUNT', delta }).catch(() => {});
   }
 
   scan();

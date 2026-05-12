@@ -16,19 +16,27 @@ async function getDefaultCards() {
 function makeCardItem(card, index, onDelete) {
   const li = document.createElement('li');
   li.className = 'card-item';
-  li.innerHTML = `
-    <span class="card-q">${escHtml(card.q)}</span>
-    <span class="card-a">${escHtml(card.a)}</span>
-    ${onDelete ? `<button class="card-del" aria-label="Delete card" data-idx="${index}">✕</button>` : ''}
-  `;
-  if (onDelete) {
-    li.querySelector('.card-del').addEventListener('click', () => onDelete(index));
-  }
-  return li;
-}
 
-function escHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const q = document.createElement('span');
+  q.className = 'card-q';
+  q.textContent = card.q;
+
+  const a = document.createElement('span');
+  a.className = 'card-a';
+  a.textContent = card.a;
+
+  li.append(q, a);
+
+  if (onDelete) {
+    const btn = document.createElement('button');
+    btn.className = 'card-del';
+    btn.setAttribute('aria-label', 'Delete card');
+    btn.textContent = '✕';
+    btn.addEventListener('click', () => onDelete(index));
+    li.appendChild(btn);
+  }
+
+  return li;
 }
 
 async function render() {

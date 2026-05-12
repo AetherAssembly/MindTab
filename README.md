@@ -26,7 +26,7 @@
 
 ### 🧹 Feed Sanitizer
 
-Removes YouTube Shorts, Instagram Reels, and Facebook Reels from your feed. MindTab uses community-maintained filter lists (from uBlock Origin and AdGuard) that update automatically every 24 hours, so it stays working even when those sites change their layouts.
+Removes YouTube Shorts, Instagram Reels, and Facebook Reels from your feed. MindTab uses community-maintained filter lists (from uBlock Origin and AdGuard) that update automatically every 24 hours, so it stays working even when those sites change their layouts. A live counter on the toolbar icon shows how many elements have been removed on the current page.
 
 ### 🛡️ Ad Blocker
 
@@ -58,7 +58,7 @@ A small flashcard overlay appears after 15 minutes of browsing to help you learn
 
 ### Firefox
 
-MindTab targets Firefox first. Once it's on the Firefox Add-ons store, you'll be able to install it in one click. Until then, see the developer installation note below.
+MindTab targets Firefox first. Install it from the [Firefox Add-ons store](https://addons.mozilla.org/firefox/addon/mindtab/) in one click.
 
 ### Chrome / Edge
 
@@ -100,6 +100,8 @@ Click **Manage Flashcards** in the popup to open the card editor. From there you
 ## ⚙️ Customization
 
 All four features can be turned on or off independently from the popup. If you only want the writing assistant, switch everything else off. The filter lists update in the background automatically, but you can also hit **Update Now** in Settings to force a refresh.
+
+The popup and flashcard manager automatically adapt to your system's light or dark mode preference.
 
 ---
 

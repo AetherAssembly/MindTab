@@ -60,7 +60,8 @@ MindTab/
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
 │   └── PULL_REQUEST_TEMPLATE.md
-├── background.js             # Service worker: storage init, filter list fetcher, alarms
+├── background.js             # Service worker: storage init, filter list fetcher, alarms, badge counter
+├── utils.js                  # Shared utilities (escHtml) — loaded first as a content script
 └── manifest.json             # MV3, Firefox 109+, Chrome, Safari
 ```
 
@@ -150,7 +151,7 @@ Edit `config/filters.json` under `feedSanitizer`. Standard CSS selectors, one pe
 ```
 
 ### Content script initialization order
-All five content scripts are injected in order. `controller.js` runs first and does async config loading, then fires `window.dispatchEvent(new CustomEvent('mindtab:ready'))`. Every other script checks `window.__MindTab?.ready` and either runs immediately or waits on the event:
+Six scripts are injected in order. `utils.js` runs first and exposes shared helpers (`escHtml`) as globals. `controller.js` runs second and does async config loading, then fires `window.dispatchEvent(new CustomEvent('mindtab:ready'))`. Every other script checks `window.__MindTab?.ready` and either runs immediately or waits on the event:
 
 ```javascript
 if (window.__MindTab?.ready) {
@@ -167,6 +168,6 @@ if (window.__MindTab?.ready) {
 | Permission | Why |
 |---|---|
 | `storage` | Saves feature toggle states and custom flashcards |
-| `tabs` | Opens the flashcard manager in a new tab from the popup |
+| `tabs` | Opens the flashcard manager in a new tab from the popup; tracks tab lifecycle for the badge counter |
 | `alarms` | 24-hour filter list refresh |
 | `host_permissions: <all_urls>` | Content scripts run on all pages; background fetches filter lists from GitHub |

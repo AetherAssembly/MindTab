@@ -37,10 +37,10 @@ function mtSyllables(word) {
 }
 
 function mtReadability(words, sentences) {
-  if (!sentences || !words) return null;
+  if (!sentences || !words?.length) return null;
   const syllables = words.reduce((n, w) => n + mtSyllables(w), 0);
   const grade = Math.round(
-    0.39 * (words.length / sentences.length) +
+    0.39 * (words.length / sentences) +
     11.8 * (syllables  / words.length) - 15.59
   );
   const g = Math.max(1, Math.min(16, grade));
@@ -239,32 +239,62 @@ function mtRenderLocal(result, toneConfig) {
   const sugsEl   = document.getElementById('mt-suggestions');
 
   // Tone
+  toneVal.textContent = '';
   if (result.tone) {
     const def = toneConfig.tones[result.tone];
-    toneVal.innerHTML = `<span style="margin-right:4px">${def.emoji}</span><span style="color:${def.color};font-weight:700">${def.label}</span>`;
+    const emojiSpan = document.createElement('span');
+    emojiSpan.style.marginRight = '4px';
+    emojiSpan.textContent = def.emoji;
+    const labelSpan = document.createElement('span');
+    labelSpan.style.color = def.color;
+    labelSpan.style.fontWeight = '700';
+    labelSpan.textContent = def.label;
+    toneVal.append(emojiSpan, labelSpan);
   } else {
     toneVal.textContent = '—';
   }
 
   // Suggestions
-  sugsEl.innerHTML = '';
+  sugsEl.textContent = '';
   if (result.suggestions.length === 0) {
-    sugsEl.innerHTML = '<div class="mt-ok">✓ Looks good!</div>';
+    const ok = document.createElement('div');
+    ok.className = 'mt-ok';
+    ok.textContent = '✓ Looks good!';
+    sugsEl.appendChild(ok);
   } else {
     result.suggestions.forEach(s => {
-      const icon = s.level === 'warn' ? '⚠' : 'ℹ';
-      sugsEl.insertAdjacentHTML('beforeend',
-        `<div class="mt-sug ${s.level}"><span class="mt-sug-icon">${icon}</span><span>${s.text}</span></div>`);
+      const div = document.createElement('div');
+      div.className = `mt-sug ${s.level}`;
+      const iconSpan = document.createElement('span');
+      iconSpan.className = 'mt-sug-icon';
+      iconSpan.textContent = s.level === 'warn' ? '⚠' : 'ℹ';
+      const textSpan = document.createElement('span');
+      textSpan.textContent = s.text;
+      div.append(iconSpan, textSpan);
+      sugsEl.appendChild(div);
     });
   }
 
   // Stats
   const r = result.stats.readability;
-  document.getElementById('mt-stats').innerHTML = `
-    <span><span class="mt-stat-val">${result.stats.words}</span> words</span>
-    <span><span class="mt-stat-val">${result.stats.sentences}</span> sentences</span>
-    ${r ? `<span>~<span class="mt-stat-val">${r.label}</span></span>` : ''}
-  `;
+  const statsEl = document.getElementById('mt-stats');
+  statsEl.textContent = '';
+  [['words', result.stats.words], ['sentences', result.stats.sentences]].forEach(([label, val]) => {
+    const s = document.createElement('span');
+    const v = document.createElement('span');
+    v.className = 'mt-stat-val';
+    v.textContent = val;
+    s.append(v, ` ${label}`);
+    statsEl.appendChild(s);
+  });
+  if (r) {
+    const s = document.createElement('span');
+    const v = document.createElement('span');
+    v.className = 'mt-stat-val';
+    v.textContent = r.label;
+    s.append('~', v);
+    statsEl.appendChild(s);
+  }
 }
 
 function mtRenderLT(matches) {
@@ -281,17 +311,18 @@ function mtRenderLT(matches) {
   // Show up to 6 issues to avoid overwhelming
   matches.slice(0, 6).forEach(m => {
     const replacements = (m.replacements || []).slice(0, 3).map(r => r.value).join(', ');
-    issuesEl.insertAdjacentHTML('beforeend', `
-      <div class="mt-lt-issue">
-        <strong>${escHtml(m.message)}</strong>
-        ${replacements ? `<span>Suggestion: ${escHtml(replacements)}</span>` : ''}
-      </div>
-    `);
+    const div = document.createElement('div');
+    div.className = 'mt-lt-issue';
+    const strong = document.createElement('strong');
+    strong.textContent = m.message;
+    div.appendChild(strong);
+    if (replacements) {
+      const span = document.createElement('span');
+      span.textContent = `Suggestion: ${replacements}`;
+      div.appendChild(span);
+    }
+    issuesEl.appendChild(div);
   });
-}
-
-function escHtml(s) {
-  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 // ─── Main init ────────────────────────────────────────────────────────────────

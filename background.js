@@ -1,5 +1,6 @@
 // MindTab background service worker
 
+// Keep in sync with DEFAULTS in popup.js
 const DEFAULTS = {
   feedSanitizer: true,
   adBlocker: true,
@@ -93,21 +94,24 @@ async function updateFilterLists() {
     }
   }
 
-  const totals = Object.fromEntries(
-    Object.entries(merged).map(([k, v]) => [k, v.size])
-  );
-
-  await chrome.storage.local.set({
-    mindtabExternalFilters: Object.fromEntries(
-      Object.entries(merged).map(([k, v]) => [k, [...v]])
-    ),
-    mindtabFiltersUpdated: Date.now(),
-    mindtabFiltersStatus: successCount > 0
-      ? `Updated — ${Object.values(totals).reduce((a, b) => a + b, 0)} selectors across ${Object.keys(totals).length} sites`
-      : `All ${urls.length} sources failed. Last error: ${lastError}`
-  });
-
-  console.log('[MindTab] Filter lists updated:', totals);
+  if (successCount > 0) {
+    const totals = Object.fromEntries(
+      Object.entries(merged).map(([k, v]) => [k, v.size])
+    );
+    await chrome.storage.local.set({
+      mindtabExternalFilters: Object.fromEntries(
+        Object.entries(merged).map(([k, v]) => [k, [...v]])
+      ),
+      mindtabFiltersUpdated: Date.now(),
+      mindtabFiltersStatus: `Updated — ${Object.values(totals).reduce((a, b) => a + b, 0)} selectors across ${Object.keys(totals).length} sites`
+    });
+    console.log('[MindTab] Filter lists updated:', totals);
+  } else {
+    await chrome.storage.local.set({
+      mindtabFiltersStatus: `All ${urls.length} sources failed. Last error: ${lastError}`
+    });
+    console.warn('[MindTab] All filter list sources failed — keeping cached selectors.');
+  }
 }
 
 // ─── Lifecycle ────────────────────────────────────────────────────────────────
@@ -122,12 +126,36 @@ chrome.runtime.onInstalled.addListener(async () => {
   chrome.alarms.create('mindtab-filter-update', { periodInMinutes: 1440 });
 });
 
+// Wrap in an async IIFE so Chrome's service worker lifetime tracking sees
+// the pending promise and keeps the worker alive until the fetch completes.
 chrome.alarms.onAlarm.addListener(alarm => {
-  if (alarm.name === 'mindtab-filter-update') updateFilterLists();
+  if (alarm.name === 'mindtab-filter-update') (async () => { await updateFilterLists(); })();
 });
 
+// ─── Badge counter ────────────────────────────────────────────────────────────
+
+const tabCounts = {};
+
+function updateBadge(tabId) {
+  const n = tabCounts[tabId] || 0;
+  const text = n === 0 ? '' : n > 999 ? '999+' : String(n);
+  chrome.action.setBadgeText({ text, tabId });
+  chrome.action.setBadgeBackgroundColor({ color: '#4A90E2', tabId });
+}
+
+chrome.tabs.onUpdated.addListener((tabId, info) => {
+  if (info.status === 'loading') {
+    tabCounts[tabId] = 0;
+    chrome.action.setBadgeText({ text: '', tabId });
+  }
+});
+
+chrome.tabs.onRemoved.addListener(tabId => { delete tabCounts[tabId]; });
+
+// ─── Messages ─────────────────────────────────────────────────────────────────
+
 // Allow the popup to trigger a manual update and read status.
-chrome.runtime.onMessage.addListener((msg, _sender, reply) => {
+chrome.runtime.onMessage.addListener((msg, sender, reply) => {
   if (msg.type === 'UPDATE_FILTERS') {
     updateFilterLists().then(() => reply({ ok: true })).catch(e => reply({ ok: false, error: e.message }));
     return true;
@@ -135,5 +163,9 @@ chrome.runtime.onMessage.addListener((msg, _sender, reply) => {
   if (msg.type === 'GET_FILTER_STATUS') {
     chrome.storage.local.get(['mindtabFiltersUpdated', 'mindtabFiltersStatus']).then(reply);
     return true;
+  }
+  if (msg.type === 'BADGE_COUNT' && sender.tab?.id) {
+    tabCounts[sender.tab.id] = (tabCounts[sender.tab.id] || 0) + msg.delta;
+    updateBadge(sender.tab.id);
   }
 });

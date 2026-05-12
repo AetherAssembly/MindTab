@@ -131,8 +131,11 @@ function initFlashcards() {
   }
 
   async function pickCard(cards) {
+    if (cards.length === 1) return cards[0];
     const { mindtabCardIdx } = await chrome.storage.local.get('mindtabCardIdx');
-    const next = ((mindtabCardIdx ?? -1) + 1) % cards.length;
+    let next;
+    do { next = Math.floor(Math.random() * cards.length); }
+    while (next === mindtabCardIdx);
     await chrome.storage.local.set({ mindtabCardIdx: next });
     return cards[next];
   }
