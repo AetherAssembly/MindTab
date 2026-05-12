@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindTab Settings</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <div class="settings-page">
+    <header class="page-header">
+      <img src="../icons/mindtab48.svg" alt="MindTab logo" width="32" height="32">
+      <h1>Settings</h1>
+      <button class="back-btn" id="btn-back">← Close</button>
+    </header>
+
+    <!-- Tone Translator / Grammar Server -->
+    <section class="settings-section">
+      <h2>Tone Translator</h2>
+
+      <div class="field-group">
+        <label class="field-label" for="tone-api-url">Grammar Server URL</label>
+        <span class="field-hint">
+          Optional — point to a self-hosted
+          <a href="https://languagetool.org/dev" target="_blank" rel="noopener">LanguageTool</a>-compatible
+          server for live grammar &amp; spelling checks. Leave blank for local-only tone analysis.
+        </span>
+        <div class="field-row">
+          <input
+            type="url"
+            id="tone-api-url"
+            class="field-input"
+            placeholder="https://your-pi.example.com"
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <button class="btn btn-ghost" id="btn-test">Test</button>
+        </div>
+        <div class="conn-result" id="conn-result" aria-live="polite"></div>
+        <span class="status-msg" id="save-msg" aria-live="polite"></span>
+      </div>
+
+      <div class="field-group">
+        <button class="btn btn-primary" id="btn-save" style="align-self:flex-start">Save</button>
+      </div>
+    </section>
+
+    <!-- Feed Filter Lists -->
+    <section class="settings-section">
+      <h2>Feed Filter Lists</h2>
+
+      <div class="field-group">
+        <span class="field-label">Community Filter Lists</span>
+        <span class="field-hint">
+          uBlock Origin &amp; AdGuard-compatible lists used by the Feed Sanitizer and Ad Blocker.
+          Updated automatically every 24 hours.
+        </span>
+      </div>
+
+      <div class="filter-row">
+        <span class="filter-status-text" id="filter-status">Checking…</span>
+        <button class="btn btn-secondary" id="btn-update-filters">Update Now</button>
+      </div>
+      <span class="status-msg" id="filter-msg" aria-live="polite" style="margin-top:8px"></span>
+    </section>
+
+    <footer class="page-footer">
+      MindTab by <a href="https://aster1630.carrd.co" target="_blank" rel="noopener">Aster1630</a>
+    </footer>
+  </div>
+
+  <script src="settings.js"></script>
+</body>
+</html>

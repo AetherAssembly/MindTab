@@ -60,40 +60,8 @@
 
   <div class="actions">
     <button id="btn-cards" class="btn btn-primary">Manage Flashcards</button>
+    <button id="btn-settings" class="btn btn-secondary">Settings</button>
   </div>
-
-  <details class="settings" id="settings-panel">
-    <summary>Settings</summary>
-    <div class="settings-body">
-      <label class="settings-label" for="tone-api-url">
-        Grammar Server URL
-        <span class="settings-hint">LanguageTool-compatible server — leave blank for local-only analysis</span>
-      </label>
-      <input
-        type="url"
-        id="tone-api-url"
-        class="settings-input"
-        placeholder="https://your-pi.example.com"
-      >
-      <span class="settings-hint" style="font-size:10px;margin-top:-2px">
-        Self-host LanguageTool on a Pi for free grammar checking
-      </span>
-      <button id="btn-save-settings" class="btn btn-secondary">Save</button>
-      <span id="settings-saved" class="saved-msg" aria-live="polite"></span>
-
-      <div class="settings-divider"></div>
-
-      <div class="settings-label">
-        Feed Filter Lists
-        <span class="settings-hint">uBlock Origin &amp; AdGuard lists — auto-updated every 24 h</span>
-      </div>
-      <div class="filter-status-row">
-        <span id="filter-status" class="filter-status">Checking…</span>
-        <button id="btn-update-filters" class="btn btn-secondary">Update Now</button>
-      </div>
-      <span id="filter-update-msg" class="saved-msg" aria-live="polite"></span>
-    </div>
-  </details>
 
   <div class="footer">
     by <a href="https://aster1630.carrd.co" target="_blank" rel="noopener">Aster1630</a>

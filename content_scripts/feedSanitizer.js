@@ -7,9 +7,9 @@ function initFeedSanitizer() {
   const host = location.hostname;
   let selectors = [];
 
-  if (host.includes('youtube.com'))   selectors = filters.youtube  || [];
-  else if (host.includes('instagram.com')) selectors = filters.instagram || [];
-  else if (host.includes('facebook.com')) selectors = filters.facebook  || [];
+  if (host === 'youtube.com'    || host.endsWith('.youtube.com'))   selectors = filters.youtube   || [];
+  else if (host === 'instagram.com' || host.endsWith('.instagram.com')) selectors = filters.instagram || [];
+  else if (host === 'facebook.com'  || host.endsWith('.facebook.com'))  selectors = filters.facebook  || [];
 
   if (selectors.length === 0) return;
 
@@ -45,7 +45,7 @@ function initFeedSanitizer() {
   clean();
 
   // YouTube is a SPA — re-run after each client-side navigation.
-  if (host.includes('youtube.com')) {
+  if (host === 'youtube.com' || host.endsWith('.youtube.com')) {
     window.addEventListener('yt-navigate-finish', clean);
   }
 

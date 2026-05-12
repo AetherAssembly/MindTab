@@ -1,6 +1,6 @@
 // MindTab — Writing Assistant
 // Local analysis (always) + optional LanguageTool-compatible server for grammar/spelling.
-// Server field in popup accepts any LanguageTool v2 endpoint, including self-hosted.
+// Server field in settings page accepts any LanguageTool v2 endpoint, including self-hosted.
 
 // ─── Analysis data ────────────────────────────────────────────────────────────
 
@@ -152,7 +152,21 @@ function mtBuildPanel() {
       letter-spacing: 1.2px;
       text-transform: uppercase;
       color: #4A90E2;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
+    #mt-srv-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #444;
+      flex-shrink: 0;
+    }
+    #mt-srv-dot.ok   { background: #27ae60; }
+    #mt-srv-dot.err  { background: #e0a050; }
+    #mt-srv-dot.none { background: #444; }
     .mt-hbtn {
       background: none; border: none; color: #555;
       font-size: 14px; cursor: pointer; padding: 0 2px;
@@ -191,6 +205,24 @@ function mtBuildPanel() {
     }
     .mt-lt-issue strong { color: #e88; display: block; margin-bottom: 2px; }
     .mt-lt-issue span { color: #27ae60; }
+    .mt-lt-status {
+      font-size: 11px; color: #666; font-style: italic;
+      padding: 2px 0; line-height: 1.4;
+    }
+    .mt-lt-status.error { color: #e0a050; font-style: normal; }
+    .mt-lt-status.offline { color: #555; }
+    #mt-retry-btn {
+      margin-top: 5px;
+      background: none;
+      border: 1px solid rgba(224,160,80,0.4);
+      border-radius: 5px;
+      color: #e0a050;
+      font-size: 10.5px;
+      padding: 3px 10px;
+      cursor: pointer;
+      display: none;
+    }
+    #mt-retry-btn:hover { background: rgba(224,160,80,0.1); }
     #mt-stats {
       display: flex; gap: 10px; flex-wrap: wrap;
       font-size: 10.5px; color: #555;
@@ -209,7 +241,7 @@ function mtBuildPanel() {
   panel.setAttribute('aria-live', 'polite');
   panel.innerHTML = `
     <div id="mt-panel-head">
-      <span id="mt-panel-title">⚡ MindTab</span>
+      <span id="mt-panel-title">⚡ MindTab <span id="mt-srv-dot" class="none" title="Grammar server status"></span></span>
       <div style="display:flex;gap:6px">
         <button class="mt-hbtn" id="mt-min-btn" title="Minimize">−</button>
         <button class="mt-hbtn" id="mt-close-btn" title="Close">✕</button>
@@ -221,9 +253,11 @@ function mtBuildPanel() {
         <span id="mt-tone-val">—</span>
       </div>
       <div id="mt-suggestions"></div>
-      <div id="mt-lt-section" style="display:none">
+      <div id="mt-lt-section">
         <h4>Grammar &amp; Spelling</h4>
         <div id="mt-lt-issues"></div>
+        <div id="mt-lt-state"></div>
+        <button id="mt-retry-btn">↻ Retry</button>
       </div>
       <div id="mt-stats"></div>
     </div>
@@ -297,17 +331,36 @@ function mtRenderLocal(result, toneConfig) {
   }
 }
 
+function mtSetDot(state) {
+  const dot = document.getElementById('mt-srv-dot');
+  dot.className = state; // 'ok' | 'err' | 'none'
+  const titles = { ok: 'Grammar server connected', err: 'Grammar server unavailable', none: 'No grammar server configured' };
+  dot.title = titles[state] || '';
+}
+
+function mtSetLTState(type, text) {
+  const stateEl   = document.getElementById('mt-lt-state');
+  const retryBtn  = document.getElementById('mt-retry-btn');
+  stateEl.textContent = '';
+  retryBtn.style.display = 'none';
+
+  if (!type) return;
+
+  const span = document.createElement('div');
+  span.className = `mt-lt-status ${type}`;
+  span.textContent = text;
+  stateEl.appendChild(span);
+
+  if (type === 'error') retryBtn.style.display = 'block';
+}
+
 function mtRenderLT(matches) {
-  const section  = document.getElementById('mt-lt-section');
   const issuesEl = document.getElementById('mt-lt-issues');
   issuesEl.innerHTML = '';
+  mtSetLTState(null);
 
-  if (!matches || matches.length === 0) {
-    section.style.display = 'none';
-    return;
-  }
+  if (!matches || matches.length === 0) return;
 
-  section.style.display = 'block';
   // Show up to 6 issues to avoid overwhelming
   matches.slice(0, 6).forEach(m => {
     const replacements = (m.replacements || []).slice(0, 3).map(r => r.value).join(', ');
@@ -341,6 +394,7 @@ function initToneTranslator() {
   let minimized = false;
   let debouncer, abortCtrl;
   let activeEl  = null;
+  let lastText  = '';
 
   // Header buttons
   document.getElementById('mt-min-btn').addEventListener('click', () => {
@@ -354,16 +408,30 @@ function initToneTranslator() {
     hidden = true;
   });
 
+  document.getElementById('mt-retry-btn').addEventListener('click', () => {
+    if (lastText) analyze(lastText);
+  });
+
+  // Set initial server dot state
+  if (!serverUrl) {
+    mtSetDot('none');
+  }
+
   async function analyze(text) {
+    lastText = text;
+
     // Local analysis (instant)
     const local = mtAnalyzeLocally(text, toneConfig);
     mtRenderLocal(local, toneConfig);
 
-    // LanguageTool server (if configured)
     if (serverUrl) {
       // Cancel previous in-flight request
       if (abortCtrl) abortCtrl.abort();
       abortCtrl = new AbortController();
+
+      // Show checking state while waiting
+      mtSetLTState('offline', 'Checking grammar…');
+      mtSetDot('none');
 
       try {
         const body = new URLSearchParams({
@@ -378,13 +446,21 @@ function initToneTranslator() {
         });
         const data = await res.json();
         mtRenderLT(data.matches);
-      } catch (e) {
-        if (e.name !== 'AbortError') {
-          mtRenderLT(null);
+        mtSetDot('ok');
+        if (!data.matches || data.matches.length === 0) {
+          mtSetLTState('offline', '✓ No grammar issues found');
         }
+      } catch (e) {
+        if (e.name === 'AbortError') return;
+        mtRenderLT(null);
+        mtSetDot('err');
+        mtSetLTState('error', 'Server unavailable');
       }
     } else {
-      document.getElementById('mt-lt-section').style.display = 'none';
+      // No server — show a helpful offline notice
+      document.getElementById('mt-lt-issues').innerHTML = '';
+      mtSetLTState('offline', 'Local analysis only — configure a server in Settings for grammar checking');
+      mtSetDot('none');
     }
   }
 
