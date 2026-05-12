@@ -4,12 +4,10 @@ import fetch from 'node-fetch';
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
 const LT_URL = (process.env.LANGUAGETOOL_URL || 'http://localhost:8081').replace(/\/$/, '');
-const CORS_ORIGIN = process.env.CORS_ORIGIN || null;
-
 const app = express();
 
 app.use(cors({
-  origin: CORS_ORIGIN ?? function (origin, callback) {
+  origin(origin, callback) {
     if (!origin ||
         origin.startsWith('moz-extension://') ||
         origin.startsWith('chrome-extension://') ||

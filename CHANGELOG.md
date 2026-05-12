@@ -7,6 +7,27 @@ MindTab uses [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.1.2] — 2026-05-12
+
+### Added
+
+- **Dedicated Settings page** — settings moved out of the popup collapsible into a full-page `ui/settings.html`, opened in a new tab via a Settings button in the popup
+- **Test Connection button** — verifies the grammar server URL by pinging `/health`, showing latency and upstream URL on success or a descriptive error on failure
+- **Tone Translator server status dot** — small indicator in the writing assistant panel header shows connection state: green (connected), orange (unavailable), gray (not configured)
+- **Tone Translator offline/error states** — grammar section now shows contextual messages instead of silently hiding: "Local analysis only" when no server is configured, "Checking grammar…" while a request is in-flight, "✓ No grammar issues found" on a clean result, and "Server unavailable" with a Retry button on failure
+
+### Fixed
+
+- **Incomplete URL sanitization** — `feedSanitizer.js` used `host.includes('youtube.com')` which matched spoofed domains like `fake-youtube.com`; replaced with exact match + `.endsWith()` checks (resolves CodeQL alerts #3–6)
+- **Permissive CORS** — grammar proxy server defaulted to `Access-Control-Allow-Origin: *`, allowing any website to use the proxy; origin is now unconditionally validated against `moz-extension://`, `chrome-extension://`, and `localhost` — the `CORS_ORIGIN` env var bypass has been removed (resolves CodeQL alert #7)
+
+### Changed
+
+- Manifest icons updated to PNG for broader Safari Web Extension compatibility
+- Bump version to 1.1.2
+
+---
+
 ## [1.1.0] — 2026-05-12
 
 ### Added
