@@ -7,12 +7,15 @@ assignees: ''
 ---
 
 ## What problem does this solve?
+
 Describe the use case or pain point this addresses.
 
 ## Proposed solution
+
 What would you like to happen?
 
 ## Which module would this affect?
+
 - [ ] Feed Sanitizer
 - [ ] Ad Blocker
 - [ ] Writing Assistant
@@ -22,7 +25,9 @@ What would you like to happen?
 - [ ] Docs / Translations
 
 ## Alternatives considered
+
 Any other ways you thought about solving this?
 
 ## Additional context
+
 Mockups, links, or examples are welcome.

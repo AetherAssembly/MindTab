@@ -1,5 +1,27 @@
 # MindTab Grammar Server
 
+<div align="center">
+  <img src="icons/mindtab128.svg" alt="MindTab Logo" width="128" height="128">
+
+  **MindTab** is a free, open-source browser extension that cleans up your feed, blocks scam ads, helps you write better, and keeps you learning — all without sending your data anywhere.
+
+  <br>
+
+  <a href="sources/README-Server-es.md"><img src="https://img.shields.io/badge/lang-es-red?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Español"></a>
+  <a href="sources/README-Server-fr.md"><img src="https://img.shields.io/badge/lang-fr-white?style=for-the-badge&logo=googletranslate&logoColor=black" alt="Français"></a>
+  <a href="sources/README-Server-de.md"><img src="https://img.shields.io/badge/lang-de-black?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Deutsch"></a>
+  <a href="sources/README-Server-pt.md"><img src="https://img.shields.io/badge/lang-pt--br-green?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Português"></a>
+
+  <a href="#-features"><img src="https://img.shields.io/badge/Features-4A90E2?style=for-the-badge&logo=star&logoColor=white" alt="Features"></a>
+  <a href="#-installation"><img src="https://img.shields.io/badge/Install-FF6B6B?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Install"></a>
+  <a href="#-writing-assistant"><img src="https://img.shields.io/badge/Writing_Assistant-9B59B6?style=for-the-badge&logo=pencil&logoColor=white" alt="Writing Assistant"></a>
+  <a href="#-contributing"><img src="https://img.shields.io/badge/Contributing-27AE60?style=for-the-badge&logo=github&logoColor=white" alt="Contributing"></a>
+  <a href="https://github.com/aster1630"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Profile"></a>
+  <a href="https://aetherassembly.org/wiki/mindtab/grammar-server"><img src="https://img.shields.io/badge/Wiki-9B59B6?style=for-the-badge&logo=user&logoColor=white" alt="Wiki"></a>
+</div>
+
+---
+
 A lightweight proxy that sits in front of a [LanguageTool](https://languagetool.org/) instance and adds the CORS headers that browser extensions need. Point the MindTab extension at it to get free, self-hosted grammar and spelling checks inside the Tone Translator panel.
 
 ---
@@ -28,7 +50,8 @@ Browser extension  (renders suggestions in panel)
 Requires [Docker](https://docs.docker.com/get-docker/) with the Compose plugin.
 
 ```bash
-cd server
+git clone https://github.com/Aster1630/MindTab.git
+cd path/to/MindTab/server/
 docker compose up
 ```
 
@@ -79,7 +102,7 @@ npm start
 ## Environment variables
 
 | Variable | Default | Description |
-|---|---|---|
+| - | - | - |
 | `PORT` | `3000` | Port the proxy listens on |
 | `LANGUAGETOOL_URL` | `http://localhost:8081` | Address of your LanguageTool instance |
 | `CORS_ORIGIN` | `*` | Allowed request origins (`*` or a specific URL) |
@@ -103,7 +126,7 @@ Use this to verify the server is reachable before configuring the extension.
 Forwards to LanguageTool's `/v2/check` endpoint. Accepts `application/x-www-form-urlencoded`:
 
 | Field | Example | Description |
-|---|---|---|
+| - | - | - |
 | `text` | `"This are a test."` | Text to check (max 5000 chars sent by the extension) |
 | `language` | `"en-US"` | BCP 47 language code |
 

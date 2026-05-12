@@ -30,6 +30,7 @@ Thanks for wanting to help! MindTab is intentionally small and modular, so most 
 No build tools needed — just load the extension directly.
 
 **Firefox:**
+
 ```bash
 # Install web-ext for a live-reloading dev experience
 npm install -g web-ext
@@ -38,6 +39,7 @@ web-ext run
 ```
 
 **Chrome:**
+
 1. `chrome://extensions` → Developer Mode → Load Unpacked → select `MindTab/`
 2. Click the reload button after making changes
 
@@ -46,9 +48,11 @@ web-ext run
 ## Pull request process
 
 1. Fork the repo and create a branch from `main`:
+
    ```bash
    git checkout -b fix/youtube-shorts-selector
    ```
+
 2. Make your changes. If touching content scripts, test on the affected site.
 3. Keep commits focused — one logical change per commit.
 4. Open a PR against `main` with a clear description of what changed and why.
@@ -56,7 +60,7 @@ web-ext run
 
 ---
 
-## Adding a language translation
+## Updating/Adding a language translation
 
 1. Copy `sources/README-es.md` as a starting point
 2. Name it `sources/README-{code}.md` using the ISO 639-1 language code
@@ -76,4 +80,4 @@ web-ext run
 
 ## Credit
 
-If you use MindTab as a base for your own project and publish it anywhere, please include a credit to Aster1630. It's not legally required by the MIT license, but it's appreciated.
+If you use MindTab as a base for your own project and publish it anywhere, please include a credit to [Aster1630](https://aetherassembly.org/about/aster). It's not legally required by the MIT license, but it's appreciated.
