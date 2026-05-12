@@ -75,6 +75,7 @@ If the extension isn't on a store yet, you can load it manually:
 ---
 
 ## ✍️ Writing Assistant
+
 The panel appears at the bottom-right of your screen whenever you're typing somewhere with at least 15 words. It stays out of the way until you need it.
 
 - Click **−** to collapse it to a title bar

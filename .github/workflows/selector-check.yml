@@ -1,0 +1,22 @@
+name: Selector Check
+
+on:
+  pull_request:
+    paths:
+      - 'config/filters.json'
+  push:
+    branches: [main]
+    paths:
+      - 'config/filters.json'
+
+jobs:
+  validate:
+    name: Validate CSS selectors
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install --no-save jsdom
+      - run: node .github/scripts/check-selectors.js

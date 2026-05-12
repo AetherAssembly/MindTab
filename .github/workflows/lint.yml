@@ -1,0 +1,23 @@
+name: Lint
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  web-ext-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install -g web-ext
+      - run: |
+          web-ext lint \
+            --source-dir . \
+            --ignore-files "server/**" \
+            --ignore-files "sources/**" \
+            --ignore-files ".github/**" \
+            --ignore-files "*.md"

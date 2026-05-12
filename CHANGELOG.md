@@ -10,12 +10,14 @@ MindTab uses [Semantic Versioning](https://semver.org/).
 ## [1.1.0] — 2026-05-12
 
 ### Added
+
 - **Badge counter** — toolbar icon now shows a live count of elements blocked on the current page, resetting on each navigation (like uBlock Origin)
 - **Light mode** — popup and flashcard manager now respect `prefers-color-scheme: light` with a full light palette
 - **Shared `utils.js`** — `escHtml` utility loaded as first content script, eliminating duplicate definitions
 - Flashcard selection is now random (avoiding the last-shown card) instead of sequential round-robin
 
 ### Fixed
+
 - **Firefox load failure** — extension failed to install with `background.service_worker is currently disabled`; added `background.scripts` for Firefox MV3 compatibility
 - **Readability score always blank** — Flesch-Kincaid grade was silently producing `NaN` due to a parameter mismatch in `mtReadability()` (passed `sentences.length` but function called `.length` on it again)
 - **YouTube Shorts shelf not hidden** — `is-shorts` attribute lives on `ytd-rich-shelf-renderer`, not `ytd-rich-section-renderer`; updated selectors accordingly
@@ -25,9 +27,11 @@ MindTab uses [Semantic Versioning](https://semver.org/).
 - Filter list fetch no longer overwrites cached selectors with empty data when all sources fail; cached filters are preserved until a successful fetch
 
 ### Security
+
 - All `innerHTML` and `insertAdjacentHTML` calls replaced with explicit DOM methods (`createElement`, `textContent`, `appendChild`) — no dynamic HTML injection anywhere in the codebase
 
 ### Compatibility
+
 - Added `data_collection_permissions: { required: ["none"] }` to gecko settings (Firefox AMO requirement)
 - Added `background.scripts` alongside `service_worker` for cross-browser background compatibility
 
@@ -36,6 +40,7 @@ MindTab uses [Semantic Versioning](https://semver.org/).
 ## [1.0.0] — 2025-05-09
 
 ### Added
+
 - **Feed Sanitizer** — removes YouTube Shorts, Instagram Reels, and Facebook Reels via MutationObserver
 - **Malicious Ad Blocker** — keyword and href-pattern based scanning for scam ads and fake alerts
 - **Writing Assistant** — local Grammarly-style panel with:

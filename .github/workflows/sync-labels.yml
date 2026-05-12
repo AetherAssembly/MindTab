@@ -1,0 +1,60 @@
+name: Sync Labels
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sync-labels.yml'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = [
+              // Triage
+              { name: 'bug',             color: 'd73a4a', description: 'Something is broken'                          },
+              { name: 'enhancement',     color: 'a2eeef', description: 'New feature or improvement'                   },
+              { name: 'good first issue',color: '7057ff', description: 'Good for newcomers'                           },
+              { name: 'needs-testing',   color: 'fbca04', description: 'Needs verification on a live site'            },
+              { name: 'stale',           color: 'ededed', description: 'No activity for 60+ days'                     },
+              { name: 'pinned',          color: 'e4e669', description: 'Keep open — exempt from stale bot'            },
+              { name: 'security',        color: 'b60205', description: 'Security concern — exempt from stale bot'     },
+              // Area
+              { name: 'filters',         color: 'f39c12', description: 'CSS selector changes in config/filters.json'  },
+              { name: 'content-script',  color: '3498db', description: 'Changes to content_scripts/'                  },
+              { name: 'ui',              color: '9b59b6', description: 'Popup or flashcard manager UI'                 },
+              { name: 'manifest',        color: 'e74c3c', description: 'manifest.json changes'                         },
+              { name: 'background',      color: '1abc9c', description: 'background.js or utils.js changes'             },
+              { name: 'config',          color: 'f0932b', description: 'Changes to config/ JSON files'                 },
+              { name: 'docs',            color: '95a5a6', description: 'Documentation or translation changes'          },
+            ];
+
+            for (const label of labels) {
+              try {
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ...label,
+                });
+                console.log(`Created: ${label.name}`);
+              } catch (e) {
+                if (e.status === 422) {
+                  // Already exists — update it
+                  await github.rest.issues.updateLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    ...label,
+                  });
+                  console.log(`Updated: ${label.name}`);
+                } else {
+                  throw e;
+                }
+              }
+            }
