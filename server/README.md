@@ -16,7 +16,6 @@
   <a href="#-installation"><img src="https://img.shields.io/badge/Install-FF6B6B?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Install"></a>
   <a href="#-writing-assistant"><img src="https://img.shields.io/badge/Writing_Assistant-9B59B6?style=for-the-badge&logo=pencil&logoColor=white" alt="Writing Assistant"></a>
   <a href="#-contributing"><img src="https://img.shields.io/badge/Contributing-27AE60?style=for-the-badge&logo=github&logoColor=white" alt="Contributing"></a>
-  <a href="https://github.com/aster1630"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Profile"></a>
   <a href="https://aetherassembly.org/wiki/mindtab/grammar-server"><img src="https://img.shields.io/badge/Wiki-9B59B6?style=for-the-badge&logo=user&logoColor=white" alt="Wiki"></a>
 </div>
 
@@ -150,6 +149,19 @@ The Docker Compose approach works on any Linux machine. To make it reachable fro
 
 ---
 
-## License
+## 🤝 Contributing
 
-[MIT](LICENSE)
+Feel free to remix this for your school, workplace, or community. If you publish it anywhere, please include a credit to [AetherAssembly](https://aetherassembly.org/about). It's not legally required by the MIT license, but it's appreciated.
+
+---
+
+## 📝 License
+
+Licensed under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+  <p>Built with ethics and simplicity by <a href="https://aetherassembly.org/about">AetherAssembly</a></p>
+  <p>⭐ Star this repo if MindTab makes your browsing better!</p>
+</div>
