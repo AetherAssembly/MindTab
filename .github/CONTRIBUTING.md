@@ -80,4 +80,4 @@ web-ext run
 
 ## Credit
 
-If you use MindTab as a base for your own project and publish it anywhere, please include a credit to [Aster1630](https://aetherassembly.org/about/aster). It's not legally required by the MIT license, but it's appreciated.
+If you use MindTab as a base for your own project and publish it anywhere, please include a credit to [AetherAssembly](https://aetherassembly.org/about). It's not legally required by the MIT license, but it's appreciated.
