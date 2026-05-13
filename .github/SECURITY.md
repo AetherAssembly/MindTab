@@ -6,30 +6,32 @@ Security fixes are applied to the current release and the two most recent releas
 
 | Version | Status |
 | - | - |
+| v1.1.2 | ✅ Active support |
 | v1.1.0 | ✅ Active support |
-| v1.1.0 | ✅ Active support |
-| < v1.0.0 | ❌ Not supported |
+| < v1.0.x | ❌ Not supported |
 
-As new versions are released, this table will be updated to reflect the current support window. Versions outside the support window are no longer actively patched.
+As new versions are released, this table will be updated to reflect the current support window. Versions that fall outside the two-major-version window enter deprecated status and are acknowledged but no longer actively patched. Versions older than that are archived to cold storage. Retrieval of archived versions is available as a paid service — contact us at [support@aetherassembly.org](mailto:support@aetherassembly.org) for details.
 
----
 
 ## Reporting a Vulnerability
 
 Please do not disclose security vulnerabilities in public issues.
 
-Report vulnerabilities by opening a [GitHub Security Advisory](../../security/advisories/new) in this repository. This keeps the report private until a fix is released.
+Use GitHub private vulnerability reporting if enabled for this repository, or contact us through one of the following:
 
-Include:
+- **Email:** [support@aetherassembly.org](mailto:support@aetherassembly.org)
+- **Contact form:** [https://forms.gle/T4i7GGzaT3HUrffm9](https://forms.gle/T4i7GGzaT3HUrffm9)
+- **Aster (GitHub):** [@Aster1630](https://github.com/Aster1630)
+- **Ollie (GitHub):** [@OllieMochi](https://github.com/olliemochi)
 
-- A clear description of the vulnerability
-- Steps to reproduce it
-- The browser and extension version you tested on
-- Any relevant screenshots or code snippets
+Please include in your report:
 
-You can expect an acknowledgement within a few days and a fix or status update within two weeks. If the issue is confirmed, a patched version will be released and the advisory will be published once users have had time to update.
+- A clear description of the issue
+- Steps to reproduce
+- Impact assessment
+- Any suggested remediation or workaround
 
----
+You can expect an initial acknowledgement within 7 days of receipt. After validation, the maintainers will work on a fix and coordinate disclosure timing as appropriate.
 
 ## Scope
 
@@ -42,10 +44,13 @@ MindTab is a browser extension with no backend of its own. Relevant security are
 
 Issues with the LanguageTool server itself should be reported upstream to the [LanguageTool project](https://github.com/languagetool-org/languagetool).
 
----
 
 ## Out of scope
 
 - Bugs that require physical access to the device
 - Self-XSS (the user deliberately injecting into their own session)
 - Issues in browser internals or the browser extension API itself
+
+## Non-Security Issues
+
+General bugs, feature requests, and compatibility issues should be reported through the normal issue tracker.
