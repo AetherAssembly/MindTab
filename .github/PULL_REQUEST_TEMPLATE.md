@@ -14,18 +14,23 @@ The motivation or issue this addresses (link an issue if one exists).
 - [ ] Flashcards (`content_scripts/flashcard.js`)
 - [ ] Config files (`config/`)
 - [ ] UI (`ui/`)
+- [ ] Server (`server/`)
+- [ ] Tests (`tests/`)
 - [ ] Docs / Translations (`sources/`, `README.md`)
 - [ ] GitHub / repo files
 
 ## Testing done
 
+- [ ] `npm test` passes
 - [ ] Tested in Firefox
 - [ ] Tested in Chrome
 - Tested on: (list the sites or scenarios you checked)
 
 ## Checklist
 
+- [ ] PR title follows `type: description` format (feat / fix / chore / ci / docs / refactor / test / security)
 - [ ] No new external dependencies added
 - [ ] No user data sent anywhere without opt-in
 - [ ] Config changes are backwards-compatible (old keys still work)
 - [ ] If CSS selectors changed: verified they work on the live site today
+- [ ] CHANGELOG.md updated if this is a user-facing change
