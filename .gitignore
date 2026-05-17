@@ -25,7 +25,6 @@ web-ext-artifacts/
 # Node (if build tooling is added later)
 node_modules/
 npm-debug.log*
-package-lock.json
 
 # Safari Xcode conversion output
 *.xcodeproj/

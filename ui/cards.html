@@ -35,7 +35,12 @@
     <section class="section">
       <div class="section-header">
         <h2 class="section-title">Your Custom Cards <span id="custom-count" class="count-badge">0</span></h2>
-        <button id="btn-clear" class="btn btn-danger" style="display:none">Clear All</button>
+        <div class="section-actions">
+          <button id="btn-export" class="btn btn-secondary">Export</button>
+          <label for="import-file" class="btn btn-secondary">Import</label>
+          <input type="file" id="import-file" accept=".json" style="display:none" aria-label="Import cards from JSON file">
+          <button id="btn-clear" class="btn btn-danger" style="display:none">Clear All</button>
+        </div>
       </div>
       <ul id="custom-list" class="card-list">
         <li class="empty-state" id="empty-msg">No custom cards yet. Add one above!</li>
@@ -50,6 +55,10 @@
       <ul id="default-list" class="card-list card-list--dim"></ul>
     </section>
   </div>
+
+  <footer class="page-footer">
+    MindTab by <a href="https://aetherassembly.org/about" target="_blank" rel="noopener">AetherAssembly</a>
+  </footer>
 
   <script src="../utils.js"></script>
   <script src="cards.js"></script>

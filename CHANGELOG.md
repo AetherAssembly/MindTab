@@ -7,6 +7,30 @@ MindTab uses [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.2.0] — 2026-05-16
+
+### Added
+
+- **Spaced repetition (SM-2)** — Flashcards now use a lightweight SM-2 algorithm. "Got it" increases a card's interval; "Skip" or timeout resets it. Due cards are shown first, and a badge on the overlay shows how many cards are currently due
+- **Flashcard export / import** — Custom cards can now be exported as JSON and imported back (or shared as a deck). Import merges into existing cards, with schema validation
+- **Writing check controls** — Settings page now lets you toggle each Tone Translator check independently (passive voice, hedge words, long sentences, filler words, repeated words) and configure the long-sentence word threshold (15–50 words)
+- **Manual theme override** — Settings page has a System / Light / Dark segmented control that overrides `prefers-color-scheme`; preference persisted in sync storage
+- **Custom filter list sources** — Settings page exposes the three filter list URLs with add/remove UI; previously only configurable programmatically. Changes take effect on next update
+- **CodeQL security scanning** — Added `.github/workflows/codeql.yml` for automated JavaScript SAST on every PR and weekly
+- **CONTRIBUTING.md** — Architecture overview, local dev setup, code style and security guidelines, PR checklist
+- **Vitest test suite** — 43 unit tests across tone analysis (`mtDetectTone`, `mtAnalyzeLocally`, `mtReadability`, `mtSyllables`), filter list parser (`parseFilterList`), and CORS origin validation
+
+### Changed
+
+- **Keyboard shortcuts** — `Esc` closes the Tone Translator panel; `Alt+Shift+F` triggers a flashcard on demand
+- **ARIA improvements** — Tone panel has `role="complementary"` + `aria-label`; flashcard overlay has `role="dialog"` + `aria-modal="true"`; flashcard buttons receive focus on card show
+- **Grammar server cooldown** — Added a 750 ms post-analysis cooldown to prevent hammering the grammar server during rapid typing (on top of the existing debounce)
+- **Filter list integrity check** — If a fetched update drops the total selector count by more than 30% vs. the cached set, the update is rejected and the cache is preserved
+- **Branding** — Credit updated to AetherAssembly across all UI pages, linking to `https://aetherassembly.org/about`
+- Bump version to 1.2.0
+
+---
+
 ## [1.1.2] — 2026-05-12
 
 ### Added

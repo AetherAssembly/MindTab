@@ -14,7 +14,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v7
+      - uses: actions/github-script@v9
         with:
           script: |
             const labels = [
@@ -34,6 +34,12 @@ jobs:
               { name: 'background',      color: '1abc9c', description: 'background.js or utils.js changes'             },
               { name: 'config',          color: 'f0932b', description: 'Changes to config/ JSON files'                 },
               { name: 'docs',            color: '95a5a6', description: 'Documentation or translation changes'          },
+              { name: 'server',          color: '2980b9', description: 'Changes to the LanguageTool proxy server'      },
+              { name: 'tests',           color: '27ae60', description: 'Changes to the test suite'                     },
+              // Type (mirrors conventional commit prefixes)
+              { name: 'ci',              color: '0075ca', description: 'CI/CD workflow changes'                        },
+              { name: 'refactor',        color: 'e2e2e2', description: 'Code restructuring, no behaviour change'       },
+              { name: 'test',            color: 'c5def5', description: 'New or updated tests only'                     },
             ];
 
             for (const label of labels) {

@@ -29,3 +29,11 @@ docs:
 config:
   - changed-files:
     - any-glob-to-any-file: ['config/**']
+
+server:
+  - changed-files:
+    - any-glob-to-any-file: ['server/**']
+
+tests:
+  - changed-files:
+    - any-glob-to-any-file: ['tests/**']

@@ -1,9 +1,19 @@
+const DEFAULT_FILTER_LISTS = [
+  'https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/annoyances-social.txt',
+  'https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/quick-fixes.txt',
+  'https://raw.githubusercontent.com/AdguardTeam/AdguardFilters/master/AnnoyancesFilter/sections/social-widget.txt'
+];
+
 const DEFAULTS = {
   feedSanitizer: true,
   adBlocker: true,
   toneTranslator: true,
   flashcards: true,
-  toneApiUrl: ''
+  toneApiUrl: '',
+  theme: 'system',
+  toneChecks: { passive: true, weak: true, long: true, filler: true, repeat: true },
+  longSentenceThreshold: 30,
+  filterListUrls: null  // null means use DEFAULT_FILTER_LISTS
 };
 
 async function getState() {
@@ -16,6 +26,19 @@ async function setState(patch) {
   await chrome.storage.sync.set({ mindtab: { ...current, ...patch } });
 }
 
+// ─── Theme ────────────────────────────────────────────────────────────────────
+
+function applyTheme(theme) {
+  const root = document.documentElement;
+  if (theme === 'light' || theme === 'dark') {
+    root.setAttribute('data-theme', theme);
+  } else {
+    root.removeAttribute('data-theme');
+  }
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
 function formatTimestamp(ms) {
   if (!ms) return 'Never';
   const diff = Date.now() - ms;
@@ -23,6 +46,13 @@ function formatTimestamp(ms) {
   if (diff < 3600_000)  return `${Math.floor(diff / 60_000)} min ago`;
   if (diff < 86400_000) return `${Math.floor(diff / 3600_000)} h ago`;
   return new Date(ms).toLocaleDateString();
+}
+
+function showMsg(id, text, type, duration = 3000) {
+  const el = document.getElementById(id);
+  el.textContent = text;
+  el.className = `status-msg ${type}`;
+  setTimeout(() => { el.textContent = ''; el.className = 'status-msg'; }, duration);
 }
 
 async function refreshFilterStatus() {
@@ -38,13 +68,6 @@ async function refreshFilterStatus() {
       ? `Last updated: ${formatTimestamp(time)}${msg ? ' — ' + msg : ''}`
       : 'Not yet fetched';
   });
-}
-
-function showSaveMsg(text, type) {
-  const el = document.getElementById('save-msg');
-  el.textContent = text;
-  el.className = `status-msg ${type}`;
-  setTimeout(() => { el.textContent = ''; el.className = 'status-msg'; }, 3000);
 }
 
 function showConnResult(ok, headline, detail) {
@@ -65,35 +88,71 @@ function showConnResult(ok, headline, detail) {
   }
 }
 
+// ─── Filter URL list UI ───────────────────────────────────────────────────────
+
+function renderUrlList(urls) {
+  const list = document.getElementById('filter-url-list');
+  list.innerHTML = '';
+  urls.forEach((url, i) => {
+    const li   = document.createElement('li');
+    li.className = 'url-item';
+    const span = document.createElement('span');
+    span.textContent = url;
+    const del  = document.createElement('button');
+    del.className = 'url-del';
+    del.setAttribute('aria-label', 'Remove URL');
+    del.textContent = '✕';
+    del.addEventListener('click', async () => {
+      const state = await getState();
+      const current = state.filterListUrls || DEFAULT_FILTER_LISTS;
+      const updated = current.filter((_, j) => j !== i);
+      await setState({ filterListUrls: updated.length ? updated : DEFAULT_FILTER_LISTS });
+      renderUrlList(updated.length ? updated : DEFAULT_FILTER_LISTS);
+      showMsg('url-msg', 'Removed. Update filters to apply.', 'warn');
+    });
+    li.append(span, del);
+    list.appendChild(li);
+  });
+}
+
+// ─── Main ─────────────────────────────────────────────────────────────────────
+
 document.addEventListener('DOMContentLoaded', async () => {
   const state = await getState();
 
-  // Grammar server URL
+  // Apply stored theme immediately
+  applyTheme(state.theme || 'system');
+
+  // ── Theme selector ──────────────────────────────────────────────────────────
+  const themeRadios = document.querySelectorAll('input[name="theme"]');
+  themeRadios.forEach(r => {
+    if (r.value === (state.theme || 'system')) r.checked = true;
+    r.addEventListener('change', async () => {
+      const theme = r.value;
+      applyTheme(theme);
+      await setState({ theme });
+      showMsg('theme-msg', 'Theme saved!', 'ok');
+    });
+  });
+
+  // ── Grammar server URL ──────────────────────────────────────────────────────
   const apiInput = document.getElementById('tone-api-url');
   apiInput.value = state.toneApiUrl || '';
 
-  // Save
   document.getElementById('btn-save').addEventListener('click', async () => {
     const val = apiInput.value.trim();
     if (val && !apiInput.validity.valid) {
-      showSaveMsg('Invalid URL — include https://', 'error');
+      showMsg('save-msg', 'Invalid URL — include https://', 'error');
       return;
     }
     await setState({ toneApiUrl: val });
-    showSaveMsg('Saved!', 'ok');
+    showMsg('save-msg', 'Saved!', 'ok');
   });
 
-  // Test connection
   document.getElementById('btn-test').addEventListener('click', async () => {
     const val = apiInput.value.trim();
-    if (!val) {
-      showConnResult(false, 'Enter a server URL first.');
-      return;
-    }
-    if (!apiInput.validity.valid) {
-      showConnResult(false, 'Invalid URL — include https://');
-      return;
-    }
+    if (!val) { showConnResult(false, 'Enter a server URL first.'); return; }
+    if (!apiInput.validity.valid) { showConnResult(false, 'Invalid URL — include https://'); return; }
 
     const testBtn = document.getElementById('btn-test');
     testBtn.disabled = true;
@@ -111,18 +170,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       if (res.ok) {
         const data = await res.json().catch(() => ({}));
-        const detail = [
-          `${latency} ms`,
-          data.upstream ? `upstream: ${data.upstream}` : ''
-        ].filter(Boolean).join(' · ');
+        const detail = [`${latency} ms`, data.upstream ? `upstream: ${data.upstream}` : ''].filter(Boolean).join(' · ');
         showConnResult(true, 'Connected', detail);
       } else {
         showConnResult(false, `Server responded with ${res.status}`, 'Check that the MindTab proxy server is running.');
       }
     } catch (e) {
-      const msg = e.name === 'TimeoutError'
-        ? 'Request timed out (8 s)'
-        : e.message || 'Could not reach server';
+      const msg = e.name === 'TimeoutError' ? 'Request timed out (8 s)' : e.message || 'Could not reach server';
       showConnResult(false, 'Connection failed', msg);
     } finally {
       testBtn.disabled = false;
@@ -130,39 +184,86 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  // Filter list update
-  const updateBtn = document.getElementById('btn-update-filters');
-  const filterMsg = document.getElementById('filter-msg');
-  let filterTimer;
+  // ── Writing checks ──────────────────────────────────────────────────────────
+  const checks = state.toneChecks || DEFAULTS.toneChecks;
+  document.getElementById('chk-passive').checked = checks.passive !== false;
+  document.getElementById('chk-weak').checked    = checks.weak    !== false;
+  document.getElementById('chk-long').checked    = checks.long    !== false;
+  document.getElementById('chk-filler').checked  = checks.filler  !== false;
+  document.getElementById('chk-repeat').checked  = checks.repeat  !== false;
 
+  const thresholdSlider = document.getElementById('long-threshold');
+  const thresholdVal    = document.getElementById('threshold-val');
+  thresholdSlider.value = state.longSentenceThreshold || 30;
+  thresholdVal.textContent = thresholdSlider.value;
+  thresholdSlider.addEventListener('input', () => {
+    thresholdVal.textContent = thresholdSlider.value;
+  });
+
+  document.getElementById('btn-save-checks').addEventListener('click', async () => {
+    await setState({
+      toneChecks: {
+        passive: document.getElementById('chk-passive').checked,
+        weak:    document.getElementById('chk-weak').checked,
+        long:    document.getElementById('chk-long').checked,
+        filler:  document.getElementById('chk-filler').checked,
+        repeat:  document.getElementById('chk-repeat').checked,
+      },
+      longSentenceThreshold: parseInt(thresholdSlider.value, 10),
+    });
+    showMsg('checks-msg', 'Saved!', 'ok');
+  });
+
+  // ── Filter list status ──────────────────────────────────────────────────────
   await refreshFilterStatus();
 
-  updateBtn.addEventListener('click', () => {
+  document.getElementById('btn-update-filters').addEventListener('click', () => {
+    const updateBtn = document.getElementById('btn-update-filters');
     updateBtn.disabled = true;
     updateBtn.textContent = 'Updating…';
-    filterMsg.textContent = '';
 
     chrome.runtime.sendMessage({ type: 'UPDATE_FILTERS' }, result => {
       updateBtn.disabled = false;
       updateBtn.textContent = 'Update Now';
 
       if (chrome.runtime.lastError || !result?.ok) {
-        filterMsg.textContent = 'Update failed — check your connection.';
-        filterMsg.className = 'status-msg error';
+        showMsg('filter-msg', 'Update failed — check your connection.', 'error');
       } else {
-        filterMsg.textContent = 'Filter lists updated!';
-        filterMsg.className = 'status-msg ok';
+        showMsg('filter-msg', 'Filter lists updated!', 'ok');
       }
-
-      clearTimeout(filterTimer);
-      filterTimer = setTimeout(() => {
-        filterMsg.textContent = '';
-        filterMsg.className = 'status-msg';
-      }, 3000);
       refreshFilterStatus();
     });
   });
 
-  // Back / close button
+  // ── Custom filter URLs ──────────────────────────────────────────────────────
+  const currentUrls = state.filterListUrls || DEFAULT_FILTER_LISTS;
+  renderUrlList(currentUrls);
+
+  document.getElementById('btn-add-url').addEventListener('click', async () => {
+    const input = document.getElementById('filter-url-input');
+    const val   = input.value.trim();
+    if (!val) return;
+    try { new URL(val); } catch { showMsg('url-msg', 'Invalid URL.', 'error'); return; }
+
+    const st = await getState();
+    const urls = [...(st.filterListUrls || DEFAULT_FILTER_LISTS), val];
+    await setState({ filterListUrls: urls });
+    renderUrlList(urls);
+    input.value = '';
+    showMsg('url-msg', 'Added. Update filters to apply.', 'ok');
+  });
+
+  document.getElementById('filter-url-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('btn-add-url').click();
+  });
+
+  document.getElementById('btn-reset-urls').addEventListener('click', async () => {
+    if (!confirm('Reset filter sources to defaults?')) return;
+    await setState({ filterListUrls: null });
+    renderUrlList(DEFAULT_FILTER_LISTS);
+    showMsg('url-msg', 'Reset to defaults.', 'ok');
+  });
+
+  // ── Back button ─────────────────────────────────────────────────────────────
   document.getElementById('btn-back').addEventListener('click', () => window.close());
 });

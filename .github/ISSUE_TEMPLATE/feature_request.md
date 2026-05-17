@@ -22,6 +22,7 @@ What would you like to happen?
 - [ ] Flashcards
 - [ ] New module
 - [ ] UI / Popup
+- [ ] Server (grammar proxy)
 - [ ] Docs / Translations
 
 ## Alternatives considered

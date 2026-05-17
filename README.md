@@ -3,7 +3,7 @@
 <div align="center">
   <img src="icons/mindtab128.svg" alt="MindTab Logo" width="128" height="128">
 
-  **MindTab** is a free, open-source browser extension that cleans up your feed, blocks scam ads, helps you write better, and keeps you learning — all without sending your data anywhere.
+  **MindTab** is a free, open-source browser extension that cleans up your feed, blocks scam ads, helps you write better, and keeps you learning. All without sending your data anywhere.
 
   <br>
 

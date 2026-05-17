@@ -14,6 +14,20 @@
       <button class="back-btn" id="btn-back">← Close</button>
     </header>
 
+    <!-- Appearance -->
+    <section class="settings-section">
+      <h2>Appearance</h2>
+      <div class="field-group">
+        <span class="field-label">Theme</span>
+        <div class="segmented" role="group" aria-label="Theme">
+          <label class="seg-opt"><input type="radio" name="theme" value="system"> System</label>
+          <label class="seg-opt"><input type="radio" name="theme" value="light"> Light</label>
+          <label class="seg-opt"><input type="radio" name="theme" value="dark"> Dark</label>
+        </div>
+        <span class="status-msg" id="theme-msg" aria-live="polite"></span>
+      </div>
+    </section>
+
     <!-- Tone Translator / Grammar Server -->
     <section class="settings-section">
       <h2>Tone Translator</h2>
@@ -45,6 +59,29 @@
       </div>
     </section>
 
+    <!-- Writing Checks -->
+    <section class="settings-section">
+      <h2>Writing Checks</h2>
+      <div class="field-group">
+        <span class="field-hint">Choose which suggestions appear in the Tone Translator panel.</span>
+        <div class="checks-grid">
+          <label class="check-item"><input type="checkbox" id="chk-passive"> Passive voice</label>
+          <label class="check-item"><input type="checkbox" id="chk-weak"> Hedge/weak words</label>
+          <label class="check-item"><input type="checkbox" id="chk-long"> Long sentences</label>
+          <label class="check-item"><input type="checkbox" id="chk-filler"> Filler words</label>
+          <label class="check-item"><input type="checkbox" id="chk-repeat"> Repeated words</label>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="long-threshold">Long sentence threshold: <span id="threshold-val">30</span> words</label>
+        <input type="range" id="long-threshold" class="range-input" min="15" max="50" step="5" value="30">
+      </div>
+      <div class="field-group">
+        <button class="btn btn-primary" id="btn-save-checks" style="align-self:flex-start">Save</button>
+        <span class="status-msg" id="checks-msg" aria-live="polite"></span>
+      </div>
+    </section>
+
     <!-- Feed Filter Lists -->
     <section class="settings-section">
       <h2>Feed Filter Lists</h2>
@@ -64,8 +101,27 @@
       <span class="status-msg" id="filter-msg" aria-live="polite" style="margin-top:8px"></span>
     </section>
 
+    <!-- Advanced: Custom Filter URLs -->
+    <section class="settings-section">
+      <h2>Filter List Sources</h2>
+      <div class="field-group">
+        <span class="field-hint">
+          Add or remove filter list URLs (ABP/uBlock cosmetic format). Changes take effect on the next update.
+        </span>
+        <ul id="filter-url-list" class="url-list"></ul>
+        <div class="field-row" style="margin-top:8px">
+          <input type="url" id="filter-url-input" class="field-input" placeholder="https://raw.githubusercontent.com/…">
+          <button class="btn btn-ghost" id="btn-add-url">Add</button>
+        </div>
+        <span class="status-msg" id="url-msg" aria-live="polite"></span>
+      </div>
+      <div class="field-group">
+        <button class="btn btn-secondary" id="btn-reset-urls" style="align-self:flex-start">Reset to Defaults</button>
+      </div>
+    </section>
+
     <footer class="page-footer">
-      MindTab by <a href="https://aster1630.carrd.co" target="_blank" rel="noopener">Aster1630</a>
+      MindTab by <a href="https://aetherassembly.org/about" target="_blank" rel="noopener">AetherAssembly</a>
     </footer>
   </div>
 

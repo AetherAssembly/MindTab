@@ -1,4 +1,4 @@
-name: Lint
+name: Lint & Test
 
 on:
   pull_request:
@@ -10,17 +10,33 @@ permissions:
 
 jobs:
   web-ext-lint:
+    name: web-ext lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: '20'
-      - run: npm install -g web-ext
+          cache: 'npm'
+      - run: npm ci
       - run: |
-          web-ext lint \
+          npx web-ext lint \
             --source-dir . \
             --ignore-files "server/**" \
             --ignore-files "sources/**" \
             --ignore-files ".github/**" \
+            --ignore-files "tests/**" \
+            --ignore-files "node_modules/**" \
             --ignore-files "*.md"
+
+  test:
+    name: Vitest unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm test

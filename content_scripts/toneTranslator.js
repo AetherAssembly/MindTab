@@ -59,49 +59,60 @@ function mtDetectTone(lower, toneConfig) {
   return best;
 }
 
-function mtAnalyzeLocally(text, toneConfig) {
+function mtAnalyzeLocally(text, toneConfig, checks, longThreshold) {
   const lower    = text.toLowerCase();
   const words    = text.split(/\s+/).filter(Boolean);
   const sentences = text.split(/[.!?]+/).filter(s => s.trim().split(/\s+/).length > 2);
   const suggestions = [];
+  const threshold = longThreshold || 30;
 
   // Passive voice
-  const passiveHits = [...text.matchAll(MT_PASSIVE_RE)];
-  if (passiveHits.length) {
-    const ex = passiveHits.slice(0, 2).map(m => `"${m[0]}"`).join(', ');
-    suggestions.push({ level: 'warn', text: `Passive voice: ${ex}` });
+  if (checks?.passive !== false) {
+    const passiveHits = [...text.matchAll(MT_PASSIVE_RE)];
+    if (passiveHits.length) {
+      const ex = passiveHits.slice(0, 2).map(m => `"${m[0]}"`).join(', ');
+      suggestions.push({ level: 'warn', text: `Passive voice: ${ex}` });
+    }
   }
 
   // Hedge words
-  const weakHits = MT_WEAK_WORDS.filter(w => new RegExp(`\\b${w}\\b`, 'i').test(text));
-  if (weakHits.length) {
-    const total = weakHits.reduce((n, w) =>
-      n + (lower.match(new RegExp(`\\b${w}\\b`, 'g')) || []).length, 0);
-    suggestions.push({ level: 'warn', text: `${total} hedge word${total > 1 ? 's' : ''}: "${weakHits.slice(0, 3).join('", "')}"` });
+  if (checks?.weak !== false) {
+    const weakHits = MT_WEAK_WORDS.filter(w => new RegExp(`\\b${w}\\b`, 'i').test(text));
+    if (weakHits.length) {
+      const total = weakHits.reduce((n, w) =>
+        n + (lower.match(new RegExp(`\\b${w}\\b`, 'g')) || []).length, 0);
+      suggestions.push({ level: 'warn', text: `${total} hedge word${total > 1 ? 's' : ''}: "${weakHits.slice(0, 3).join('", "')}"` });
+    }
   }
 
-  // Long sentences (>30 words)
-  const longCount = sentences.filter(s => s.split(/\s+/).filter(Boolean).length > 30).length;
-  if (longCount) {
-    suggestions.push({ level: 'info', text: `${longCount} long sentence${longCount > 1 ? 's' : ''} — try splitting for clarity` });
+  // Long sentences
+  if (checks?.long !== false) {
+    const longCount = sentences.filter(s => s.split(/\s+/).filter(Boolean).length > threshold).length;
+    if (longCount) {
+      suggestions.push({ level: 'info', text: `${longCount} long sentence${longCount > 1 ? 's' : ''} — try splitting for clarity` });
+    }
   }
 
   // Filler words
-  const fillerHits = MT_FILLER_WORDS.filter(w => lower.includes(w));
-  if (fillerHits.length) {
-    suggestions.push({ level: 'info', text: `Filler: "${fillerHits.slice(0, 2).join('", "')}"` });
+  if (checks?.filler !== false) {
+    const fillerHits = MT_FILLER_WORDS.filter(w => lower.includes(w));
+    if (fillerHits.length) {
+      suggestions.push({ level: 'info', text: `Filler: "${fillerHits.slice(0, 2).join('", "')}"` });
+    }
   }
 
   // Repeated meaningful words (3+ times)
-  const freq = {};
-  words.forEach(w => {
-    const c = w.toLowerCase().replace(/[^a-z]/g, '');
-    if (c.length > 4 && !MT_STOP_WORDS.has(c)) freq[c] = (freq[c] || 0) + 1;
-  });
-  const repeated = Object.entries(freq).filter(([, n]) => n >= 3).sort((a, b) => b[1] - a[1]);
-  if (repeated.length) {
-    const ex = repeated.slice(0, 2).map(([w, n]) => `"${w}" ×${n}`).join(', ');
-    suggestions.push({ level: 'info', text: `Repeated: ${ex}` });
+  if (checks?.repeat !== false) {
+    const freq = {};
+    words.forEach(w => {
+      const c = w.toLowerCase().replace(/[^a-z]/g, '');
+      if (c.length > 4 && !MT_STOP_WORDS.has(c)) freq[c] = (freq[c] || 0) + 1;
+    });
+    const repeated = Object.entries(freq).filter(([, n]) => n >= 3).sort((a, b) => b[1] - a[1]);
+    if (repeated.length) {
+      const ex = repeated.slice(0, 2).map(([w, n]) => `"${w}" ×${n}`).join(', ');
+      suggestions.push({ level: 'info', text: `Repeated: ${ex}` });
+    }
   }
 
   return {
@@ -238,13 +249,15 @@ function mtBuildPanel() {
 
   const panel = document.createElement('div');
   panel.id = 'mt-panel';
+  panel.setAttribute('role', 'complementary');
+  panel.setAttribute('aria-label', 'MindTab Writing Assistant');
   panel.setAttribute('aria-live', 'polite');
   panel.innerHTML = `
     <div id="mt-panel-head">
       <span id="mt-panel-title">⚡ MindTab <span id="mt-srv-dot" class="none" title="Grammar server status"></span></span>
       <div style="display:flex;gap:6px">
         <button class="mt-hbtn" id="mt-min-btn" title="Minimize">−</button>
-        <button class="mt-hbtn" id="mt-close-btn" title="Close">✕</button>
+        <button class="mt-hbtn" id="mt-close-btn" title="Close (Esc)">✕</button>
       </div>
     </div>
     <div id="mt-body">
@@ -386,8 +399,11 @@ function initToneTranslator() {
   const toneConfig = window.__MindTab.toneConfig;
   if (!toneConfig) return;
 
-  const serverUrl = (window.__MindTab.state.toneApiUrl || '').trim();
-  const minWords  = toneConfig.minWords || 15;
+  const state      = window.__MindTab.state;
+  const serverUrl  = (state.toneApiUrl || '').trim();
+  const minWords   = toneConfig.minWords || 15;
+  const checks     = state.toneChecks || {};
+  const longThresh = state.longSentenceThreshold || 30;
 
   const panel  = mtBuildPanel();
   let hidden   = false;   // user closed it for this page session
@@ -395,6 +411,10 @@ function initToneTranslator() {
   let debouncer, abortCtrl;
   let activeEl  = null;
   let lastText  = '';
+
+  // Cooldown: prevent hammering the grammar server faster than once per 750ms
+  let lastServerCall = 0;
+  const SERVER_COOLDOWN_MS = 750;
 
   // Header buttons
   document.getElementById('mt-min-btn').addEventListener('click', () => {
@@ -412,6 +432,14 @@ function initToneTranslator() {
     if (lastText) analyze(lastText);
   });
 
+  // Esc closes the panel
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && panel.style.display !== 'none') {
+      panel.style.display = 'none';
+      hidden = true;
+    }
+  });
+
   // Set initial server dot state
   if (!serverUrl) {
     mtSetDot('none');
@@ -421,10 +449,14 @@ function initToneTranslator() {
     lastText = text;
 
     // Local analysis (instant)
-    const local = mtAnalyzeLocally(text, toneConfig);
+    const local = mtAnalyzeLocally(text, toneConfig, checks, longThresh);
     mtRenderLocal(local, toneConfig);
 
     if (serverUrl) {
+      const now = Date.now();
+      if (now - lastServerCall < SERVER_COOLDOWN_MS) return;
+      lastServerCall = now;
+
       // Cancel previous in-flight request
       if (abortCtrl) abortCtrl.abort();
       abortCtrl = new AbortController();
