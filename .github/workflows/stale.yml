@@ -2,7 +2,8 @@ name: Stale
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    # Weekly on Mondays at 00:00 UTC
+    - cron: '0 0 * * 1'
   workflow_dispatch:
 
 permissions:
@@ -28,4 +29,4 @@ jobs:
           close-issue-message: Closed due to inactivity. Feel free to reopen if this is still relevant.
           close-pr-message: Closed due to inactivity. Feel free to reopen if still relevant.
           exempt-issue-labels: 'pinned,security'
-          exempt-pr-labels: 'pinned'
+          exempt-pr-labels: 'pinned,security'

@@ -9,6 +9,23 @@ permissions:
   pull-requests: read
 
 jobs:
+  title-check:
+    name: PR title follows conventional commits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.pull_request.title || '';
+            const valid = /^(feat|fix|chore|ci|docs|refactor|test|security)(\(.+\))?!?:\s.+/.test(title);
+            if (!valid) {
+              core.setFailed(
+                `PR title "${title}" does not follow the conventional commit format.\n` +
+                'Expected: <type>: <description>  (e.g. "fix: handle empty filter list")\n' +
+                'Valid types: feat, fix, chore, ci, docs, refactor, test, security'
+              );
+            }
+
   description-check:
     name: PR has description
     runs-on: ubuntu-latest

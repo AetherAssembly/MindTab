@@ -18,5 +18,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm install --no-save jsdom
+          cache: 'npm'
+      - run: npm ci
       - run: node .github/scripts/check-selectors.js
