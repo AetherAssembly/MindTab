@@ -95,6 +95,23 @@ async function updateFilterLists() {
   }
 
   if (successCount > 0) {
+    const newTotal = [...Object.values(merged)].reduce((n, s) => n + s.size, 0);
+
+    // Integrity check: if selector count drops >30% vs cache, keep cached data.
+    // Guards against truncated fetches or a compromised filter list source.
+    const { mindtabExternalFilters: cached } = await chrome.storage.local.get('mindtabExternalFilters');
+    const cachedTotal = cached
+      ? Object.values(cached).reduce((n, a) => n + a.length, 0)
+      : 0;
+
+    if (cachedTotal > 0 && newTotal < cachedTotal * 0.7) {
+      console.warn(`[MindTab] Selector count dropped unexpectedly (${cachedTotal} → ${newTotal}) — keeping cached selectors.`);
+      await chrome.storage.local.set({
+        mindtabFiltersStatus: `Warning: selector count dropped unexpectedly (${cachedTotal} → ${newTotal}) — keeping cached selectors`
+      });
+      return;
+    }
+
     const totals = Object.fromEntries(
       Object.entries(merged).map(([k, v]) => [k, v.size])
     );
@@ -103,7 +120,7 @@ async function updateFilterLists() {
         Object.entries(merged).map(([k, v]) => [k, [...v]])
       ),
       mindtabFiltersUpdated: Date.now(),
-      mindtabFiltersStatus: `Updated — ${Object.values(totals).reduce((a, b) => a + b, 0)} selectors across ${Object.keys(totals).length} sites`
+      mindtabFiltersStatus: `Updated — ${newTotal} selectors across ${Object.keys(totals).length} sites`
     });
     console.log('[MindTab] Filter lists updated:', totals);
   } else {

@@ -118,4 +118,38 @@ document.addEventListener('DOMContentLoaded', async () => {
     await saveCustomCards([]);
     render();
   });
+
+  // Export custom cards as JSON
+  document.getElementById('btn-export').addEventListener('click', async () => {
+    const cards = await getCustomCards();
+    if (cards.length === 0) { showMsg('No custom cards to export.', '#e0a050'); return; }
+    const blob = new Blob([JSON.stringify(cards, null, 2)], { type: 'application/json' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'mindtab-cards.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    showMsg(`Exported ${cards.length} card${cards.length !== 1 ? 's' : ''}!`);
+  });
+
+  // Import cards from JSON file
+  document.getElementById('import-file').addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      if (!Array.isArray(data)) throw new Error('Expected a JSON array');
+      const valid = data.filter(c => typeof c?.q === 'string' && typeof c?.a === 'string' && c.q.trim() && c.a.trim());
+      if (valid.length === 0) throw new Error('No valid {q, a} entries found');
+      const current = await getCustomCards();
+      await saveCustomCards([...current, ...valid]);
+      showMsg(`Imported ${valid.length} card${valid.length !== 1 ? 's' : ''}!`);
+      render();
+    } catch (err) {
+      showMsg(`Import failed: ${err.message}`, '#e74c3c');
+    }
+    e.target.value = '';
+  });
 });
