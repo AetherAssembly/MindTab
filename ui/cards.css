@@ -82,7 +82,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
   margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.section-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .section-title {
@@ -164,6 +173,14 @@ body {
 
 .btn-primary { background: var(--accent); color: #fff; }
 
+.btn-secondary {
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  padding: 5px 12px;
+}
+
 .btn-danger {
   background: transparent;
   color: var(--red);
@@ -241,3 +258,18 @@ body {
 }
 
 .section-defaults { opacity: 0.8; }
+
+.page-footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--subtext);
+  margin-top: 32px;
+  padding-bottom: 16px;
+}
+
+.page-footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.page-footer a:hover { text-decoration: underline; }

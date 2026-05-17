@@ -223,6 +223,140 @@ body {
   margin: 16px 0;
 }
 
+/* Segmented control (theme picker) */
+.segmented {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  overflow: hidden;
+  align-self: flex-start;
+}
+
+.seg-opt {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.seg-opt input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.seg-opt span,
+.seg-opt {
+  padding: 7px 18px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--subtext);
+  background: var(--surface2);
+  transition: background 0.15s, color 0.15s;
+  user-select: none;
+  border-right: 1px solid var(--border);
+}
+
+.seg-opt:last-child,
+.seg-opt:last-child span { border-right: none; }
+
+.seg-opt input:checked + span,
+.seg-opt:has(input:checked) {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Writing checks grid */
+.checks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.check-item input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+/* Range slider */
+.range-input {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* Filter URL list */
+.url-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.url-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--subtext);
+  word-break: break-all;
+}
+
+.url-item span { flex: 1; }
+
+.url-del {
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 2px;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+
+.url-del:hover { color: var(--red); }
+
+/* Dark/light theme overrides — used when data-theme is set explicitly */
+[data-theme="dark"] {
+  --bg: #0f0f1a;
+  --surface: #1a1a2e;
+  --surface2: #22223a;
+  --accent-dim: rgba(74, 144, 226, 0.15);
+  --text: #e8e8f0;
+  --subtext: #888;
+  --border: rgba(255,255,255,0.07);
+}
+
+[data-theme="light"] {
+  --bg: #f4f4fb;
+  --surface: #ffffff;
+  --surface2: #eaeaf5;
+  --accent-dim: rgba(74, 144, 226, 0.12);
+  --text: #1a1a2e;
+  --subtext: #666;
+  --border: rgba(0,0,0,0.09);
+}
+
 /* Footer */
 .page-footer {
   text-align: center;
