@@ -54,6 +54,20 @@ function initFlashcards() {
       letter-spacing: 1px;
       margin-bottom: 10px;
     }
+    #mt-card .mt-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #mt-card .mt-due-badge {
+      font-size: 10px;
+      background: rgba(74,144,226,0.15);
+      color: #4A90E2;
+      border-radius: 10px;
+      padding: 1px 7px;
+      letter-spacing: 0;
+      text-transform: none;
+    }
     #mt-card .mt-close {
       background: none;
       border: none;
@@ -102,9 +116,15 @@ function initFlashcards() {
   // --- Card DOM ---
   const card = document.createElement('div');
   card.id = 'mt-card';
+  card.setAttribute('role', 'dialog');
+  card.setAttribute('aria-modal', 'true');
+  card.setAttribute('aria-label', 'Flashcard');
   card.innerHTML = `
     <div class="mt-header">
-      <span>⚡ MindTab</span>
+      <div class="mt-header-left">
+        <span>⚡ MindTab</span>
+        <span class="mt-due-badge" id="mt-due-badge" style="display:none"></span>
+      </div>
       <button class="mt-close" aria-label="Close">✕</button>
     </div>
     <div class="mt-question"></div>
@@ -121,9 +141,46 @@ function initFlashcards() {
   const revealBtn  = card.querySelector('.mt-reveal');
   const skipBtn    = card.querySelector('.mt-skip');
   const closeBtn   = card.querySelector('.mt-close');
+  const dueBadge   = card.querySelector('#mt-due-badge');
 
   let autoHideTimer;
   let showing = false;
+  let currentCard = null;
+
+  // --- SRS helpers ---
+  const SRS_KEY = 'mindtabSRS';
+  const DAY_MS  = 24 * 60 * 60 * 1000;
+
+  function cardKey(c) {
+    // Stable key from first 40 chars of the question
+    return c.q.slice(0, 40).replace(/[^a-zA-Z0-9]/g, '_');
+  }
+
+  async function getSRS() {
+    const { mindtabSRS } = await chrome.storage.sync.get(SRS_KEY);
+    return mindtabSRS || {};
+  }
+
+  async function saveSRS(srs) {
+    await chrome.storage.sync.set({ [SRS_KEY]: srs });
+  }
+
+  async function recordResult(c, gotIt) {
+    const srs = await getSRS();
+    const key = cardKey(c);
+    const data = srs[key] || { ease: 2.5, interval: 1 };
+
+    if (gotIt) {
+      data.ease     = Math.min(3.0, data.ease + 0.1);
+      data.interval = Math.max(1, Math.round(data.interval * data.ease));
+    } else {
+      data.ease     = Math.max(1.3, data.ease - 0.2);
+      data.interval = 1;
+    }
+    data.nextDue = Date.now() + data.interval * DAY_MS;
+    srs[key] = data;
+    await saveSRS(srs);
+  }
 
   async function getAllCards() {
     const { mindtabCards } = await chrome.storage.sync.get('mindtabCards');
@@ -132,21 +189,45 @@ function initFlashcards() {
 
   async function pickCard(cards) {
     if (cards.length === 1) return cards[0];
-    const { mindtabCardIdx } = await chrome.storage.local.get('mindtabCardIdx');
-    let next;
-    do { next = Math.floor(Math.random() * cards.length); }
-    while (next === mindtabCardIdx);
-    await chrome.storage.local.set({ mindtabCardIdx: next });
-    return cards[next];
+    const srs = await getSRS();
+    const now = Date.now();
+
+    // Prefer cards that are due (new cards or past their interval)
+    const due = cards.filter(c => {
+      const d = srs[cardKey(c)];
+      return !d || d.nextDue <= now;
+    });
+
+    const pool = due.length > 0 ? due : cards;
+
+    // Avoid repeating the last-shown card
+    const { mindtabLastCard } = await chrome.storage.local.get('mindtabLastCard');
+    let pick = pool[Math.floor(Math.random() * pool.length)];
+    if (pool.length > 1 && cardKey(pick) === mindtabLastCard) {
+      const others = pool.filter(c => cardKey(c) !== mindtabLastCard);
+      if (others.length) pick = others[Math.floor(Math.random() * others.length)];
+    }
+
+    await chrome.storage.local.set({ mindtabLastCard: cardKey(pick) });
+
+    // Show due count in badge
+    if (due.length > 0) {
+      dueBadge.textContent = `${due.length} due`;
+      dueBadge.style.display = 'inline';
+    } else {
+      dueBadge.style.display = 'none';
+    }
+
+    return pick;
   }
 
   async function showCard() {
     if (showing) return;
     const cards = await getAllCards();
-    const current = await pickCard(cards);
+    currentCard = await pickCard(cards);
 
-    questionEl.textContent = current.q;
-    answerEl.textContent   = current.a;
+    questionEl.textContent = currentCard.q;
+    answerEl.textContent   = currentCard.a;
     answerEl.style.display = 'none';
     revealBtn.textContent  = 'Reveal';
     revealBtn.className    = 'mt-btn mt-reveal';
@@ -154,13 +235,21 @@ function initFlashcards() {
     card.style.display = 'block';
     showing = true;
 
-    autoHideTimer = setTimeout(dismiss, settings.displayDurationSeconds * 1000);
+    // Move focus to the card for accessibility
+    revealBtn.focus();
+
+    autoHideTimer = setTimeout(() => {
+      // Timeout counts as a skip (card not recalled)
+      if (currentCard) recordResult(currentCard, false);
+      dismiss();
+    }, settings.displayDurationSeconds * 1000);
   }
 
   function dismiss() {
     clearTimeout(autoHideTimer);
     card.style.display = 'none';
     showing = false;
+    currentCard = null;
     schedule();
   }
 
@@ -175,12 +264,22 @@ function initFlashcards() {
       revealBtn.textContent  = 'Got it ✓';
       revealBtn.className    = 'mt-btn mt-got-it';
     } else {
+      if (currentCard) recordResult(currentCard, true);
       dismiss();
     }
   });
 
-  skipBtn.addEventListener('click', dismiss);
+  skipBtn.addEventListener('click', () => {
+    if (currentCard) recordResult(currentCard, false);
+    dismiss();
+  });
+
   closeBtn.addEventListener('click', dismiss);
+
+  // Alt+Shift+F triggers a card on demand
+  document.addEventListener('keydown', e => {
+    if (e.altKey && e.shiftKey && e.key === 'F' && !showing) showCard();
+  });
 
   schedule();
 }
