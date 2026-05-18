@@ -5,6 +5,17 @@ All notable changes to MindTab will be documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 MindTab uses [Semantic Versioning](https://semver.org/).
 
+## [1.2.1] — 2026-05-12
+
+### Fixed
+
+- Issue #14, added `aria-live="polite"` (thanks @web3blind!)
+
+### Changed
+
+- Updated Extenstion name in docs to match store listing
+- Bump version to 1.2.1
+
 ---
 
 ## [1.2.0] — 2026-05-16

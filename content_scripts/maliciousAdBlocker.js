@@ -35,11 +35,30 @@ function initAdBlocker() {
   scan();
 
   let debounce;
-  const observer = new MutationObserver(() => {
+  const observer = new MutationObserver(mutations => {
+    // For attribute/characterData mutations the affected element may already
+    // be stamped with data-mt-checked from the initial scan. Clear the stamp
+    // so scan() will re-evaluate it with its updated href or text content.
+    for (const mutation of mutations) {
+      if (mutation.type === 'attributes' || mutation.type === 'characterData') {
+        const target = mutation.type === 'characterData'
+          ? mutation.target.parentElement
+          : mutation.target;
+        if (target && target.dataset) {
+          delete target.dataset.mtChecked;
+        }
+      }
+    }
     clearTimeout(debounce);
     debounce = setTimeout(scan, 400);
   });
-  observer.observe(document.documentElement, { childList: true, subtree: true });
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['href', 'src'],
+    characterData: true,
+  });
 }
 
 if (window.__MindTab?.ready) {

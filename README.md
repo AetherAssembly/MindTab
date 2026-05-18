@@ -61,7 +61,7 @@ MindTab targets Firefox first. Install it from the [Firefox Add-ons store](https
 
 ### Chrome / Edge
 
-Once it's on the Chrome Web Store, search for **"MindTab by Aster1630"** and click Add to Chrome.
+Once it's on the Chrome Web Store, search for **MindTab** and click Add to Chrome.
 
 ### Loading it yourself (all browsers)
 
