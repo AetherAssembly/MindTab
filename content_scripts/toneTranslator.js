@@ -251,7 +251,6 @@ function mtBuildPanel() {
   panel.id = 'mt-panel';
   panel.setAttribute('role', 'complementary');
   panel.setAttribute('aria-label', 'MindTab Writing Assistant');
-  panel.setAttribute('aria-live', 'polite');
   panel.innerHTML = `
     <div id="mt-panel-head">
       <span id="mt-panel-title">⚡ MindTab <span id="mt-srv-dot" class="none" title="Grammar server status"></span></span>
@@ -265,7 +264,7 @@ function mtBuildPanel() {
         <span id="mt-tone-label">Tone</span>
         <span id="mt-tone-val">—</span>
       </div>
-      <div id="mt-suggestions"></div>
+      <div id="mt-suggestions" aria-live="polite" aria-atomic="false"></div>
       <div id="mt-lt-section">
         <h4>Grammar &amp; Spelling</h4>
         <div id="mt-lt-issues"></div>

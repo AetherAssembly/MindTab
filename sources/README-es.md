@@ -60,7 +60,7 @@ MindTab tiene Firefox como objetivo principal. Instálalo desde la [tienda de co
 
 ### Chrome / Edge
 
-Cuando esté disponible en Chrome Web Store, busca **"MindTab by Aster1630"** y haz clic en Añadir a Chrome.
+Cuando esté disponible en Chrome Web Store, busca **MindTab** y haz clic en Añadir a Chrome.
 
 ### Instalación manual (todos los navegadores)
 
