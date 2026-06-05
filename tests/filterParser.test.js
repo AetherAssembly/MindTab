@@ -130,7 +130,7 @@ describe('parseFilterList', () => {
   it('does not capture subdomain rules under their parent target', () => {
     // The parser checks target.endsWith('.' + d), not d.endsWith('.' + target).
     // A rule for www.youtube.com is more specific than our youtube.com target bucket
-    // and is correctly NOT captured — callers add www.youtube.com rules separately.
+    // and is correctly NOT captured - callers add www.youtube.com rules separately.
     const input = 'www.youtube.com##.shorts-shelf';
     const result = parseFilterList(input);
     expect(result['youtube.com']).not.toContain('.shorts-shelf');

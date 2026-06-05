@@ -1,4 +1,4 @@
-// MindTab — Writing Assistant
+// MindTab - Writing Assistant
 // Local analysis (always) + optional LanguageTool-compatible server for grammar/spelling.
 // Server field in settings page accepts any LanguageTool v2 endpoint, including self-hosted.
 
@@ -89,7 +89,7 @@ function mtAnalyzeLocally(text, toneConfig, checks, longThreshold) {
   if (checks?.long !== false) {
     const longCount = sentences.filter(s => s.split(/\s+/).filter(Boolean).length > threshold).length;
     if (longCount) {
-      suggestions.push({ level: 'info', text: `${longCount} long sentence${longCount > 1 ? 's' : ''} — try splitting for clarity` });
+      suggestions.push({ level: 'info', text: `${longCount} long sentence${longCount > 1 ? 's' : ''} - try splitting for clarity` });
     }
   }
 
@@ -262,7 +262,7 @@ function mtBuildPanel() {
     <div id="mt-body">
       <div id="mt-tone-row">
         <span id="mt-tone-label">Tone</span>
-        <span id="mt-tone-val">—</span>
+        <span id="mt-tone-val">-</span>
       </div>
       <div id="mt-suggestions" aria-live="polite" aria-atomic="false"></div>
       <div id="mt-lt-section">
@@ -297,7 +297,7 @@ function mtRenderLocal(result, toneConfig) {
     labelSpan.textContent = def.label;
     toneVal.append(emojiSpan, labelSpan);
   } else {
-    toneVal.textContent = '—';
+    toneVal.textContent = '-';
   }
 
   // Suggestions
@@ -416,10 +416,20 @@ function initToneTranslator() {
   const SERVER_COOLDOWN_MS = 750;
 
   // Header buttons
+  // W02: restore persisted collapse state
+  chrome.storage.local.get('mindtabPanelCollapsed').then(({ mindtabPanelCollapsed }) => {
+    if (mindtabPanelCollapsed) {
+      minimized = true;
+      panel.classList.add('mt-minimized');
+      document.getElementById('mt-min-btn').textContent = '+';
+    }
+  });
+
   document.getElementById('mt-min-btn').addEventListener('click', () => {
     minimized = !minimized;
     panel.classList.toggle('mt-minimized', minimized);
     document.getElementById('mt-min-btn').textContent = minimized ? '+' : '−';
+    chrome.storage.local.set({ mindtabPanelCollapsed: minimized });
   });
 
   document.getElementById('mt-close-btn').addEventListener('click', () => {
@@ -488,9 +498,9 @@ function initToneTranslator() {
         mtSetLTState('error', 'Server unavailable');
       }
     } else {
-      // No server — show a helpful offline notice
+      // No server - show a helpful offline notice
       document.getElementById('mt-lt-issues').innerHTML = '';
-      mtSetLTState('offline', 'Local analysis only — configure a server in Settings for grammar checking');
+      mtSetLTState('offline', 'Local analysis only - configure a server in Settings for grammar checking');
       mtSetDot('none');
     }
   }

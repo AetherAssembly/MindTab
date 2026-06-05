@@ -4,7 +4,7 @@ Thanks for your interest in improving MindTab! This guide covers everything you 
 
 ## Architecture overview
 
-MindTab is a **Manifest V3 browser extension** with no build step — all files are loaded directly by the browser.
+MindTab is a **Manifest V3 browser extension** with no build step - all files are loaded directly by the browser.
 
 ```
 background.js           Service worker: filter list fetching, badge counter, alarm scheduling
@@ -13,7 +13,7 @@ content_scripts/
   controller.js         Loads config + state, dispatches mindtab:ready event
   feedSanitizer.js      Removes Shorts/Reels via CSS selector matching + MutationObserver
   maliciousAdBlocker.js Hides scam ads by keyword/href pattern
-  toneTranslator.js     Writing assistant panel — local analysis + optional grammar server
+  toneTranslator.js     Writing assistant panel - local analysis + optional grammar server
   flashcard.js          Flashcard overlay with SM-2 spaced repetition
 config/
   filters.json          Bundled CSS selectors + filter list URLs
@@ -43,7 +43,7 @@ tests/
 2. Click **Load Temporary Add-on**
 3. Select `manifest.json`
 
-No build step needed — changes to any file take effect after reloading the extension.
+No build step needed - changes to any file take effect after reloading the extension.
 
 ## Running tests
 
@@ -65,8 +65,8 @@ youtube.com##ytd-rich-shelf-renderer[is-shorts]
 
 It skips:
 - Lines starting with `!` (comments), `[` (metadata), or `@@` (exception rules)
-- Rules with no domain prefix (global rules — too broad)
-- Procedural filters (`:matches-css`, `:upward(`, etc.) — not valid as `querySelectorAll` selectors
+- Rules with no domain prefix (global rules - too broad)
+- Procedural filters (`:matches-css`, `:upward(`, etc.) - not valid as `querySelectorAll` selectors
 - Exclusion domain rules (`~domain`)
 
 Parsed selectors are stored in `chrome.storage.local` and merged with the bundled fallback selectors in `config/filters.json` on each page load.
@@ -75,7 +75,7 @@ Parsed selectors are stored in `chrome.storage.local` and merged with the bundle
 
 Tone keywords live in [`config/toneConfig.json`](config/toneConfig.json). Each tone has a `keywords` array of lowercase strings. The detector picks whichever tone has the most keyword hits in the lowercased input text.
 
-To add a keyword, add it to the relevant array — no code changes needed. To add a new tone, add a new entry with `label`, `emoji`, `color`, and `keywords`, then reference it in the tone panel CSS if you want a custom colour.
+To add a keyword, add it to the relevant array - no code changes needed. To add a new tone, add a new entry with `label`, `emoji`, `color`, and `keywords`, then reference it in the tone panel CSS if you want a custom colour.
 
 ## Default flashcards
 
@@ -83,7 +83,7 @@ Default cards live in [`config/flashcards.json`](config/flashcards.json) under `
 
 ## Code style
 
-- Vanilla JavaScript only — no frameworks, no bundler, no TypeScript
+- Vanilla JavaScript only - no frameworks, no bundler, no TypeScript
 - No external dependencies in extension code (only `server/` uses npm packages)
 - Prefer `document.createElement` + `textContent`/`appendChild` over `innerHTML` with dynamic data
 - Use `chrome.storage.sync` for user preferences (syncs across devices), `chrome.storage.local` for cached/transient data
@@ -91,8 +91,8 @@ Default cards live in [`config/flashcards.json`](config/flashcards.json) under `
 ## Security guidelines
 
 - Never use `innerHTML`, `insertAdjacentHTML`, or `eval` with any user-controlled or external data
-- Validate origin strictly in the server (see `server/index.js`) — do not use `*` for CORS
-- Use exact match or `.endsWith('.' + domain)` for domain checks — never `.includes()`
+- Validate origin strictly in the server (see `server/index.js`) - do not use `*` for CORS
+- Use exact match or `.endsWith('.' + domain)` for domain checks - never `.includes()`
 - All filter list selectors are used only as `querySelectorAll` arguments, never injected as HTML
 
 ## Commit message prefixes
@@ -103,12 +103,12 @@ MindTab uses [Conventional Commits](https://www.conventionalcommits.org/) style.
 |--------|-------------|---------|
 | `feat:` | A new user-facing feature or behaviour | `feat: add SM-2 spaced repetition to flashcards` |
 | `fix:` | A bug fix | `fix: passive voice regex missing plural forms` |
-| `chore:` | Maintenance that isn't a feature or bug fix — dependency bumps, version bumps, file moves, deleting dead code | `chore: bump version to 1.2.0` |
+| `chore:` | Maintenance that isn't a feature or bug fix - dependency bumps, version bumps, file moves, deleting dead code | `chore: bump version to 1.2.0` |
 | `ci:` | Changes to GitHub Actions workflows or CI config only | `ci: add weekly CodeQL scan` |
-| `docs:` | Documentation only — README, CHANGELOG, CONTRIBUTING, code comments | `docs: add architecture overview to CONTRIBUTING` |
+| `docs:` | Documentation only - README, CHANGELOG, CONTRIBUTING, code comments | `docs: add architecture overview to CONTRIBUTING` |
 | `refactor:` | Code restructuring with no behaviour change | `refactor: extract mtAnalyzeLocally into its own module` |
 | `test:` | Adding or updating tests, no production code change | `test: add filter parser edge-case coverage` |
-| `security:` | Security-focused patches — CORS, input validation, XSS hardening | `security: reject spoofed extension origins in CORS check` |
+| `security:` | Security-focused patches - CORS, input validation, XSS hardening | `security: reject spoofed extension origins in CORS check` |
 
 **Tips:**
 - Keep the subject line under 72 characters.
@@ -118,7 +118,7 @@ MindTab uses [Conventional Commits](https://www.conventionalcommits.org/) style.
 
 ### PR labels
 
-Labels on pull requests are applied automatically by the [labeler workflow](.github/workflows/auto-label.yml) based on which files changed. You don't need to set them manually — they exist for filtering and release-note generation.
+Labels on pull requests are applied automatically by the [labeler workflow](.github/workflows/auto-label.yml) based on which files changed. You don't need to set them manually - they exist for filtering and release-note generation.
 
 | Label | Files that trigger it |
 |-------|-----------------------|

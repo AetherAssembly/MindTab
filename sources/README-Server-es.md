@@ -27,7 +27,7 @@ Extensión de navegador  (muestra sugerencias en el panel)
 
 ---
 
-## Inicio rápido (Docker — recomendado)
+## Inicio rápido (Docker - recomendado)
 
 Requiere [Docker](https://docs.docker.com/get-docker/) con el plugin Compose.
 
@@ -121,7 +121,7 @@ Devuelve la respuesta JSON de LanguageTool con un array `matches`.
 2. Abre el popup de MindTab → haz clic en **Configuración**.
 3. Pega `http://localhost:3000` (o la dirección de tu servidor) en **URL del servidor de gramática**.
 4. Haz clic en **Guardar**.
-5. Escribe 15+ palabras en cualquier campo de texto — las sugerencias de gramática aparecerán en el panel Asistente de Escritura.
+5. Escribe 15+ palabras en cualquier campo de texto - las sugerencias de gramática aparecerán en el panel Asistente de Escritura.
 
 ---
 

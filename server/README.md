@@ -3,7 +3,7 @@
 <div align="center">
   <img src="icons/mindtab128.svg" alt="MindTab Logo" width="128" height="128">
 
-  **MindTab** is a free, open-source browser extension that cleans up your feed, blocks scam ads, helps you write better, and keeps you learning — all without sending your data anywhere.
+  **MindTab** is a free, open-source browser extension that cleans up your feed, blocks scam ads, helps you write better, and keeps you learning - all without sending your data anywhere.
 
   <br>
 
@@ -44,7 +44,7 @@ Browser extension  (renders suggestions in panel)
 
 ---
 
-## Quick start (Docker — recommended)
+## Quick start (Docker - recommended)
 
 Requires [Docker](https://docs.docker.com/get-docker/) with the Compose plugin.
 
@@ -139,7 +139,7 @@ Returns LanguageTool's JSON response with a `matches` array.
 2. Open the MindTab popup → click **Settings**.
 3. Paste `http://localhost:3000` (or your server's address) into **Grammar Server URL**.
 4. Click **Save**.
-5. Type 15+ words in any text field — grammar suggestions will appear in the Tone Translator panel.
+5. Type 15+ words in any text field - grammar suggestions will appear in the Tone Translator panel.
 
 ---
 

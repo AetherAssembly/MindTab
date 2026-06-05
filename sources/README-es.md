@@ -3,7 +3,7 @@
 <div align="center">
   <img src="../icons/mindtab128.svg" alt="Logo de MindTab" width="128" height="128">
 
-  **MindTab** es una extensión de navegador gratuita y de código abierto que limpia tu feed, bloquea anuncios maliciosos, te ayuda a escribir mejor y te mantiene aprendiendo — sin enviar tus datos a ningún lugar.
+  **MindTab** es una extensión de navegador gratuita y de código abierto que limpia tu feed, bloquea anuncios maliciosos, te ayuda a escribir mejor y te mantiene aprendiendo - sin enviar tus datos a ningún lugar.
 
   <br>
 
@@ -28,27 +28,29 @@ Elimina YouTube Shorts, Instagram Reels y Facebook Reels de tu feed automáticam
 
 ### 🛡️ Bloqueador de Anuncios
 
-Analiza las páginas en busca de patrones de anuncios fraudulentos — botones de descarga falsos, ventanas emergentes de "has ganado", alertas de virus falsas y enlaces de phishing — y los oculta antes de que puedas hacer clic accidentalmente.
+Analiza las páginas en busca de patrones de anuncios fraudulentos - botones de descarga falsos, ventanas emergentes de "has ganado", alertas de virus falsas y enlaces de phishing - y los oculta antes de que puedas hacer clic accidentalmente.
 
 ### ✍️ Asistente de Escritura
 
-Una alternativa ligera y gratuita a Grammarly. Un pequeño panel aparece cuando estás escribiendo en un correo electrónico, publicación social o campo de texto y te da retroalimentación instantánea — sin cuenta, sin texto enviado a ningún servidor.
+Una alternativa ligera y gratuita a Grammarly. Un pequeño panel aparece cuando estás escribiendo en un correo electrónico, publicación social o campo de texto y te da retroalimentación instantánea - sin cuenta, sin texto enviado a ningún servidor.
 
 **Qué analiza:**
 
-- **Tono** — detecta si tu mensaje suena agresivo, pasivo-agresivo, formal, casual, positivo o urgente
-- **Voz pasiva** — señala construcciones como "el informe fue completado"
-- **Palabras débiles** — detecta muletillas como "muy", "básicamente" y "literalmente"
-- **Oraciones largas** — avisa cuando una oración supera las 30 palabras
-- **Palabras repetidas** — resalta palabras que has usado demasiadas veces
-- **Nivel de lectura** — estima el nivel de lectura de tu texto (Flesch-Kincaid)
-- **Estadísticas en vivo** — recuento de palabras y oraciones mientras escribes
+- **Tono** - detecta si tu mensaje suena agresivo, pasivo-agresivo, formal, casual, positivo o urgente
+- **Voz pasiva** - señala construcciones como "el informe fue completado"
+- **Palabras débiles** - detecta muletillas como "muy", "básicamente" y "literalmente"
+- **Oraciones largas** - avisa cuando una oración supera las 30 palabras
+- **Palabras repetidas** - resalta palabras que has usado demasiadas veces
+- **Nivel de lectura** - estima el nivel de lectura de tu texto (Flesch-Kincaid)
+- **Estadísticas en vivo** - recuento de palabras y oraciones mientras escribes
 
 **Servidor de gramática opcional:** Si quieres verificación completa de gramática y ortografía, puedes conectar MindTab a un servidor LanguageTool autoalojado en la configuración de la extensión. Esto es completamente opcional.
 
 ### ⚡ Tarjetas de Memoria
 
 Una pequeña superposición de tarjetas aparece periódicamente mientras navegas para ayudarte a aprender pasivamente. Incluye 30 tarjetas de conocimiento general. Añade las tuyas desde el gestor de tarjetas integrado.
+
+También puedes usar el teclado: **Espacio** o **Enter** para revelar la respuesta, **1** para marcarla como correcta, **2** para omitir, **Esc** para cerrar.
 
 ---
 
@@ -66,7 +68,7 @@ Cuando esté disponible en Chrome Web Store, busca **MindTab** y haz clic en Añ
 
 - **Firefox:** `about:debugging` → Este Firefox → Cargar complemento temporal → selecciona `manifest.json`
 - **Chrome/Edge:** `chrome://extensions` → Modo desarrollador → Cargar descomprimido → selecciona la carpeta MindTab
-- **Safari:** requiere conversión mediante Xcode — consulta la documentación de desarrollo
+- **Safari:** requiere conversión mediante Xcode - consulta la documentación de desarrollo
 
 ---
 
@@ -74,7 +76,7 @@ Cuando esté disponible en Chrome Web Store, busca **MindTab** y haz clic en Añ
 
 El panel aparece en la esquina inferior derecha de tu pantalla cuando escribes con al menos 15 palabras.
 
-- Haz clic en **−** para minimizarlo a la barra de título
+- Haz clic en **−** para minimizarlo a la barra de título (tu preferencia se recuerda entre páginas)
 - Haz clic en **✕** para ocultarlo durante la sesión de página actual
 - Se reabre automáticamente la próxima vez que empieces a escribir en una nueva página
 
@@ -106,7 +108,7 @@ El popup y el gestor de tarjetas se adaptan automáticamente al modo claro u osc
 
 Siéntete libre de usar esto para tu escuela, trabajo o comunidad. Si lo publicas en algún lugar, por favor da crédito a Aster1630.
 
-Los informes de errores, actualizaciones de selectores de filtros, nuevos mazos de tarjetas y traducciones son bienvenidos — abre un issue o pull request en GitHub.
+Los informes de errores, actualizaciones de selectores de filtros, nuevos mazos de tarjetas y traducciones son bienvenidos - abre un issue o pull request en GitHub.
 
 ---
 

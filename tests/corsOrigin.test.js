@@ -54,7 +54,7 @@ describe('CORS origin validation', () => {
   });
 
   it('blocks null-origin string (distinct from null/undefined)', () => {
-    // The string "null" can appear in sandboxed iframes — must be blocked
+    // The string "null" can appear in sandboxed iframes - must be blocked
     expect(isAllowedOrigin('null')).toBe(false);
   });
 });

@@ -6,19 +6,19 @@ Thanks for wanting to help! MindTab is intentionally small and modular, so most 
 
 ## Ways to contribute
 
-- **Bug reports** — use the [bug report template](.github/ISSUE_TEMPLATE/bug_report.md)
-- **Feature requests** — use the [feature request template](.github/ISSUE_TEMPLATE/feature_request.md)
-- **Filter updates** — YouTube/Instagram/Facebook update their markup often; PRs that fix broken selectors in `config/filters.json` are always welcome
-- **New flashcard decks** — subject-specific decks (science, history, math, etc.) as separate JSON files
-- **Translations** — new languages added to `sources/`
-- **UI improvements** — the popup and card manager are straightforward HTML/CSS
-- **Writing assistant** — better tone keyword lists, new tone categories, improved passive-voice detection
+- **Bug reports** - use the [bug report template](.github/ISSUE_TEMPLATE/bug_report.md)
+- **Feature requests** - use the [feature request template](.github/ISSUE_TEMPLATE/feature_request.md)
+- **Filter updates** - YouTube/Instagram/Facebook update their markup often; PRs that fix broken selectors in `config/filters.json` are always welcome
+- **New flashcard decks** - subject-specific decks (science, history, math, etc.) as separate JSON files
+- **Translations** - new languages added to `sources/`
+- **UI improvements** - the popup and card manager are straightforward HTML/CSS
+- **Writing assistant** - better tone keyword lists, new tone categories, improved passive-voice detection
 
 ---
 
 ## Ground rules
 
-- Keep it lightweight. MindTab has no build step and no external dependencies — keep it that way.
+- Keep it lightweight. MindTab has no build step and no external dependencies - keep it that way.
 - Don't add tracking, analytics, or external requests without explicit opt-in from the user.
 - All text processing in the writing assistant must fail safely (i.e. if analysis throws, the page should still work normally).
 - Test in Firefox first (primary target), then Chrome.
@@ -27,7 +27,7 @@ Thanks for wanting to help! MindTab is intentionally small and modular, so most 
 
 ## Development setup
 
-No build tools needed — just load the extension directly.
+No build tools needed - just load the extension directly.
 
 **Firefox:**
 
@@ -54,9 +54,9 @@ web-ext run
    ```
 
 2. Make your changes. If touching content scripts, test on the affected site.
-3. Keep commits focused — one logical change per commit.
+3. Keep commits focused - one logical change per commit.
 4. Open a PR against `main` with a clear description of what changed and why.
-5. PRs that touch `config/` files only (filter/flashcard updates) don't need extensive testing notes — just confirm it works.
+5. PRs that touch `config/` files only (filter/flashcard updates) don't need extensive testing notes - just confirm it works.
 
 ---
 
@@ -64,7 +64,7 @@ web-ext run
 
 1. Copy `sources/README-es.md` as a starting point
 2. Name it `sources/README-{code}.md` using the ISO 639-1 language code
-3. Translate the content — machine translation is fine as a first pass, but human review is preferred
+3. Translate the content - machine translation is fine as a first pass, but human review is preferred
 4. Add a badge link in the main `README.md` language row and in all other translated READMEs
 
 ---
@@ -74,7 +74,7 @@ web-ext run
 - Plain JavaScript (ES2020+), no TypeScript, no bundler
 - `camelCase` for variables and functions
 - Module-local functions prefixed with the module name (e.g. `mtAnalyzeLocally` in `toneTranslator.js`)
-- No comments explaining what the code does — only why, when the reason isn't obvious
+- No comments explaining what the code does - only why, when the reason isn't obvious
 
 ---
 

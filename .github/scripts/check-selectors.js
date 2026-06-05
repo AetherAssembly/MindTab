@@ -24,7 +24,7 @@ for (const [site, selectors] of Object.entries(filters.feedSanitizer)) {
         console.error(`        ${e.message}`);
         errors++;
       } else {
-        // Not a syntax error (e.g. unsupported pseudo-class in jsdom) — skip
+        // Not a syntax error (e.g. unsupported pseudo-class in jsdom) - skip
         console.log(`  ?  [${site}] ${selector}  (skipped: ${e.message})`);
       }
     }

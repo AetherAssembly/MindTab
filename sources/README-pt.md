@@ -3,7 +3,7 @@
 <div align="center">
   <img src="../icons/mindtab128.svg" alt="Logo MindTab" width="128" height="128">
 
-  **MindTab** é uma extensão de navegador gratuita e de código aberto que limpa seu feed, bloqueia anúncios maliciosos, ajuda você a escrever melhor e mantém você aprendendo — sem enviar seus dados a lugar nenhum.
+  **MindTab** é uma extensão de navegador gratuita e de código aberto que limpa seu feed, bloqueia anúncios maliciosos, ajuda você a escrever melhor e mantém você aprendendo - sem enviar seus dados a lugar nenhum.
 
   <br>
 
@@ -28,27 +28,29 @@ Remove YouTube Shorts, Instagram Reels e Facebook Reels do seu feed automaticame
 
 ### 🛡️ Bloqueador de Anúncios
 
-Verifica páginas em busca de padrões de anúncios fraudulentos — botões de download falsos, pop-ups de "você ganhou", alertas de vírus falsos e links de phishing — e os oculta antes que você possa clicar acidentalmente.
+Verifica páginas em busca de padrões de anúncios fraudulentos - botões de download falsos, pop-ups de "você ganhou", alertas de vírus falsos e links de phishing - e os oculta antes que você possa clicar acidentalmente.
 
 ### ✍️ Assistente de Escrita
 
-Uma alternativa leve e gratuita ao Grammarly. Um pequeno painel aparece quando você está digitando em um e-mail, publicação social ou campo de texto e fornece feedback instantâneo — sem conta necessária, sem texto enviado a nenhum servidor.
+Uma alternativa leve e gratuita ao Grammarly. Um pequeno painel aparece quando você está digitando em um e-mail, publicação social ou campo de texto e fornece feedback instantâneo - sem conta necessária, sem texto enviado a nenhum servidor.
 
 **O que ele verifica:**
 
-- **Tom** — detecta se sua mensagem soa agressiva, passivo-agressiva, formal, casual, positiva ou urgente
-- **Voz passiva** — sinaliza construções como "o relatório foi concluído"
-- **Palavras fracas** — detecta palavras de preenchimento como "muito", "basicamente" e "literalmente"
-- **Frases longas** — avisa quando uma frase ultrapassa 30 palavras
-- **Palavras repetidas** — destaca palavras usadas muitas vezes
-- **Nível de leitura** — estima o nível de leitura do seu texto (Flesch-Kincaid)
-- **Estatísticas ao vivo** — contagem de palavras e frases enquanto você digita
+- **Tom** - detecta se sua mensagem soa agressiva, passivo-agressiva, formal, casual, positiva ou urgente
+- **Voz passiva** - sinaliza construções como "o relatório foi concluído"
+- **Palavras fracas** - detecta palavras de preenchimento como "muito", "basicamente" e "literalmente"
+- **Frases longas** - avisa quando uma frase ultrapassa 30 palavras
+- **Palavras repetidas** - destaca palavras usadas muitas vezes
+- **Nível de leitura** - estima o nível de leitura do seu texto (Flesch-Kincaid)
+- **Estatísticas ao vivo** - contagem de palavras e frases enquanto você digita
 
 **Servidor de gramática opcional:** Para verificação completa de gramática e ortografia, você pode conectar o MindTab a um servidor LanguageTool auto-hospedado nas configurações da extensão. Totalmente opcional.
 
 ### ⚡ Flashcards
 
 Uma pequena sobreposição de flashcards aparece periodicamente enquanto você navega para ajudá-lo a aprender passivamente. Vem com 30 cartões de conhecimento geral. Adicione os seus próprios no gerenciador de cartões integrado.
+
+O teclado também funciona: **Espaço** ou **Enter** para revelar a resposta, **1** para marcar como correto, **2** para pular, **Esc** para fechar.
 
 ---
 
@@ -66,7 +68,7 @@ Quando estiver disponível na Chrome Web Store, pesquise **MindTab** e clique em
 
 - **Firefox:** `about:debugging` → Este Firefox → Carregar extensão temporária → selecione `manifest.json`
 - **Chrome/Edge:** `chrome://extensions` → Modo do desenvolvedor → Carregar sem compactação → selecione a pasta MindTab
-- **Safari:** requer conversão pelo Xcode — consulte a documentação de desenvolvimento
+- **Safari:** requer conversão pelo Xcode - consulte a documentação de desenvolvimento
 
 ---
 
@@ -74,7 +76,7 @@ Quando estiver disponível na Chrome Web Store, pesquise **MindTab** e clique em
 
 O painel aparece no canto inferior direito da sua tela quando você está digitando com pelo menos 15 palavras.
 
-- Clique em **−** para minimizá-lo em uma barra de título
+- Clique em **−** para minimizá-lo em uma barra de título (sua preferência é lembrada entre as páginas)
 - Clique em **✕** para ocultá-lo pelo resto da sessão da página
 - Ele reabre automaticamente na próxima vez que você começar a digitar em uma nova página
 
@@ -106,7 +108,7 @@ O popup e o gerenciador de cartões se adaptam automaticamente ao modo claro ou 
 
 Sinta-se livre para usar isto na sua escola, trabalho ou comunidade. Se publicar em algum lugar, por favor dê crédito ao Aster1630.
 
-Relatórios de bugs, atualizações de seletores de filtros, novos baralhos de cartões e traduções são bem-vindos — abra uma issue ou pull request no GitHub.
+Relatórios de bugs, atualizações de seletores de filtros, novos baralhos de cartões e traduções são bem-vindos - abra uma issue ou pull request no GitHub.
 
 ---
 

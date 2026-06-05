@@ -5,7 +5,7 @@
     "https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/quick-fixes.txt",
     "https://raw.githubusercontent.com/AdguardTeam/AdguardFilters/master/AnnoyancesFilter/sections/social-widget.txt"
   ],
-  "_comment_feedSanitizer": "Bundled fallback selectors — used when filter lists haven't been fetched yet or fetch fails.",
+  "_comment_feedSanitizer": "Bundled fallback selectors - used when filter lists haven't been fetched yet or fetch fails.",
   "feedSanitizer": {
     "youtube": [
       "ytd-reel-shelf-renderer",

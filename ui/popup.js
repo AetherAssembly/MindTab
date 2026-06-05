@@ -1,11 +1,4 @@
-// Keep in sync with DEFAULTS in background.js
-const DEFAULTS = {
-  feedSanitizer: true,
-  adBlocker: true,
-  toneTranslator: true,
-  flashcards: true,
-  toneApiUrl: ''
-};
+// DEFAULTS loaded from config/defaults.js via popup.html script tag
 
 async function getState() {
   const { mindtab } = await chrome.storage.sync.get('mindtab');

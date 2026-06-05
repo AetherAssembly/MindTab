@@ -1,4 +1,4 @@
-function initFlashcards() {
+async function initFlashcards() {
   if (!window.__MindTab?.state?.flashcards) return;
 
   const flashConfig = window.__MindTab.flashConfig;
@@ -110,6 +110,25 @@ function initFlashcards() {
     #mt-card .mt-reveal  { background: #4A90E2; color: #fff; }
     #mt-card .mt-got-it  { background: #27ae60; color: #fff; }
     #mt-card .mt-skip    { background: #2a2a40; color: #aaa; }
+    #mt-card kbd {
+      font-family: inherit;
+      font-size: 10px;
+      font-weight: normal;
+      opacity: 0.45;
+      margin-left: 4px;
+    }
+    #mt-card.mt-card-light {
+      background: #ffffff;
+      border-color: #1a73e8;
+      color: #202124;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+    }
+    #mt-card.mt-card-light .mt-header { color: #1a73e8; }
+    #mt-card.mt-card-light .mt-close  { color: #5f6368; }
+    #mt-card.mt-card-light .mt-close:hover { color: #202124; }
+    #mt-card.mt-card-light .mt-answer { color: #1a73e8; border-top-color: rgba(26,115,232,0.25); }
+    #mt-card.mt-card-light .mt-skip   { background: #f1f3f4; color: #5f6368; }
+    #mt-card.mt-card-light .mt-due-badge { background: rgba(26,115,232,0.1); color: #1a73e8; }
   `;
   document.head.appendChild(style);
 
@@ -125,13 +144,13 @@ function initFlashcards() {
         <span>⚡ MindTab</span>
         <span class="mt-due-badge" id="mt-due-badge" style="display:none"></span>
       </div>
-      <button class="mt-close" aria-label="Close">✕</button>
+      <button class="mt-close" aria-label="Close">✕ <kbd>Esc</kbd></button>
     </div>
     <div class="mt-question"></div>
     <div class="mt-answer"></div>
     <div class="mt-actions">
-      <button class="mt-btn mt-reveal">Reveal</button>
-      <button class="mt-btn mt-skip">Skip</button>
+      <button class="mt-btn mt-reveal">Reveal <kbd>Space</kbd></button>
+      <button class="mt-btn mt-skip">Skip <kbd>2</kbd></button>
     </div>
   `;
   document.body.appendChild(card);
@@ -152,34 +171,60 @@ function initFlashcards() {
   const DAY_MS  = 24 * 60 * 60 * 1000;
 
   function cardKey(c) {
-    // Stable key from first 40 chars of the question
-    return c.q.slice(0, 40).replace(/[^a-zA-Z0-9]/g, '_');
+    let h = 5381;
+    for (let i = 0; i < c.q.length; i++) h = (h * 33 ^ c.q.charCodeAt(i)) >>> 0;
+    return h.toString(36);
+  }
+
+  async function migrateSRS() {
+    try {
+      const { mindtabSRS } = await chrome.storage.sync.get(SRS_KEY);
+      if (!mindtabSRS) return;
+      const local = await chrome.storage.local.get(SRS_KEY);
+      if (!local[SRS_KEY]) await chrome.storage.local.set({ [SRS_KEY]: mindtabSRS });
+      await chrome.storage.sync.remove(SRS_KEY);
+    } catch (e) {
+      console.error('[MindTab] SRS migration failed:', e);
+    }
   }
 
   async function getSRS() {
-    const { mindtabSRS } = await chrome.storage.sync.get(SRS_KEY);
-    return mindtabSRS || {};
+    try {
+      const { mindtabSRS } = await chrome.storage.local.get(SRS_KEY);
+      return mindtabSRS || {};
+    } catch (e) {
+      console.error('[MindTab] getSRS failed:', e);
+      return {};
+    }
   }
 
   async function saveSRS(srs) {
-    await chrome.storage.sync.set({ [SRS_KEY]: srs });
+    try {
+      await chrome.storage.local.set({ [SRS_KEY]: srs });
+    } catch (e) {
+      console.error('[MindTab] saveSRS failed:', e);
+    }
   }
 
   async function recordResult(c, gotIt) {
-    const srs = await getSRS();
-    const key = cardKey(c);
-    const data = srs[key] || { ease: 2.5, interval: 1 };
+    try {
+      const srs = await getSRS();
+      const key = cardKey(c);
+      const data = srs[key] || { ease: 2.5, interval: 1 };
 
-    if (gotIt) {
-      data.ease     = Math.min(3.0, data.ease + 0.1);
-      data.interval = Math.max(1, Math.round(data.interval * data.ease));
-    } else {
-      data.ease     = Math.max(1.3, data.ease - 0.2);
-      data.interval = 1;
+      if (gotIt) {
+        data.ease     = Math.min(3.0, data.ease + 0.1);
+        data.interval = Math.max(1, Math.round(data.interval * data.ease));
+      } else {
+        data.ease     = Math.max(1.3, data.ease - 0.2);
+        data.interval = 1;
+      }
+      data.nextDue = Date.now() + data.interval * DAY_MS;
+      srs[key] = data;
+      await saveSRS(srs);
+    } catch (e) {
+      console.error('[MindTab] recordResult failed:', e);
     }
-    data.nextDue = Date.now() + data.interval * DAY_MS;
-    srs[key] = data;
-    await saveSRS(srs);
   }
 
   async function getAllCards() {
@@ -229,10 +274,11 @@ function initFlashcards() {
     questionEl.textContent = currentCard.q;
     answerEl.textContent   = currentCard.a;
     answerEl.style.display = 'none';
-    revealBtn.textContent  = 'Reveal';
+    revealBtn.innerHTML    = 'Reveal <kbd>Space</kbd>';
     revealBtn.className    = 'mt-btn mt-reveal';
 
     card.style.display = 'block';
+    applyCardTheme();
     showing = true;
 
     // Move focus to the card for accessibility
@@ -261,7 +307,7 @@ function initFlashcards() {
     if (answerEl.style.display === 'none') {
       clearTimeout(autoHideTimer);
       answerEl.style.display = 'block';
-      revealBtn.textContent  = 'Got it ✓';
+      revealBtn.innerHTML    = 'Got it ✓ <kbd>1</kbd>';
       revealBtn.className    = 'mt-btn mt-got-it';
     } else {
       if (currentCard) recordResult(currentCard, true);
@@ -276,11 +322,44 @@ function initFlashcards() {
 
   closeBtn.addEventListener('click', dismiss);
 
+  // Focus trap + keyboard navigation inside the dialog (B04 / F06)
+  card.addEventListener('keydown', e => {
+    if (!showing) return;
+    if (e.key === 'Escape') { dismiss(); return; }
+    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); revealBtn.click(); return; }
+    if (e.key === '1') { revealBtn.click(); return; }
+    if (e.key === '2') { skipBtn.click(); return; }
+    if (e.key !== 'Tab') return;
+    const focusable = [closeBtn, revealBtn, skipBtn];
+    const idx = focusable.indexOf(document.activeElement);
+    e.preventDefault();
+    const next = e.shiftKey
+      ? focusable[(idx - 1 + focusable.length) % focusable.length]
+      : focusable[(idx + 1) % focusable.length];
+    next.focus();
+  });
+
   // Alt+Shift+F triggers a card on demand
   document.addEventListener('keydown', e => {
     if (e.altKey && e.shiftKey && e.key === 'F' && !showing) showCard();
   });
 
+  // F01: apply theme class matching the user's current theme selection
+  function applyCardTheme() {
+    const theme = window.__MindTab?.state?.theme || 'system';
+    const isLight = theme === 'light' ||
+      (theme === 'system' && window.matchMedia('(prefers-color-scheme: light)').matches);
+    card.classList.toggle('mt-card-light', isLight);
+  }
+
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'sync' && changes.mindtab?.newValue?.theme !== undefined) {
+      window.__MindTab.state.theme = changes.mindtab.newValue.theme;
+      applyCardTheme();
+    }
+  });
+
+  await migrateSRS();
   schedule();
 }
 

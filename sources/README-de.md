@@ -3,7 +3,7 @@
 <div align="center">
   <img src="../icons/mindtab128.svg" alt="MindTab Logo" width="128" height="128">
 
-  **MindTab** ist eine kostenlose, quelloffene Browsererweiterung, die deinen Feed bereinigt, schädliche Werbung blockiert, dir beim Schreiben hilft und dich beim Lernen unterstützt — ohne deine Daten irgendwohin zu senden.
+  **MindTab** ist eine kostenlose, quelloffene Browsererweiterung, die deinen Feed bereinigt, schädliche Werbung blockiert, dir beim Schreiben hilft und dich beim Lernen unterstützt - ohne deine Daten irgendwohin zu senden.
 
   <br>
 
@@ -28,27 +28,29 @@ Entfernt YouTube Shorts, Instagram Reels und Facebook Reels automatisch aus dein
 
 ### 🛡️ Werbeblocker
 
-Durchsucht Seiten nach betrügerischen Werbeanzeigen — gefälschte Download-Schaltflächen, "Du hast gewonnen"-Pop-ups, falsche Viruswarnungen und Phishing-Links — und versteckt sie, bevor du versehentlich darauf klicken kannst.
+Durchsucht Seiten nach betrügerischen Werbeanzeigen - gefälschte Download-Schaltflächen, "Du hast gewonnen"-Pop-ups, falsche Viruswarnungen und Phishing-Links - und versteckt sie, bevor du versehentlich darauf klicken kannst.
 
 ### ✍️ Schreibassistent
 
-Eine leichte, kostenlose Alternative zu Grammarly. Ein kleines Panel erscheint, wenn du in einer E-Mail, einem Social-Media-Beitrag oder einem Textfeld tippst, und gibt dir sofortiges Feedback — kein Konto erforderlich, kein Text wird an einen Server gesendet.
+Eine leichte, kostenlose Alternative zu Grammarly. Ein kleines Panel erscheint, wenn du in einer E-Mail, einem Social-Media-Beitrag oder einem Textfeld tippst, und gibt dir sofortiges Feedback - kein Konto erforderlich, kein Text wird an einen Server gesendet.
 
 **Was er prüft:**
 
-- **Ton** — erkennt, ob deine Nachricht aggressiv, passiv-aggressiv, förmlich, locker, positiv oder dringend klingt
-- **Passivkonstruktionen** — markiert Formulierungen wie "der Bericht wurde fertiggestellt"
-- **Schwache Wörter** — erkennt Füllwörter wie "sehr", "eigentlich" und "wirklich"
-- **Lange Sätze** — warnt, wenn ein Satz mehr als 30 Wörter hat
-- **Wiederholte Wörter** — hebt Wörter hervor, die zu oft verwendet wurden
-- **Lesbarkeitsgrad** — schätzt das Leseniveau deines Textes (Flesch-Kincaid)
-- **Live-Statistiken** — Wort- und Satzanzahl während des Tippens
+- **Ton** - erkennt, ob deine Nachricht aggressiv, passiv-aggressiv, förmlich, locker, positiv oder dringend klingt
+- **Passivkonstruktionen** - markiert Formulierungen wie "der Bericht wurde fertiggestellt"
+- **Schwache Wörter** - erkennt Füllwörter wie "sehr", "eigentlich" und "wirklich"
+- **Lange Sätze** - warnt, wenn ein Satz mehr als 30 Wörter hat
+- **Wiederholte Wörter** - hebt Wörter hervor, die zu oft verwendet wurden
+- **Lesbarkeitsgrad** - schätzt das Leseniveau deines Textes (Flesch-Kincaid)
+- **Live-Statistiken** - Wort- und Satzanzahl während des Tippens
 
 **Optionaler Grammatik-Server:** Für vollständige Grammatik- und Rechtschreibprüfung kannst du MindTab mit einem selbst gehosteten LanguageTool-Server in den Erweiterungseinstellungen verbinden. Vollständig optional.
 
 ### ⚡ Karteikarten
 
 Ein kleines Karteikarten-Overlay erscheint periodisch beim Surfen, um dir passives Lernen zu ermöglichen. Enthält 30 Allgemeinwissenskarten. Füge eigene Karten über den integrierten Kartenmanager hinzu.
+
+Tastatursteuerung: **Leertaste** oder **Enter** zum Aufdecken der Antwort, **1** für richtig, **2** zum Überspringen, **Esc** zum Schließen.
 
 ---
 
@@ -66,7 +68,7 @@ Sobald es im Chrome Web Store verfügbar ist, suche nach **MindTab** und klicke 
 
 - **Firefox:** `about:debugging` → Dieser Firefox → Temporäres Add-on laden → wähle `manifest.json`
 - **Chrome/Edge:** `chrome://extensions` → Entwicklermodus → Entpackte Erweiterung laden → wähle den MindTab-Ordner
-- **Safari:** erfordert Konvertierung über Xcode — siehe Entwicklerdokumentation
+- **Safari:** erfordert Konvertierung über Xcode - siehe Entwicklerdokumentation
 
 ---
 
@@ -74,7 +76,7 @@ Sobald es im Chrome Web Store verfügbar ist, suche nach **MindTab** und klicke 
 
 Das Panel erscheint unten rechts auf deinem Bildschirm, wenn du mit mindestens 15 Wörtern tippst.
 
-- Klicke auf **−**, um es auf eine Titelleiste zu minimieren
+- Klicke auf **−**, um es auf eine Titelleiste zu minimieren (deine Einstellung wird seitenübergreifend gespeichert)
 - Klicke auf **✕**, um es für den Rest der Seitensitzung auszublenden
 - Es öffnet sich automatisch wieder, wenn du das nächste Mal auf einer neuen Seite tippst
 
@@ -106,7 +108,7 @@ Das Popup und der Kartenmanager passen sich automatisch dem Hell- oder Dunkelmod
 
 Verwende dies gerne für deine Schule, Arbeit oder Gemeinschaft. Wenn du es irgendwo veröffentlichst, bitte kredite Aster1630.
 
-Fehlerberichte, Filter-Selektor-Updates, neue Kartendecks und Übersetzungen sind willkommen — öffne ein Issue oder einen Pull Request auf GitHub.
+Fehlerberichte, Filter-Selektor-Updates, neue Kartendecks und Übersetzungen sind willkommen - öffne ein Issue oder einen Pull Request auf GitHub.
 
 ---
 

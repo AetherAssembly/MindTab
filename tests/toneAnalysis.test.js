@@ -84,7 +84,7 @@ function mtAnalyzeLocally(text, toneConfig, checks = {}, longThreshold = 30) {
   if (checks.long !== false) {
     const longCount = sentences.filter(s => s.split(/\s+/).filter(Boolean).length > longThreshold).length;
     if (longCount) {
-      suggestions.push({ level: 'info', text: `${longCount} long sentence${longCount > 1 ? 's' : ''} — try splitting for clarity` });
+      suggestions.push({ level: 'info', text: `${longCount} long sentence${longCount > 1 ? 's' : ''} - try splitting for clarity` });
     }
   }
 
@@ -262,7 +262,7 @@ describe('mtAnalyzeLocally', () => {
   });
 
   it('respects custom long sentence threshold', () => {
-    // 10-word sentence — above threshold of 8, below default of 30
+    // 10-word sentence - above threshold of 8, below default of 30
     const text = 'This sentence has exactly ten words total in it.';
     const defaultR = mtAnalyzeLocally(text, TONE_CONFIG, {}, 30);
     const lowR     = mtAnalyzeLocally(text, TONE_CONFIG, {}, 8);
@@ -275,7 +275,7 @@ describe('mtAnalyzeLocally', () => {
   it('has no suggestions for clean text', () => {
     const text = 'The team completed the project on time and delivered excellent results.';
     const r = mtAnalyzeLocally(text, TONE_CONFIG);
-    // No passive, no hedge, no filler, no repeats — suggestions may be empty
+    // No passive, no hedge, no filler, no repeats - suggestions may be empty
     const hasPassive = r.suggestions.some(s => s.text.startsWith('Passive'));
     const hasFiller  = r.suggestions.some(s => s.text.startsWith('Filler'));
     expect(hasPassive).toBe(false);

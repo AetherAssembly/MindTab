@@ -1,13 +1,7 @@
 // MindTab background service worker
-
-// Keep in sync with DEFAULTS in popup.js
-const DEFAULTS = {
-  feedSanitizer: true,
-  adBlocker: true,
-  toneTranslator: true,
-  flashcards: true,
-  toneApiUrl: ''
-};
+// In Chrome (service worker), importScripts loads the shared constant.
+// In Firefox, manifest.json background.scripts lists defaults.js first, so it's already defined.
+if (typeof DEFAULTS === 'undefined') importScripts('config/defaults.js');
 
 // Community-maintained filter lists in standard ABP/uBlock cosmetic format.
 // uBlock Origin: updated continuously by the community, hosted on GitHub.
@@ -37,13 +31,13 @@ function parseFilterList(text) {
     if (sep === -1) continue;
 
     const domainsPart = line.substring(0, sep);
-    if (!domainsPart) continue; // global rule — skip to avoid over-blocking
+    if (!domainsPart) continue; // global rule - skip to avoid over-blocking
 
     const selector = line.substring(sep + 2);
     if (!selector) continue;
 
     // Procedural/extended filters like :has(), :matches-css() can't be used
-    // as plain querySelectorAll selectors — skip them.
+    // as plain querySelectorAll selectors - skip them.
     if (selector.includes(':matches') || selector.includes(':upward(') ||
         selector.includes(':is(') && selector.includes(':not(') ||
         (selector.startsWith(':') && selector.includes('('))) continue;
@@ -105,9 +99,9 @@ async function updateFilterLists() {
       : 0;
 
     if (cachedTotal > 0 && newTotal < cachedTotal * 0.7) {
-      console.warn(`[MindTab] Selector count dropped unexpectedly (${cachedTotal} → ${newTotal}) — keeping cached selectors.`);
+      console.warn(`[MindTab] Selector count dropped unexpectedly (${cachedTotal} → ${newTotal}) - keeping cached selectors.`);
       await chrome.storage.local.set({
-        mindtabFiltersStatus: `Warning: selector count dropped unexpectedly (${cachedTotal} → ${newTotal}) — keeping cached selectors`
+        mindtabFiltersStatus: `Warning: selector count dropped unexpectedly (${cachedTotal} → ${newTotal}) - keeping cached selectors`
       });
       return;
     }
@@ -120,14 +114,14 @@ async function updateFilterLists() {
         Object.entries(merged).map(([k, v]) => [k, [...v]])
       ),
       mindtabFiltersUpdated: Date.now(),
-      mindtabFiltersStatus: `Updated — ${newTotal} selectors across ${Object.keys(totals).length} sites`
+      mindtabFiltersStatus: `Updated - ${newTotal} selectors across ${Object.keys(totals).length} sites`
     });
     console.log('[MindTab] Filter lists updated:', totals);
   } else {
     await chrome.storage.local.set({
       mindtabFiltersStatus: `All ${urls.length} sources failed. Last error: ${lastError}`
     });
-    console.warn('[MindTab] All filter list sources failed — keeping cached selectors.');
+    console.warn('[MindTab] All filter list sources failed - keeping cached selectors.');
   }
 }
 

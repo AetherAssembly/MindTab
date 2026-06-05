@@ -1,4 +1,4 @@
-// MindTab — controller, always loaded first.
+// MindTab - controller, always loaded first.
 // Loads bundled configs, merges community-fetched selectors, fires 'mindtab:ready'.
 
 window.__MindTab = window.__MindTab || {};

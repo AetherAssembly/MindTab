@@ -29,27 +29,29 @@ Removes YouTube Shorts, Instagram Reels, and Facebook Reels from your feed. Mind
 
 ### 🛡️ Ad Blocker
 
-Scans pages for scam ad patterns — fake download buttons, "you've won" pop-ups, fake virus warnings, and phishing links — and hides them before you can accidentally click them. Designed for school environments and anyone who doesn't want to be tricked.
+Scans pages for scam ad patterns - fake download buttons, "you've won" pop-ups, fake virus warnings, and phishing links - and hides them before you can accidentally click them. Designed for school environments and anyone who doesn't want to be tricked.
 
 ### ✍️ Writing Assistant
 
-A lightweight, free alternative to Grammarly. A small panel appears whenever you're typing in an email, social post, or text field and gives you instant feedback — no account needed, no text sent to any server.
+A lightweight, free alternative to Grammarly. A small panel appears whenever you're typing in an email, social post, or text field and gives you instant feedback - no account needed, no text sent to any server.
 
 **What it checks:**
 
-- **Tone** — detects if your message reads as aggressive, passive-aggressive, formal, casual, positive, or urgent
-- **Passive voice** — flags constructions like "the report was completed" and suggests active alternatives
-- **Weak words** — catches hedges like "very," "basically," and "literally" that dilute your writing
-- **Long sentences** — warns when a single sentence exceeds 30 words
-- **Repeated words** — highlights words you've used too many times
-- **Readability grade** — estimates the reading level of your text (Flesch-Kincaid)
-- **Live stats** — word count and sentence count as you type
+- **Tone** - detects if your message reads as aggressive, passive-aggressive, formal, casual, positive, or urgent
+- **Passive voice** - flags constructions like "the report was completed" and suggests active alternatives
+- **Weak words** - catches hedges like "very," "basically," and "literally" that dilute your writing
+- **Long sentences** - warns when a single sentence exceeds 30 words
+- **Repeated words** - highlights words you've used too many times
+- **Readability grade** - estimates the reading level of your text (Flesch-Kincaid)
+- **Live stats** - word count and sentence count as you type
 
-**Optional grammar server:** If you want full grammar and spelling checking (like LanguageTool), you can point MindTab at a self-hosted server in the extension settings. This is entirely optional — local analysis works without any server.
+**Optional grammar server:** If you want full grammar and spelling checking (like LanguageTool), you can point MindTab at a self-hosted server in the extension settings. This is entirely optional - local analysis works without any server.
 
 ### ⚡ Flashcards
 
-A small flashcard overlay appears after 15 minutes of browsing to help you learn passively. It comes with 30 general knowledge cards and you can add your own from the built-in card manager. Nothing interrupts what you're doing — just flip, answer, and dismiss.
+A small flashcard overlay appears after 15 minutes of browsing to help you learn passively. It comes with 30 general knowledge cards and you can add your own from the built-in card manager. Nothing interrupts what you're doing - just flip, answer, and dismiss.
+
+Keyboard shortcuts work too: **Space** or **Enter** to reveal the answer, **1** to mark it correct, **2** to skip, **Esc** to close.
 
 ---
 
@@ -69,7 +71,7 @@ If the extension isn't on a store yet, you can load it manually:
 
 - **Firefox:** `about:debugging` → This Firefox → Load Temporary Add-on → pick `manifest.json`
 - **Chrome/Edge:** `chrome://extensions` → Developer Mode → Load Unpacked → pick the MindTab folder
-- **Safari:** requires conversion through Xcode — see the developer docs
+- **Safari:** requires conversion through Xcode - see the developer docs
 
 ---
 
@@ -77,13 +79,13 @@ If the extension isn't on a store yet, you can load it manually:
 
 The panel appears at the bottom-right of your screen whenever you're typing somewhere with at least 15 words. It stays out of the way until you need it.
 
-- Click **−** to collapse it to a title bar
+- Click **−** to collapse it to a title bar (your preference is remembered across pages)
 - Click **✕** to hide it for the rest of the page session
 - It reopens automatically the next time you start typing on a new page
 
 ### Optional: Grammar server
 
-For full grammar and spelling suggestions (specific errors with fix suggestions, like a real Grammarly alternative), you can connect MindTab to a [LanguageTool](https://languagetool.org/) server. LanguageTool is free and open-source. Once you have a server running, paste its URL into **Settings** inside the MindTab popup. Without a server, everything still works — just without grammar/spelling error details.
+For full grammar and spelling suggestions (specific errors with fix suggestions, like a real Grammarly alternative), you can connect MindTab to a [LanguageTool](https://languagetool.org/) server. LanguageTool is free and open-source. Once you have a server running, paste its URL into **Settings** inside the MindTab popup. Without a server, everything still works - just without grammar/spelling error details.
 
 ---
 
@@ -109,7 +111,7 @@ The popup and flashcard manager automatically adapt to your system's light or da
 
 Feel free to remix this for your school, workplace, or community. If you publish it anywhere, please include a credit to [AetherAssembly](https://aetherassembly.org/about). It's not legally required by the MIT license, but it's appreciated.
 
-Bug reports, filter selector updates, new flashcard decks, and translations are all welcome — open an issue or pull request on GitHub.
+Bug reports, filter selector updates, new flashcard decks, and translations are all welcome - open an issue or pull request on GitHub.
 
 ---
 

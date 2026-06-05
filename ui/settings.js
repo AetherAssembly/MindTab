@@ -65,7 +65,7 @@ async function refreshFilterStatus() {
     const time = result.mindtabFiltersUpdated;
     const msg  = result.mindtabFiltersStatus || '';
     statusEl.textContent = time
-      ? `Last updated: ${formatTimestamp(time)}${msg ? ' — ' + msg : ''}`
+      ? `Last updated: ${formatTimestamp(time)}${msg ? ' - ' + msg : ''}`
       : 'Not yet fetched';
   });
 }
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('btn-save').addEventListener('click', async () => {
     const val = apiInput.value.trim();
     if (val && !apiInput.validity.valid) {
-      showMsg('save-msg', 'Invalid URL — include https://', 'error');
+      showMsg('save-msg', 'Invalid URL - include https://', 'error');
       return;
     }
     await setState({ toneApiUrl: val });
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('btn-test').addEventListener('click', async () => {
     const val = apiInput.value.trim();
     if (!val) { showConnResult(false, 'Enter a server URL first.'); return; }
-    if (!apiInput.validity.valid) { showConnResult(false, 'Invalid URL — include https://'); return; }
+    if (!apiInput.validity.valid) { showConnResult(false, 'Invalid URL - include https://'); return; }
 
     const testBtn = document.getElementById('btn-test');
     testBtn.disabled = true;
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       updateBtn.textContent = 'Update Now';
 
       if (chrome.runtime.lastError || !result?.ok) {
-        showMsg('filter-msg', 'Update failed — check your connection.', 'error');
+        showMsg('filter-msg', 'Update failed - check your connection.', 'error');
       } else {
         showMsg('filter-msg', 'Filter lists updated!', 'ok');
       }

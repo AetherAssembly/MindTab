@@ -24,7 +24,7 @@ app.use(cors({
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// Health check — lets users verify the proxy is running and reachable before
+// Health check - lets users verify the proxy is running and reachable before
 // entering the URL in the extension settings.
 app.get('/health', (_req, res) => {
   res.json({ ok: true, upstream: LT_URL });

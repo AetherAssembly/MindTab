@@ -21,7 +21,7 @@ function initFeedSanitizer() {
       document.querySelectorAll(query).forEach(el => {
         let target = el;
         // For plain <a> links, walk up to the nearest custom element (ytd-*) or
-        // small container — the <a> itself is never the right thing to hide.
+        // small container - the <a> itself is never the right thing to hide.
         if (el.tagName === 'A') {
           let p = el.parentElement;
           while (p && p !== document.body) {
@@ -44,7 +44,7 @@ function initFeedSanitizer() {
 
   clean();
 
-  // YouTube is a SPA — re-run after each client-side navigation.
+  // YouTube is a SPA - re-run after each client-side navigation.
   if (host === 'youtube.com' || host.endsWith('.youtube.com')) {
     window.addEventListener('yt-navigate-finish', clean);
   }

@@ -27,7 +27,7 @@ Browser-Erweiterung  (zeigt Vorschläge im Panel an)
 
 ---
 
-## Schnellstart (Docker — empfohlen)
+## Schnellstart (Docker - empfohlen)
 
 Erfordert [Docker](https://docs.docker.com/get-docker/) mit dem Compose-Plugin.
 
@@ -121,7 +121,7 @@ Gibt LanguageTool's JSON-Antwort mit einem `matches`-Array zurück.
 2. Öffne das MindTab-Popup → klicke auf **Einstellungen**.
 3. Füge `http://localhost:3000` (oder die Adresse deines Servers) in **Grammatik-Server-URL** ein.
 4. Klicke auf **Speichern**.
-5. Tippe 15+ Wörter in ein beliebiges Textfeld — Grammatikvorschläge erscheinen im Schreibassistenten-Panel.
+5. Tippe 15+ Wörter in ein beliebiges Textfeld - Grammatikvorschläge erscheinen im Schreibassistenten-Panel.
 
 ---
 
