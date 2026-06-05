@@ -1,9 +1,12 @@
 // Validates that every CSS selector in config/filters.json is parseable.
 // Run via: node .github/scripts/check-selectors.js
 
-const { JSDOM } = require('jsdom');
-const fs = require('fs');
-const path = require('path');
+import { JSDOM } from 'jsdom';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const filters = JSON.parse(
   fs.readFileSync(path.join(__dirname, '../../config/filters.json'), 'utf8')
