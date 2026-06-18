@@ -1,127 +1,94 @@
 # MindTab
 
-<div align="center">
-  <img src="icons/mindtab128.svg" alt="MindTab Logo" width="128" height="128">
+> Free, open-source browser extension that sanitizes your feed, blocks scam ads, helps you write better, and runs passive flashcards. No data leaves your device.
 
-  **MindTab** is a free, open-source browser extension that cleans up your feed, blocks scam ads, helps you write better, and keeps you learning. All without sending your data anywhere.
+[![Tests](https://img.shields.io/github/actions/workflow/status/AetherAssembly/MindTab/lint.yml?label=Tests)](https://github.com/AetherAssembly/MindTab/actions/workflows/lint.yml)
+[![CodeQL](https://img.shields.io/github/actions/workflow/status/AetherAssembly/MindTab/codeql.yml?label=CodeQL)](https://github.com/AetherAssembly/MindTab/actions/workflows/codeql.yml)
+[![Firefox Add-on](https://img.shields.io/amo/v/mindtab?label=Firefox&logo=firefox-browser&logoColor=white)](https://addons.mozilla.org/firefox/addon/mindtab/)
+[![Version](https://img.shields.io/badge/version-1.4.0-4A90E2.svg)](https://github.com/AetherAssembly/MindTab/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-22c55e.svg)](LICENSE)
 
-  <br>
+[![Wiki](https://img.shields.io/badge/wiki-documentation-555555?logo=github&logoColor=white)](https://aetherassembly.org/wiki/mindtab)
+[![Manifest V3](https://img.shields.io/badge/Manifest-V3-f97316.svg)](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json)
 
-  <a href="sources/README-es.md"><img src="https://img.shields.io/badge/lang-es-red?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Español"></a>
-  <a href="sources/README-fr.md"><img src="https://img.shields.io/badge/lang-fr-white?style=for-the-badge&logo=googletranslate&logoColor=black" alt="Français"></a>
-  <a href="sources/README-de.md"><img src="https://img.shields.io/badge/lang-de-black?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Deutsch"></a>
-  <a href="sources/README-pt.md"><img src="https://img.shields.io/badge/lang-pt--br-green?style=for-the-badge&logo=googletranslate&logoColor=white" alt="Português"></a>
-
-  <a href="#-features"><img src="https://img.shields.io/badge/Features-4A90E2?style=for-the-badge&logo=star&logoColor=white" alt="Features"></a>
-  <a href="#-installation"><img src="https://img.shields.io/badge/Install-FF6B6B?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Install"></a>
-  <a href="#-writing-assistant"><img src="https://img.shields.io/badge/Writing_Assistant-9B59B6?style=for-the-badge&logo=pencil&logoColor=white" alt="Writing Assistant"></a>
-  <a href="#-contributing"><img src="https://img.shields.io/badge/Contributing-27AE60?style=for-the-badge&logo=github&logoColor=white" alt="Contributing"></a>
-  <a href="https://aetherassembly.org/wiki/mindtab"><img src="https://img.shields.io/badge/Wiki-9B59B6?style=for-the-badge&logo=user&logoColor=white" alt="Wiki"></a>
-</div>
+Firefox-first (MV3), also works in Chrome and Edge.
 
 ---
 
-## 🚀 Features
+## Features
 
-### 🧹 Feed Sanitizer
+### Feed Sanitizer
 
-Removes YouTube Shorts, Instagram Reels, and Facebook Reels from your feed. MindTab uses community-maintained filter lists (from uBlock Origin and AdGuard) that update automatically every 24 hours, so it stays working even when those sites change their layouts. A live counter on the toolbar icon shows how many elements have been removed on the current page.
+Removes YouTube Shorts, Instagram Reels, and Facebook Reels from your feed using community-maintained filter lists (uBlock Origin + AdGuard) that refresh automatically every 24 hours. A live counter on the toolbar icon shows how many elements have been removed on the current page.
 
-### 🛡️ Ad Blocker
+### Ad Blocker
 
-Scans pages for scam ad patterns - fake download buttons, "you've won" pop-ups, fake virus warnings, and phishing links - and hides them before you can accidentally click them. Designed for school environments and anyone who doesn't want to be tricked.
+Scans pages for scam ad patterns — fake download buttons, "you've won" pop-ups, fake virus warnings, phishing links — and hides them before you can accidentally click them.
 
-### ✍️ Writing Assistant
+### Writing Assistant
 
-A lightweight, free alternative to Grammarly. A small panel appears whenever you're typing in an email, social post, or text field and gives you instant feedback - no account needed, no text sent to any server.
+A lightweight panel that appears whenever you're typing in a text field with at least 15 words. Runs entirely locally — no text is sent anywhere.
 
-**What it checks:**
+Checks: tone detection (aggressive / passive-aggressive / formal / casual / positive / urgent), passive voice, hedge words, long sentences, filler words, repeated words, and Flesch-Kincaid readability grade. Optional: connect a self-hosted [LanguageTool](https://languagetool.org/) server for full grammar and spelling suggestions.
 
-- **Tone** - detects if your message reads as aggressive, passive-aggressive, formal, casual, positive, or urgent
-- **Passive voice** - flags constructions like "the report was completed" and suggests active alternatives
-- **Weak words** - catches hedges like "very," "basically," and "literally" that dilute your writing
-- **Long sentences** - warns when a single sentence exceeds 30 words
-- **Repeated words** - highlights words you've used too many times
-- **Readability grade** - estimates the reading level of your text (Flesch-Kincaid)
-- **Live stats** - word count and sentence count as you type
+Keyboard shortcuts: `Alt+Shift+T` reopens the panel. `Esc` closes it.
 
-**Optional grammar server:** If you want full grammar and spelling checking (like LanguageTool), you can point MindTab at a self-hosted server in the extension settings. This is entirely optional - local analysis works without any server.
+### Flashcards
 
-### ⚡ Flashcards
-
-A small flashcard overlay appears after 15 minutes of browsing to help you learn passively. It comes with 30 general knowledge cards and you can add your own from the built-in card manager. Nothing interrupts what you're doing - just flip, answer, and dismiss.
-
-Keyboard shortcuts work too: **Space** or **Enter** to reveal the answer, **1** to mark it correct, **2** to skip, **Esc** to close.
+A small overlay appears after 15 minutes of browsing with a spaced-repetition flashcard. Ships with 30 general knowledge cards; add your own from the card manager. Space/Enter to reveal, 1 to mark correct, 2 to skip, Esc to close. `Alt+Shift+F` triggers a card on demand.
 
 ---
 
-## 🛠️ Installation
+## Installation
 
 ### Firefox
 
-MindTab targets Firefox first. Install it from the [Firefox Add-ons store](https://addons.mozilla.org/firefox/addon/mindtab/) in one click.
+Install from the [Firefox Add-ons store](https://addons.mozilla.org/firefox/addon/mindtab/).
 
 ### Chrome / Edge
 
-Once it's on the Chrome Web Store, search for **MindTab** and click Add to Chrome.
+Search for **MindTab** on the Chrome Web Store and click Add to Chrome.
 
-### Loading it yourself (all browsers)
-
-If the extension isn't on a store yet, you can load it manually:
+### Load manually (all browsers)
 
 - **Firefox:** `about:debugging` → This Firefox → Load Temporary Add-on → pick `manifest.json`
 - **Chrome/Edge:** `chrome://extensions` → Developer Mode → Load Unpacked → pick the MindTab folder
-- **Safari:** requires conversion through Xcode - see the developer docs
+- **Safari:** convert through Xcode — see the developer docs
 
 ---
 
-## ✍️ Writing Assistant
+## Writing Assistant
 
-The panel appears at the bottom-right of your screen whenever you're typing somewhere with at least 15 words. It stays out of the way until you need it.
+The panel appears at the bottom-right whenever you're typing with at least 15 words. Click **−** to collapse it (preference remembered across pages), **✕** to hide it for the session. It reopens automatically on the next page.
 
-- Click **−** to collapse it to a title bar (your preference is remembered across pages)
-- Click **✕** to hide it for the rest of the page session
-- It reopens automatically the next time you start typing on a new page
-
-### Optional: Grammar server
-
-For full grammar and spelling suggestions (specific errors with fix suggestions, like a real Grammarly alternative), you can connect MindTab to a [LanguageTool](https://languagetool.org/) server. LanguageTool is free and open-source. Once you have a server running, paste its URL into **Settings** inside the MindTab popup. Without a server, everything still works - just without grammar/spelling error details.
+For full grammar and spelling checking, point MindTab at a self-hosted LanguageTool server in Settings. Local analysis works without any server.
 
 ---
 
-## ⚡ Flashcard Manager
+## Flashcard Manager
 
-Click **Manage Flashcards** in the popup to open the card editor. From there you can:
-
-- Add your own questions and answers
-- Delete cards you don't want
-- See all 30 default cards (these can't be deleted, but you can turn flashcards off entirely from the popup)
+Click **Manage Flashcards** in the popup to open the card editor. Add custom Q&A pairs, delete cards, or browse the 30 default cards. Cards and spaced-repetition progress can be exported as JSON and imported back — useful for moving between devices.
 
 ---
 
-## ⚙️ Customization
+## Customization
 
-All four features can be turned on or off independently from the popup. If you only want the writing assistant, switch everything else off. The filter lists update in the background automatically, but you can also hit **Update Now** in Settings to force a refresh.
-
-The popup and flashcard manager automatically adapt to your system's light or dark mode preference.
+All four features toggle independently from the popup. Filter lists update in the background every 24 hours; hit **Update Now** in Settings to force a refresh. Custom filter list URLs can be added or removed from the advanced section of Settings.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-Feel free to remix this for your school, workplace, or community. If you publish it anywhere, please include a credit to [AetherAssembly](https://aetherassembly.org/about). It's not legally required by the MIT license, but it's appreciated.
-
-Bug reports, filter selector updates, new flashcard decks, and translations are all welcome - open an issue or pull request on GitHub.
+Bug reports, filter selector updates, new flashcard decks, and translations are welcome — open an issue or pull request. If you remix this for your school, workplace, or community, a credit to [AetherAssembly](https://aetherassembly.org/about) is appreciated (not required by the MIT license).
 
 ---
 
-## 📝 License
+## License
 
-Licensed under the [MIT License](LICENSE).
+[MIT](LICENSE)
 
 ---
 
 <div align="center">
   <p>Built with ethics and simplicity by <a href="https://aetherassembly.org/about">AetherAssembly</a></p>
-  <p>⭐ Star this repo if MindTab makes your browsing better!</p>
 </div>
