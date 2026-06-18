@@ -73,7 +73,7 @@ async function updateFilterLists() {
 
   for (const url of urls) {
     try {
-      const res  = await fetch(url, { cache: 'no-store' });
+      const res  = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(10000) });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const text = await res.text();
       const parsed = parseFilterList(text);
