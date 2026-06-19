@@ -449,6 +449,25 @@ function initToneTranslator() {
     }
   });
 
+  // Alt+Shift+T reopens / focuses the panel on demand (mirrors Alt+Shift+F for flashcards)
+  document.addEventListener('keydown', e => {
+    if (!e.altKey || !e.shiftKey || e.key !== 'T') return;
+    hidden = false;
+    if (minimized) {
+      minimized = false;
+      panel.classList.remove('mt-minimized');
+      document.getElementById('mt-min-btn').textContent = '−';
+      chrome.storage.local.set({ mindtabPanelCollapsed: false });
+    }
+    if (activeEl) {
+      const text = getText(activeEl);
+      if (text.split(/\s+/).filter(Boolean).length >= minWords) {
+        panel.style.display = 'block';
+        analyze(text);
+      }
+    }
+  });
+
   // Set initial server dot state
   if (!serverUrl) {
     mtSetDot('none');

@@ -29,9 +29,10 @@ function pickCardPure(cards, srs, lastCard, now) {
     return !d || d.nextDue <= now;
   });
   const pool = due.length > 0 ? due : cards;
-  let pick = pool[0];
+  let pick = pool[Math.floor(Math.random() * pool.length)];
   if (pool.length > 1 && cardKey(pick) === lastCard) {
-    pick = pool[1];
+    const others = pool.filter(c => cardKey(c) !== lastCard);
+    if (others.length) pick = others[Math.floor(Math.random() * others.length)];
   }
   return pick;
 }
@@ -61,6 +62,13 @@ describe('cardKey', () => {
 
   it('produces consistent keys regardless of surrounding card fields', () => {
     expect(cardKey({ q: 'Hello?', a: 'foo' })).toBe(cardKey({ q: 'Hello?', a: 'bar' }));
+  });
+
+  it('produces a consistent key for questions with special characters and emoji', () => {
+    const c = { q: 'What is 50% of 100? 🤔 "Trick" & <test>!' };
+    expect(cardKey(c)).toBe(cardKey(c));
+    expect(typeof cardKey(c)).toBe('string');
+    expect(cardKey(c).length).toBeGreaterThan(0);
   });
 });
 
@@ -121,6 +129,10 @@ describe('pickCard', () => {
     { q: 'Gamma', a: '3' },
   ];
   const now = Date.now();
+
+  // Pin Math.random to 0 so pool[Math.floor(0 * n)] = pool[0] — deterministic picks.
+  beforeEach(() => { vi.spyOn(Math, 'random').mockReturnValue(0); });
+  afterEach(() => { vi.restoreAllMocks(); });
 
   it('returns the only card when pool has one entry', () => {
     expect(pickCardPure([cards[0]], {}, null, now)).toBe(cards[0]);

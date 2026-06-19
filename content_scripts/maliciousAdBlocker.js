@@ -9,7 +9,8 @@ function initAdBlocker() {
 
   function isMalicious(el) {
     const text = (el.textContent || '').toLowerCase().trim().slice(0, 120);
-    const href = (el instanceof HTMLAnchorElement ? el.href : '').toLowerCase();
+    const href = (el instanceof HTMLAnchorElement ? el.href :
+                  el instanceof HTMLIFrameElement  ? el.src  : '').toLowerCase();
     return textKeywords.some(k => text.includes(k)) ||
            hrefPatterns.some(p => href.includes(p));
   }

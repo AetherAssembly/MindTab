@@ -5,11 +5,11 @@
 [![Tests](https://img.shields.io/github/actions/workflow/status/AetherAssembly/MindTab/lint.yml?label=Tests)](https://github.com/AetherAssembly/MindTab/actions/workflows/lint.yml)
 [![CodeQL](https://img.shields.io/github/actions/workflow/status/AetherAssembly/MindTab/codeql.yml?label=CodeQL)](https://github.com/AetherAssembly/MindTab/actions/workflows/codeql.yml)
 [![Firefox Add-on](https://img.shields.io/amo/v/mindtab?label=Firefox&logo=firefox-browser&logoColor=white)](https://addons.mozilla.org/firefox/addon/mindtab/)
-[![Version](https://img.shields.io/badge/version-1.4.0-4A90E2.svg)](https://github.com/AetherAssembly/MindTab/releases)
-[![License: MIT](https://img.shields.io/badge/license-MIT-22c55e.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.4.0-4A90E2)](https://github.com/AetherAssembly/MindTab/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 [![Wiki](https://img.shields.io/badge/wiki-documentation-555555?logo=github&logoColor=white)](https://aetherassembly.org/wiki/mindtab)
-[![Manifest V3](https://img.shields.io/badge/Manifest-V3-f97316.svg)](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json)
+[![Manifest V3](https://img.shields.io/badge/Manifest-V3-f97316)](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json)
 
 Firefox-first (MV3), also works in Chrome and Edge.
 

@@ -99,13 +99,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!q || !a) { showMsg('Both fields are required.', '#e74c3c'); return; }
 
     const cards = await getCustomCards();
-    cards.push({ q, a });
-    await saveCustomCards(cards);
+    const newCards = [...cards, { q, a }];
+    if (JSON.stringify(newCards).length > 7500) {
+      showMsg('Storage limit reached. Delete some cards first.', '#e74c3c');
+      return;
+    }
+    await saveCustomCards(newCards);
 
     qInput.value = '';
     aInput.value = '';
     qInput.focus();
-    showMsg('Card added!');
+    showMsg(`Card added! (${newCards.length} total)`);
     render();
   });
 
@@ -119,33 +123,58 @@ document.addEventListener('DOMContentLoaded', async () => {
     render();
   });
 
-  // Export custom cards as JSON
+  // Export custom cards + SRS progress as JSON
   document.getElementById('btn-export').addEventListener('click', async () => {
     const cards = await getCustomCards();
     if (cards.length === 0) { showMsg('No custom cards to export.', '#e0a050'); return; }
-    const blob = new Blob([JSON.stringify(cards, null, 2)], { type: 'application/json' });
+    const { mindtabSRS } = await chrome.storage.local.get('mindtabSRS');
+    const exportData = { version: 1, cards, srs: mindtabSRS || {} };
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
     const url  = URL.createObjectURL(blob);
     const a    = document.createElement('a');
     a.href     = url;
     a.download = 'mindtab-cards.json';
     a.click();
     URL.revokeObjectURL(url);
-    showMsg(`Exported ${cards.length} card${cards.length !== 1 ? 's' : ''}!`);
+    showMsg(`Exported ${cards.length} card${cards.length !== 1 ? 's' : ''} with progress!`);
   });
 
-  // Import cards from JSON file
+  // Import cards from JSON file (supports legacy plain-array format and v1 {cards, srs} format)
   document.getElementById('import-file').addEventListener('change', async e => {
     const file = e.target.files[0];
     if (!file) return;
     try {
       const text = await file.text();
       const data = JSON.parse(text);
-      if (!Array.isArray(data)) throw new Error('Expected a JSON array');
-      const valid = data.filter(c => typeof c?.q === 'string' && typeof c?.a === 'string' && c.q.trim() && c.a.trim());
+
+      let cardData, srsData = null;
+      if (Array.isArray(data)) {
+        cardData = data;
+      } else if (data.version === 1 && Array.isArray(data.cards)) {
+        cardData = data.cards;
+        srsData = (data.srs && typeof data.srs === 'object') ? data.srs : null;
+      } else {
+        throw new Error('Expected a JSON array or {version, cards} object');
+      }
+
+      const valid = cardData.filter(c => typeof c?.q === 'string' && typeof c?.a === 'string' && c.q.trim() && c.a.trim());
       if (valid.length === 0) throw new Error('No valid {q, a} entries found');
+
       const current = await getCustomCards();
-      await saveCustomCards([...current, ...valid]);
-      showMsg(`Imported ${valid.length} card${valid.length !== 1 ? 's' : ''}!`);
+      const merged = [...current, ...valid];
+      if (JSON.stringify(merged).length > 7500) {
+        throw new Error('Import would exceed storage limit. Delete some cards first.');
+      }
+      await saveCustomCards(merged);
+
+      if (srsData) {
+        const { mindtabSRS } = await chrome.storage.local.get('mindtabSRS');
+        // Existing local progress takes priority; imported data fills in gaps
+        await chrome.storage.local.set({ mindtabSRS: { ...srsData, ...(mindtabSRS || {}) } });
+      }
+
+      const progressNote = srsData ? ' with progress' : '';
+      showMsg(`Imported ${valid.length} card${valid.length !== 1 ? 's' : ''}${progressNote}!`);
       render();
     } catch (err) {
       showMsg(`Import failed: ${err.message}`, '#e74c3c');

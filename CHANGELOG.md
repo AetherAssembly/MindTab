@@ -5,6 +5,28 @@ All notable changes to MindTab will be documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 MindTab uses [Semantic Versioning](https://semver.org/).
 
+## [1.4.0] - 2026-06-18
+
+### Added
+
+- **Alt+Shift+T shortcut** - reopens and re-runs the Tone Translator panel on demand when it has been closed or minimized; mirrors the existing Alt+Shift+F flashcard shortcut
+- **SRS progress in export/import** - flashcard export now bundles spaced-repetition state alongside cards as `{ version: 1, cards, srs }`; import restores progress on a new device, merging with any existing local state (existing progress always takes priority); legacy plain-array exports still import correctly
+
+### Fixed
+
+- **Malicious iframe URLs ignored** - `isMalicious()` only checked `href` on anchor elements; iframes were queried by `querySelectorAll('a[href], iframe[src]')` but their `src` was never tested against `hrefPatterns`; URL check now covers iframes via `el.src`
+- **Filter fetch timeout** - `updateFilterLists()` had no timeout; a slow or unresponsive filter list server could stall the service worker indefinitely; each fetch now aborts after 10 seconds via `AbortSignal.timeout`
+- **Custom card storage overflow** - adding or importing cards gave no feedback when the sync storage per-item limit (~8 KB) would be exceeded; both paths now check serialized size before writing and show a clear error
+
+### Tests
+
+- Added `tests/adBlocker.test.js` (6 tests) covering `isMalicious`: href pattern match, text keyword match, clean element, empty inputs, 120-char truncation, and iframe src match
+- Added `tests/filterIntegrity.test.js` (5 tests) covering the 70% selector integrity check: below threshold, at/above threshold, exact boundary, just below, and no-cache base case
+- Extended `tests/flashcard.test.js` with a `cardKey` special-characters/emoji stability test (closes issue #17)
+- Aligned `pickCardPure` test helper with the real implementation (uses `Math.random`); tests now pin randomness via `vi.spyOn` so helper and source can never silently diverge
+
+---
+
 ## [1.3.0] - 2026-06-05
 
 ### Fixed
