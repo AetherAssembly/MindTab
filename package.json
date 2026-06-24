@@ -1,6 +1,6 @@
 {
   "name": "mindtab",
-  "version": "1.3.0",
+  "version": "1.5.0",
   "description": "Feed sanitizer, malicious ad blocker, tone awareness, and flash learning - all in one.",
   "type": "module",
   "scripts": {

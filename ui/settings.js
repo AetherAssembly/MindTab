@@ -214,6 +214,190 @@ document.addEventListener('DOMContentLoaded', async () => {
     showMsg('checks-msg', 'Saved!', 'ok');
   });
 
+  // ── Ad Blocker ───────────────────────────────────────────────────────────────
+  function renderSimpleList(listId, items, onRemove) {
+    const ul = document.getElementById(listId);
+    ul.innerHTML = '';
+    items.forEach((item, i) => {
+      const li   = document.createElement('li');
+      li.className = 'url-item';
+      const span = document.createElement('span');
+      span.textContent = item;
+      const del  = document.createElement('button');
+      del.className = 'url-del';
+      del.setAttribute('aria-label', 'Remove');
+      del.textContent = '✕';
+      del.addEventListener('click', () => onRemove(i));
+      li.append(span, del);
+      ul.appendChild(li);
+    });
+  }
+
+  function renderAllowlist(list) {
+    renderSimpleList('allowlist-list', list, async i => {
+      const st = await getState();
+      const updated = (st.adBlockerAllowlist || []).filter((_, j) => j !== i);
+      await setState({ adBlockerAllowlist: updated });
+      renderAllowlist(updated);
+      showMsg('allowlist-msg', 'Removed.', 'ok');
+    });
+  }
+
+  renderAllowlist(state.adBlockerAllowlist || []);
+
+  function renderKeywords(list) {
+    renderSimpleList('keyword-list', list, async i => {
+      const st = await getState();
+      const updated = (st.customAdKeywords || []).filter((_, j) => j !== i);
+      await setState({ customAdKeywords: updated });
+      renderKeywords(updated);
+      showMsg('keyword-msg', 'Removed.', 'ok');
+    });
+  }
+
+  renderKeywords(state.customAdKeywords || []);
+
+  document.getElementById('btn-add-keyword').addEventListener('click', async () => {
+    const input = document.getElementById('keyword-input');
+    const val   = input.value.trim().toLowerCase();
+    if (!val) return;
+    const st      = await getState();
+    const updated = [...(st.customAdKeywords || []), val];
+    await setState({ customAdKeywords: updated });
+    renderKeywords(updated);
+    input.value = '';
+    showMsg('keyword-msg', 'Added.', 'ok');
+  });
+
+  document.getElementById('keyword-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('btn-add-keyword').click();
+  });
+
+  function renderHrefPatterns(list) {
+    renderSimpleList('href-pattern-list', list, async i => {
+      const st = await getState();
+      const updated = (st.customAdHrefPatterns || []).filter((_, j) => j !== i);
+      await setState({ customAdHrefPatterns: updated });
+      renderHrefPatterns(updated);
+      showMsg('href-msg', 'Removed.', 'ok');
+    });
+  }
+
+  renderHrefPatterns(state.customAdHrefPatterns || []);
+
+  document.getElementById('btn-add-href').addEventListener('click', async () => {
+    const input = document.getElementById('href-pattern-input');
+    const val   = input.value.trim().toLowerCase();
+    if (!val) return;
+    const st      = await getState();
+    const updated = [...(st.customAdHrefPatterns || []), val];
+    await setState({ customAdHrefPatterns: updated });
+    renderHrefPatterns(updated);
+    input.value = '';
+    showMsg('href-msg', 'Added.', 'ok');
+  });
+
+  document.getElementById('href-pattern-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('btn-add-href').click();
+  });
+
+  // Listen for allowlist changes made from the popup
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'sync' && changes.mindtab?.newValue?.adBlockerAllowlist) {
+      renderAllowlist(changes.mindtab.newValue.adBlockerAllowlist);
+    }
+  });
+
+  // ── Flashcard timing ────────────────────────────────────────────────────────
+  const showAfterSlider    = document.getElementById('show-after');
+  const showAfterVal       = document.getElementById('show-after-val');
+  const displayDurSlider   = document.getElementById('display-duration');
+  const displayDurVal      = document.getElementById('display-duration-val');
+
+  showAfterSlider.value  = state.showAfterMinutes || 15;
+  showAfterVal.textContent = showAfterSlider.value;
+  displayDurSlider.value = state.displayDurationSeconds || 12;
+  displayDurVal.textContent = displayDurSlider.value;
+
+  showAfterSlider.addEventListener('input',  () => { showAfterVal.textContent  = showAfterSlider.value; });
+  displayDurSlider.addEventListener('input', () => { displayDurVal.textContent = displayDurSlider.value; });
+
+  document.getElementById('btn-save-flash').addEventListener('click', async () => {
+    await setState({
+      showAfterMinutes:      parseInt(showAfterSlider.value, 10),
+      displayDurationSeconds: parseInt(displayDurSlider.value, 10),
+    });
+    showMsg('flash-msg', 'Saved!', 'ok');
+  });
+
+  // ── Site exceptions ──────────────────────────────────────────────────────────
+  function renderExceptions(exceptions) {
+    const list = document.getElementById('exceptions-list');
+    list.innerHTML = '';
+    const entries = Object.entries(exceptions);
+    if (entries.length === 0) return;
+
+    entries.forEach(([domain, flags]) => {
+      const disabled = [];
+      if (flags.feedSanitizer   === false) disabled.push('Feed Sanitizer');
+      if (flags.adBlocker        === false) disabled.push('Ad Blocker');
+      if (flags.toneTranslator   === false) disabled.push('Tone Translator');
+      if (flags.flashcards       === false) disabled.push('Flashcards');
+      if (disabled.length === 0) return;
+
+      const li   = document.createElement('li');
+      li.className = 'url-item';
+      const span = document.createElement('span');
+      span.textContent = `${domain} — ${disabled.join(', ')} disabled`;
+      const del  = document.createElement('button');
+      del.className = 'url-del';
+      del.setAttribute('aria-label', 'Remove exception');
+      del.textContent = '✕';
+      del.addEventListener('click', async () => {
+        const st = await getState();
+        const ex = { ...(st.siteExceptions || {}) };
+        delete ex[domain];
+        await setState({ siteExceptions: ex });
+        renderExceptions(ex);
+        showMsg('exception-msg', 'Exception removed.', 'ok');
+      });
+      li.append(span, del);
+      list.appendChild(li);
+    });
+  }
+
+  renderExceptions(state.siteExceptions || {});
+
+  document.getElementById('btn-add-exception').addEventListener('click', async () => {
+    const domainInput = document.getElementById('exception-domain');
+    const domain = domainInput.value.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+    if (!domain || !domain.includes('.')) {
+      showMsg('exception-msg', 'Enter a valid domain (e.g. github.com).', 'error'); return;
+    }
+
+    const flags = {};
+    if (document.getElementById('exc-feed').checked)  flags.feedSanitizer  = false;
+    if (document.getElementById('exc-ad').checked)    flags.adBlocker       = false;
+    if (document.getElementById('exc-tone').checked)  flags.toneTranslator  = false;
+    if (document.getElementById('exc-flash').checked) flags.flashcards      = false;
+
+    if (Object.keys(flags).length === 0) {
+      showMsg('exception-msg', 'Select at least one feature to disable.', 'error'); return;
+    }
+
+    const st = await getState();
+    const ex = { ...(st.siteExceptions || {}), [domain]: flags };
+    await setState({ siteExceptions: ex });
+    renderExceptions(ex);
+    domainInput.value = '';
+    ['exc-feed','exc-ad','exc-tone','exc-flash'].forEach(id => { document.getElementById(id).checked = false; });
+    showMsg('exception-msg', `Exception added for ${domain}.`, 'ok');
+  });
+
+  document.getElementById('exception-domain').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('btn-add-exception').click();
+  });
+
   // ── Filter list status ──────────────────────────────────────────────────────
   await refreshFilterStatus();
 

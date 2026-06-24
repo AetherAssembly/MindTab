@@ -1,11 +1,25 @@
 function initAdBlocker() {
   if (!window.__MindTab?.state?.adBlocker) return;
 
+  const state    = window.__MindTab.state;
+  const bareHost = location.hostname.replace(/^www\./, '');
+
+  // Site exception check
+  const ex = (state.siteExceptions || {})[bareHost] || (state.siteExceptions || {})[location.hostname] || {};
+  if (ex.adBlocker === false) return;
+
+  // Allowlist check
+  const allowlist = state.adBlockerAllowlist || [];
+  if (allowlist.some(d => d === bareHost || d === location.hostname)) return;
+
   const config = window.__MindTab.filters?.adBlocker;
   if (!config) return;
 
-  const textKeywords = config.textKeywords.map(k => k.toLowerCase());
-  const hrefPatterns = config.hrefPatterns;
+  const textKeywords = [
+    ...config.textKeywords.map(k => k.toLowerCase()),
+    ...(state.customAdKeywords || []).map(k => k.toLowerCase())
+  ];
+  const hrefPatterns = [...config.hrefPatterns, ...(state.customAdHrefPatterns || [])];
 
   function isMalicious(el) {
     const text = (el.textContent || '').toLowerCase().trim().slice(0, 120);

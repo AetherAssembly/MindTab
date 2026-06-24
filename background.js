@@ -13,7 +13,7 @@ const DEFAULT_FILTER_LISTS = [
 ];
 
 // Domains to extract cosmetic selectors for.
-const TARGET_DOMAINS = ['youtube.com', 'instagram.com', 'facebook.com'];
+const TARGET_DOMAINS = ['youtube.com', 'instagram.com', 'facebook.com', 'reddit.com', 'linkedin.com', 'tiktok.com', 'threads.net'];
 
 // ─── Filter list parser ───────────────────────────────────────────────────────
 // Parses standard ABP/uBlock cosmetic filter lines (domain##selector).
@@ -127,7 +127,7 @@ async function updateFilterLists() {
 
 // ─── Lifecycle ────────────────────────────────────────────────────────────────
 
-chrome.runtime.onInstalled.addListener(async () => {
+chrome.runtime.onInstalled.addListener(async ({ reason }) => {
   const { mindtab } = await chrome.storage.sync.get('mindtab');
   if (!mindtab) {
     await chrome.storage.sync.set({ mindtab: DEFAULTS });
@@ -135,6 +135,9 @@ chrome.runtime.onInstalled.addListener(async () => {
   // Fetch immediately on install, then set up daily alarm.
   await updateFilterLists();
   chrome.alarms.create('mindtab-filter-update', { periodInMinutes: 1440 });
+  if (reason === 'install') {
+    chrome.tabs.create({ url: chrome.runtime.getURL('ui/onboarding.html') });
+  }
 });
 
 // Wrap in an async IIFE so Chrome's service worker lifetime tracking sees
@@ -178,5 +181,19 @@ chrome.runtime.onMessage.addListener((msg, sender, reply) => {
   if (msg.type === 'BADGE_COUNT' && sender.tab?.id) {
     tabCounts[sender.tab.id] = (tabCounts[sender.tab.id] || 0) + msg.delta;
     updateBadge(sender.tab.id);
+    // Accumulate daily stats
+    const today = new Date().toISOString().slice(0, 10);
+    chrome.storage.local.get('mindtabDailyStats').then(({ mindtabDailyStats }) => {
+      const stats = (mindtabDailyStats?.date === today) ? mindtabDailyStats : { date: today, count: 0 };
+      stats.count += msg.delta;
+      chrome.storage.local.set({ mindtabDailyStats: stats });
+    });
+  }
+  if (msg.type === 'GET_DAILY_STATS') {
+    chrome.storage.local.get('mindtabDailyStats').then(({ mindtabDailyStats }) => {
+      const today = new Date().toISOString().slice(0, 10);
+      reply(mindtabDailyStats?.date === today ? mindtabDailyStats : { date: today, count: 0 });
+    });
+    return true;
   }
 });

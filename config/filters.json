@@ -25,6 +25,26 @@
       "a[aria-label='Reels']",
       "a[href*='/reel/']",
       "div[data-pagelet*='Reels']"
+    ],
+    "reddit": [
+      "shreddit-ad-post",
+      ".promotedlink",
+      "[data-adclicklocationid]"
+    ],
+    "linkedin": [
+      "[data-test-id='social-feed-ad']",
+      ".feed-shared-update-v2:has(.update-components-sponsored-text)",
+      ".occludable-update:has([aria-label*='Promoted'])",
+      ".feed-shared-update-v2:has([data-test-id='social-feed-ad'])"
+    ],
+    "tiktok": [
+      "[data-e2e='recommend-ad-cover']",
+      "[class*='DivAdvertContainer']",
+      "[class*='AdContainer']:not([class*='badge'])"
+    ],
+    "threads": [
+      "article:has([aria-label*='Sponsored'])",
+      "div[data-testid='post']:has([aria-label*='Sponsored'])"
     ]
   },
   "adBlocker": {

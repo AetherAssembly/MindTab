@@ -5,6 +5,38 @@ All notable changes to MindTab will be documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 MindTab uses [Semantic Versioning](https://semver.org/).
 
+## [1.5.0] - 2026-06-24
+
+### Added
+
+- **Default card deletion** - once a user has at least one custom card, delete buttons appear on the default deck rows; removed defaults are stored in `mindtabDeletedDefaults` (sync storage) so the choice persists across devices and is respected by the flashcard overlay when picking the next card
+- **Storage meter** - a progress bar on the Flashcard Manager page shows current custom-card storage usage vs the 7,500-byte limit, colour-coded green → orange (65 %) → red (90 %), so users know before hitting the limit
+- **Inline card editing** - each custom card row in the Flashcard Manager now has a pencil button that replaces the row with a pre-filled Q/A edit form in-place; Save commits the change, Cancel restores the original row
+- **Flashcard timing controls** - Settings → Flashcards exposes two sliders: "Show after" (5–60 min, step 5) and "Display for" (5–30 sec, step 1); values are stored in sync storage and override the defaults from `config/flashcards.json` at initialisation time
+- **Per-site exceptions** - Settings → Site Exceptions lets users disable any combination of features (Feed Sanitizer, Ad Blocker, Tone Translator, Flashcards) on a specific domain; exceptions are stored under `mindtab.siteExceptions` and each content script bails out early when the current host matches
+- **Feed Sanitizer — Reddit** - hides promoted posts: `shreddit-ad-post` (new Reddit Web Components), `.promotedlink` (classic Reddit), and `[data-adclicklocationid]`
+- **Feed Sanitizer — LinkedIn** - hides sponsored posts via `[data-test-id="social-feed-ad"]` and `:has(.update-components-sponsored-text)` selectors
+- **Feed Sanitizer — TikTok** - hides in-feed ad containers via `[data-e2e="recommend-ad-cover"]` and `[class*="DivAdvertContainer"]`
+- **Feed Sanitizer — Threads** - hides sponsored articles via `article:has([aria-label*="Sponsored"])`
+- **Community filter lists for new platforms** - `background.js` `TARGET_DOMAINS` extended to include `reddit.com`, `linkedin.com`, `tiktok.com`, and `threads.net`; the controller's domain merge map is updated accordingly so community-fetched selectors from uBlock Origin and AdGuard are applied to these sites too
+- **Popup daily stats** - the popup shows "X elements hidden today" (feed sanitizer + ad blocker combined) when the count is greater than zero; the counter resets at midnight and is accumulated by the background service worker
+- **Tone improvement suggestions** — each writing suggestion in the Tone Translator panel now includes an italic tip line explaining how to fix the issue (e.g. passive voice: "Lead with who acts — 'We shipped it' not 'It was shipped'"; hedge words: "Cut or strengthen — 'very good' → 'excellent'")
+- **Ad Blocker keyword editor** — new Settings → Ad Blocker section with add/remove lists for custom malicious text keywords and custom URL patterns; merged with the bundled lists at runtime, no page reload required
+- **Ad Blocker allowlist** — "Trust this site" button in the popup adds the current domain to an allowlist; the ad blocker skips all scanning on trusted domains; allowlist is managed (with removal) in Settings → Ad Blocker
+- **Onboarding page** — opens automatically on first install; explains all four features, keyboard shortcuts, and quick tips in a single-page design matching the extension's dark theme
+- **Stats dashboard** (`ui/stats.html`) — new page accessible from popup → Stats showing: elements hidden today, trusted site count, total card count (default + custom), cards due for review, cards reviewed at least once, and average ease factor with a colour-coded retention bar (Struggling / On track / Mastering)
+- **Card search / filter** — search input in the Flashcard Manager header filters both custom and default card lists live as you type; original array indices are preserved so delete and edit still work correctly on filtered results
+- **Anki-compatible CSV export** — second export button ("Export CSV") on the Flashcard Manager downloads a `Front,Back` CSV importable directly into Anki; custom double-quote escaping handles cards containing quotation marks
+
+### Changed
+
+- Default card subtitle updated: "Custom cards sync across your browsers. Default cards can be removed once you have your own."
+- `makeCardItem()` in `cards.js` refactored to accept `{ onDelete, onEdit }` options and group buttons in a `.card-actions` div; the `card-item` grid `auto` column now contains the button group rather than a bare delete button
+- Popup actions area now has Stats and Settings side by side beneath the Manage Flashcards button
+- Export JSON button relabelled "Export JSON" to distinguish it from the new CSV export
+
+---
+
 ## [1.4.0] - 2026-06-18
 
 ### Added

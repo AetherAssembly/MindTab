@@ -71,7 +71,7 @@ function mtAnalyzeLocally(text, toneConfig, checks, longThreshold) {
     const passiveHits = [...text.matchAll(MT_PASSIVE_RE)];
     if (passiveHits.length) {
       const ex = passiveHits.slice(0, 2).map(m => `"${m[0]}"`).join(', ');
-      suggestions.push({ level: 'warn', text: `Passive voice: ${ex}` });
+      suggestions.push({ level: 'warn', text: `Passive voice: ${ex}`, tip: 'Lead with who acts — "We shipped it" not "It was shipped"' });
     }
   }
 
@@ -81,7 +81,7 @@ function mtAnalyzeLocally(text, toneConfig, checks, longThreshold) {
     if (weakHits.length) {
       const total = weakHits.reduce((n, w) =>
         n + (lower.match(new RegExp(`\\b${w}\\b`, 'g')) || []).length, 0);
-      suggestions.push({ level: 'warn', text: `${total} hedge word${total > 1 ? 's' : ''}: "${weakHits.slice(0, 3).join('", "')}"` });
+      suggestions.push({ level: 'warn', text: `${total} hedge word${total > 1 ? 's' : ''}: "${weakHits.slice(0, 3).join('", "')}"`, tip: 'Cut or strengthen — "very good" → "excellent"' });
     }
   }
 
@@ -89,7 +89,7 @@ function mtAnalyzeLocally(text, toneConfig, checks, longThreshold) {
   if (checks?.long !== false) {
     const longCount = sentences.filter(s => s.split(/\s+/).filter(Boolean).length > threshold).length;
     if (longCount) {
-      suggestions.push({ level: 'info', text: `${longCount} long sentence${longCount > 1 ? 's' : ''} - try splitting for clarity` });
+      suggestions.push({ level: 'info', text: `${longCount} long sentence${longCount > 1 ? 's' : ''} — try splitting`, tip: 'Break at "and", "but", "however", or "which"' });
     }
   }
 
@@ -97,7 +97,7 @@ function mtAnalyzeLocally(text, toneConfig, checks, longThreshold) {
   if (checks?.filler !== false) {
     const fillerHits = MT_FILLER_WORDS.filter(w => lower.includes(w));
     if (fillerHits.length) {
-      suggestions.push({ level: 'info', text: `Filler: "${fillerHits.slice(0, 2).join('", "')}"` });
+      suggestions.push({ level: 'info', text: `Filler: "${fillerHits.slice(0, 2).join('", "')}"`, tip: 'Delete before sending — they weaken your message' });
     }
   }
 
@@ -111,7 +111,7 @@ function mtAnalyzeLocally(text, toneConfig, checks, longThreshold) {
     const repeated = Object.entries(freq).filter(([, n]) => n >= 3).sort((a, b) => b[1] - a[1]);
     if (repeated.length) {
       const ex = repeated.slice(0, 2).map(([w, n]) => `"${w}" ×${n}`).join(', ');
-      suggestions.push({ level: 'info', text: `Repeated: ${ex}` });
+      suggestions.push({ level: 'info', text: `Repeated: ${ex}`, tip: 'Use a synonym or restructure to vary phrasing' });
     }
   }
 
@@ -201,6 +201,8 @@ function mtBuildPanel() {
     .mt-sug-icon { flex-shrink: 0; margin-top: 1px; }
     .mt-sug.warn .mt-sug-icon { color: #e0a050; }
     .mt-sug.info .mt-sug-icon { color: #4A90E2; }
+    .mt-sug-body { display: flex; flex-direction: column; gap: 2px; }
+    .mt-sug-tip { font-size: 10.5px; color: #555; font-style: italic; }
     .mt-ok { font-size: 11.5px; color: #27ae60; text-align: center; padding: 4px 0; }
     #mt-lt-section { margin-bottom: 10px; }
     #mt-lt-section h4 {
@@ -314,9 +316,18 @@ function mtRenderLocal(result, toneConfig) {
       const iconSpan = document.createElement('span');
       iconSpan.className = 'mt-sug-icon';
       iconSpan.textContent = s.level === 'warn' ? '⚠' : 'ℹ';
+      const body = document.createElement('div');
+      body.className = 'mt-sug-body';
       const textSpan = document.createElement('span');
       textSpan.textContent = s.text;
-      div.append(iconSpan, textSpan);
+      body.appendChild(textSpan);
+      if (s.tip) {
+        const tipSpan = document.createElement('span');
+        tipSpan.className = 'mt-sug-tip';
+        tipSpan.textContent = s.tip;
+        body.appendChild(tipSpan);
+      }
+      div.append(iconSpan, body);
       sugsEl.appendChild(div);
     });
   }
@@ -394,6 +405,11 @@ function mtRenderLT(matches) {
 
 function initToneTranslator() {
   if (!window.__MindTab?.state?.toneTranslator) return;
+
+  const exceptions = window.__MindTab.state.siteExceptions || {};
+  const bareHost = location.hostname.replace(/^www\./, '');
+  const ex = exceptions[bareHost] || exceptions[location.hostname] || {};
+  if (ex.toneTranslator === false) return;
 
   const toneConfig = window.__MindTab.toneConfig;
   if (!toneConfig) return;

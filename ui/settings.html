@@ -82,6 +82,79 @@
       </div>
     </section>
 
+    <!-- Flashcards -->
+    <section class="settings-section">
+      <h2>Flashcards</h2>
+      <div class="field-group">
+        <label class="field-label" for="show-after">Show after: <span id="show-after-val">15</span> min</label>
+        <input type="range" id="show-after" class="range-input" min="5" max="60" step="5" value="15">
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="display-duration">Display for: <span id="display-duration-val">12</span> sec</label>
+        <input type="range" id="display-duration" class="range-input" min="5" max="30" step="1" value="12">
+      </div>
+      <div class="field-group">
+        <button class="btn btn-primary" id="btn-save-flash" style="align-self:flex-start">Save</button>
+        <span class="status-msg" id="flash-msg" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <!-- Ad Blocker -->
+    <section class="settings-section">
+      <h2>Ad Blocker</h2>
+
+      <div class="field-group">
+        <span class="field-label">Trusted sites (allowlist)</span>
+        <span class="field-hint">The Ad Blocker won't scan these domains. Manage sites you've trusted from the popup.</span>
+        <ul id="allowlist-list" class="url-list"></ul>
+        <span class="status-msg" id="allowlist-msg" aria-live="polite" style="margin-top:4px"></span>
+      </div>
+
+      <div class="field-group">
+        <span class="field-label">Custom malicious keywords</span>
+        <span class="field-hint">Text found in a link or ad that triggers hiding.</span>
+        <ul id="keyword-list" class="url-list"></ul>
+        <div class="field-row" style="margin-top:8px">
+          <input type="text" id="keyword-input" class="field-input" placeholder="claim your prize">
+          <button class="btn btn-ghost" id="btn-add-keyword">Add</button>
+        </div>
+        <span class="status-msg" id="keyword-msg" aria-live="polite"></span>
+      </div>
+
+      <div class="field-group">
+        <span class="field-label">Custom URL patterns</span>
+        <span class="field-hint">URL fragment that marks a link as suspicious.</span>
+        <ul id="href-pattern-list" class="url-list"></ul>
+        <div class="field-row" style="margin-top:8px">
+          <input type="text" id="href-pattern-input" class="field-input" placeholder="free-prize">
+          <button class="btn btn-ghost" id="btn-add-href">Add</button>
+        </div>
+        <span class="status-msg" id="href-msg" aria-live="polite"></span>
+      </div>
+    </section>
+
+    <!-- Site Exceptions -->
+    <section class="settings-section">
+      <h2>Site Exceptions</h2>
+      <div class="field-group">
+        <span class="field-hint">Disable specific features on certain websites. Use the bare domain (e.g. <code>github.com</code>).</span>
+        <ul id="exceptions-list" class="url-list"></ul>
+        <div class="field-row" style="margin-top:8px">
+          <input type="text" id="exception-domain" class="field-input" placeholder="github.com" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="checks-grid" style="margin-top:8px" id="exception-checks">
+          <label class="check-item"><input type="checkbox" id="exc-feed"> Disable Feed Sanitizer</label>
+          <label class="check-item"><input type="checkbox" id="exc-ad"> Disable Ad Blocker</label>
+          <label class="check-item"><input type="checkbox" id="exc-tone"> Disable Tone Translator</label>
+          <label class="check-item"><input type="checkbox" id="exc-flash"> Disable Flashcards</label>
+        </div>
+        <div class="field-group" style="margin-top:8px">
+          <button class="btn btn-ghost" id="btn-add-exception" style="align-self:flex-start">Add Exception</button>
+          <span class="status-msg" id="exception-msg" aria-live="polite"></span>
+        </div>
+      </div>
+    </section>
+
     <!-- Feed Filter Lists -->
     <section class="settings-section">
       <h2>Feed Filter Lists</h2>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindTab Stats</title>
+  <link rel="stylesheet" href="settings.css">
+  <style>
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 440px) { .stat-grid { grid-template-columns: 1fr; } }
+
+    .stat-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--subtext);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-weight: 600;
+    }
+
+    .stat-value {
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.1;
+    }
+
+    .stat-sub {
+      font-size: 11px;
+      color: var(--subtext);
+      margin-top: 2px;
+    }
+
+    .ease-bar-wrap {
+      height: 5px;
+      background: var(--border);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .ease-bar {
+      height: 100%;
+      border-radius: 5px;
+      background: var(--accent);
+      transition: width 0.4s ease;
+    }
+
+    .ease-bar.struggling { background: #e74c3c; }
+    .ease-bar.learning   { background: #e0a050; }
+    .ease-bar.mastering  { background: #27ae60; }
+
+    .empty-note {
+      font-size: 13px;
+      color: var(--subtext);
+      text-align: center;
+      padding: 32px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="settings-page">
+    <header class="page-header">
+      <img src="../icons/mindtab48.svg" alt="MindTab" width="32" height="32">
+      <h1>Stats</h1>
+      <button class="back-btn" id="btn-back">← Close</button>
+    </header>
+
+    <!-- Blocking -->
+    <section class="settings-section">
+      <h2>Blocking — Today</h2>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <span class="stat-label">Elements hidden</span>
+          <span class="stat-value" id="stat-hidden">—</span>
+          <span class="stat-sub">Feed sanitizer + ad blocker</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Trusted sites</span>
+          <span class="stat-value" id="stat-trusted">—</span>
+          <span class="stat-sub">On the ad blocker allowlist</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Flashcards -->
+    <section class="settings-section">
+      <h2>Flashcards</h2>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <span class="stat-label">Total cards</span>
+          <span class="stat-value" id="stat-total">—</span>
+          <span class="stat-sub" id="stat-total-sub"></span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Due for review</span>
+          <span class="stat-value" id="stat-due">—</span>
+          <span class="stat-sub">Right now</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Reviewed</span>
+          <span class="stat-value" id="stat-reviewed">—</span>
+          <span class="stat-sub">Seen at least once</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Avg ease</span>
+          <span class="stat-value" id="stat-ease">—</span>
+          <span class="stat-sub" id="stat-ease-label"></span>
+          <div class="ease-bar-wrap" id="ease-bar-wrap" style="display:none">
+            <div class="ease-bar" id="ease-bar"></div>
+          </div>
+        </div>
+      </div>
+      <p class="empty-note" id="srs-empty" style="display:none">
+        No cards reviewed yet — flashcards will appear while you browse.
+      </p>
+    </section>
+
+    <footer class="page-footer">
+      MindTab by <a href="https://aetherassembly.org/about" target="_blank" rel="noopener">AetherAssembly</a>
+    </footer>
+  </div>
+
+  <script src="stats.js"></script>
+</body>
+</html>

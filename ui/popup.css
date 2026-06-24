@@ -144,6 +144,42 @@ body {
   background: var(--accent);
 }
 
+/* Trust bar */
+.trust-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--border);
+  padding: 7px 16px;
+  font-size: 11px;
+  color: var(--subtext);
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.15s;
+  font-family: inherit;
+}
+
+.trust-btn:hover { color: var(--text); }
+.trust-btn.trusted { color: var(--green); }
+
+/* Stats bar */
+.stats-bar {
+  padding: 5px 16px 6px;
+  font-size: 11px;
+  color: var(--subtext);
+  border-top: 1px solid var(--border);
+}
+
+.stats-bar span { display: block; }
+
+/* Action row (Stats + Settings side by side) */
+.action-row {
+  display: flex;
+  gap: 8px;
+}
+
+.action-row .btn { flex: 1; }
+
 /* Actions */
 .actions {
   padding: 10px 16px 4px;

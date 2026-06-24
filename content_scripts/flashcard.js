@@ -1,6 +1,11 @@
 async function initFlashcards() {
   if (!window.__MindTab?.state?.flashcards) return;
 
+  const exceptions = window.__MindTab.state.siteExceptions || {};
+  const bareHost = location.hostname.replace(/^www\./, '');
+  const ex = exceptions[bareHost] || exceptions[location.hostname] || {};
+  if (ex.flashcards === false) return;
+
   const flashConfig = window.__MindTab.flashConfig;
   if (!flashConfig) return;
 
@@ -228,8 +233,10 @@ async function initFlashcards() {
   }
 
   async function getAllCards() {
-    const { mindtabCards } = await chrome.storage.sync.get('mindtabCards');
-    return [...defaultCards, ...(mindtabCards || [])];
+    const { mindtabCards, mindtabDeletedDefaults } = await chrome.storage.sync.get(['mindtabCards', 'mindtabDeletedDefaults']);
+    const deleted = new Set(mindtabDeletedDefaults || []);
+    const activeDefaults = deleted.size > 0 ? defaultCards.filter(c => !deleted.has(cardKey(c))) : defaultCards;
+    return [...activeDefaults, ...(mindtabCards || [])];
   }
 
   async function pickCard(cards) {

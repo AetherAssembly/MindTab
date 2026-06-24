@@ -6,7 +6,7 @@
 [![CodeQL](https://img.shields.io/github/actions/workflow/status/AetherAssembly/MindTab/codeql.yml?label=CodeQL)](https://github.com/AetherAssembly/MindTab/actions/workflows/codeql.yml)
 [![Firefox Add-on](https://img.shields.io/amo/v/mindtab?label=Firefox&logo=firefox-browser&logoColor=white)](https://addons.mozilla.org/firefox/addon/mindtab/)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/fbgafnfmonfnhkdngnniiamoacmkijmk?label=Chrome&logo=google-chrome&logoColor=white)](https://chromewebstore.google.com/detail/mindtab/fbgafnfmonfnhkdngnniiamoacmkijmk)
-[![Version](https://img.shields.io/badge/version-1.4.0-4A90E2)](https://github.com/AetherAssembly/MindTab/releases)
+[![Version](https://img.shields.io/badge/version-1.5.0-4A90E2)](https://github.com/AetherAssembly/MindTab/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 [![Wiki](https://img.shields.io/badge/wiki-documentation-555555?logo=github&logoColor=white)](https://aetherassembly.org/wiki/mindtab)
@@ -20,17 +20,17 @@ Firefox-first (MV3), also works in Chrome and Edge.
 
 ### Feed Sanitizer
 
-Removes YouTube Shorts, Instagram Reels, and Facebook Reels from your feed using community-maintained filter lists (uBlock Origin + AdGuard) that refresh automatically every 24 hours. A live counter on the toolbar icon shows how many elements have been removed on the current page.
+Removes YouTube Shorts, Instagram Reels, Facebook Reels, Reddit promoted posts, LinkedIn sponsored posts, TikTok in-feed ads, and Threads sponsored content using community-maintained filter lists (uBlock Origin + AdGuard) that refresh automatically every 24 hours. A live counter on the toolbar icon shows how many elements have been removed on the current page.
 
 ### Ad Blocker
 
-Scans pages for scam ad patterns; fake download buttons, "you've won" pop-ups, fake virus warnings, phishing links. Then hides them before you can accidentally click them.
+Scans pages for scam ad patterns; fake download buttons, "you've won" pop-ups, fake virus warnings, phishing links. Then hides them before you can accidentally click them. Add your own keyword and URL patterns in Settings, and use "Trust this site" in the popup to whitelist any domain.
 
 ### Writing Assistant
 
 A lightweight panel that appears whenever you're typing in a text field with at least 15 words. Runs entirely locally. no text is sent anywhere.
 
-Checks: tone detection (aggressive / passive-aggressive / formal / casual / positive / urgent), passive voice, hedge words, long sentences, filler words, repeated words, and Flesch-Kincaid readability grade. Optional: connect a self-hosted [LanguageTool](https://languagetool.org/) server for full grammar and spelling suggestions.
+Checks: tone detection (aggressive / passive-aggressive / formal / casual / positive / urgent), passive voice, hedge words, long sentences, filler words, repeated words, and Flesch-Kincaid readability grade. Each suggestion includes an italic tip explaining exactly how to fix it. Optional: connect a self-hosted [LanguageTool](https://languagetool.org/) server for full grammar and spelling suggestions.
 
 Keyboard shortcuts: `Alt+Shift+T` reopens the panel. `Esc` closes it.
 
@@ -68,13 +68,13 @@ For full grammar and spelling checking, point MindTab at a self-hosted LanguageT
 
 ## Flashcard Manager
 
-Click **Manage Flashcards** in the popup to open the card editor. Add custom Q&A pairs, delete cards, or browse the 30 default cards. Cards and spaced-repetition progress can be exported as JSON and imported back. Useful for moving between devices.
+Click **Manage Flashcards** in the popup to open the card editor. Add, edit, or delete custom Q&A pairs, remove default cards you don't need (once you have at least one custom card), and search across all cards. Cards and spaced-repetition progress can be exported as JSON and imported back, or exported as an Anki-compatible CSV. A storage meter shows how close you are to the sync limit.
 
 ---
 
 ## Customization
 
-All four features toggle independently from the popup. Filter lists update in the background every 24 hours; hit **Update Now** in Settings to force a refresh. Custom filter list URLs can be added or removed from the advanced section of Settings.
+All four features toggle independently from the popup. You can also disable any feature on a specific domain via Settings → Site Exceptions, or trust an entire site for the ad blocker using the "Trust this site" button in the popup. Filter lists update in the background every 24 hours; hit **Update Now** in Settings to force a refresh. Custom filter list URLs, ad blocker keywords, and URL patterns can be added or removed from the Settings page.
 
 ---
 

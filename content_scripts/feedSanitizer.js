@@ -1,6 +1,12 @@
 function initFeedSanitizer() {
   if (!window.__MindTab?.state?.feedSanitizer) return;
 
+  // Check per-site exception
+  const exceptions = window.__MindTab.state.siteExceptions || {};
+  const bareHost = location.hostname.replace(/^www\./, '');
+  const ex = exceptions[bareHost] || exceptions[location.hostname] || {};
+  if (ex.feedSanitizer === false) return;
+
   const filters = window.__MindTab.filters?.feedSanitizer;
   if (!filters) return;
 
@@ -10,6 +16,10 @@ function initFeedSanitizer() {
   if (host === 'youtube.com'    || host.endsWith('.youtube.com'))   selectors = filters.youtube   || [];
   else if (host === 'instagram.com' || host.endsWith('.instagram.com')) selectors = filters.instagram || [];
   else if (host === 'facebook.com'  || host.endsWith('.facebook.com'))  selectors = filters.facebook  || [];
+  else if (host === 'reddit.com'    || host.endsWith('.reddit.com'))    selectors = filters.reddit    || [];
+  else if (host === 'linkedin.com'  || host.endsWith('.linkedin.com'))  selectors = filters.linkedin  || [];
+  else if (host === 'tiktok.com'    || host.endsWith('.tiktok.com'))    selectors = filters.tiktok    || [];
+  else if (host === 'threads.net'   || host.endsWith('.threads.net'))   selectors = filters.threads   || [];
 
   if (selectors.length === 0) return;
 

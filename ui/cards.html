@@ -13,7 +13,7 @@
         <img src="../icons/mindtab48.svg" alt="MindTab" width="28" height="28">
         <h1>Flashcard Manager</h1>
       </div>
-      <p class="header-sub">Custom cards are stored in your browser. Default cards are always included.</p>
+      <p class="header-sub">Custom cards sync across your browsers. Default cards can be removed once you have your own.</p>
     </header>
 
     <section class="section">
@@ -36,11 +36,16 @@
       <div class="section-header">
         <h2 class="section-title">Your Custom Cards <span id="custom-count" class="count-badge">0</span></h2>
         <div class="section-actions">
-          <button id="btn-export" class="btn btn-secondary">Export</button>
+          <button id="btn-export" class="btn btn-secondary">Export JSON</button>
+          <button id="btn-export-csv" class="btn btn-secondary">Export CSV</button>
           <label for="import-file" class="btn btn-secondary">Import</label>
           <input type="file" id="import-file" accept=".json" style="display:none" aria-label="Import cards from JSON file">
           <button id="btn-clear" class="btn btn-danger" style="display:none">Clear All</button>
         </div>
+      </div>
+      <div class="storage-meter" id="storage-meter">
+        <div class="storage-bar-wrap"><div id="storage-bar" class="storage-bar" style="width:0%"></div></div>
+        <span id="storage-text" class="storage-text"></span>
       </div>
       <ul id="custom-list" class="card-list">
         <li class="empty-state" id="empty-msg">No custom cards yet. Add one above!</li>
@@ -50,8 +55,12 @@
     <section class="section section-defaults">
       <div class="section-header">
         <h2 class="section-title">Default Cards <span class="count-badge" id="default-count">0</span></h2>
-        <span class="readonly-tag">Read-only</span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <input type="search" id="search-input" class="search-input" placeholder="Search cards…" aria-label="Search all cards">
+          <span class="readonly-tag" id="readonly-tag">Read-only</span>
+        </div>
       </div>
+      <p class="field-hint" id="defaults-hint" style="margin-bottom:8px;display:none">You can remove defaults you don't want. They don't count toward your storage limit.</p>
       <ul id="default-list" class="card-list card-list--dim"></ul>
     </section>
   </div>

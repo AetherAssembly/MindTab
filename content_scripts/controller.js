@@ -39,11 +39,19 @@ window.__MindTab = window.__MindTab || {};
     window.__MindTab.toneConfig = toneData     || { tones: {}, minWords: 15 };
     window.__MindTab.flashConfig = flashData   || { settings: { showAfterMinutes: 15, displayDurationSeconds: 12, position: 'bottom-left' }, defaultCards: [] };
 
+    // Override flashcard timing with user-configured values if set.
+    const state = window.__MindTab.state;
+    if (state.showAfterMinutes)      window.__MindTab.flashConfig.settings.showAfterMinutes      = state.showAfterMinutes;
+    if (state.displayDurationSeconds) window.__MindTab.flashConfig.settings.displayDurationSeconds = state.displayDurationSeconds;
+
     // Merge community-maintained selectors on top of the bundled ones.
     // External selectors are keyed by bare domain (e.g. 'youtube.com').
     const external = localResult.mindtabExternalFilters;
     if (external && window.__MindTab.filters.feedSanitizer) {
-      const map = { 'youtube.com': 'youtube', 'instagram.com': 'instagram', 'facebook.com': 'facebook' };
+      const map = {
+        'youtube.com': 'youtube', 'instagram.com': 'instagram', 'facebook.com': 'facebook',
+        'reddit.com': 'reddit', 'linkedin.com': 'linkedin', 'tiktok.com': 'tiktok', 'threads.net': 'threads'
+      };
       for (const [domain, key] of Object.entries(map)) {
         if (external[domain]?.length) {
           const existing = new Set(window.__MindTab.filters.feedSanitizer[key] || []);

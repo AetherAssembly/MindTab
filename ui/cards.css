@@ -233,11 +233,17 @@ body {
   line-height: 1.4;
 }
 
-.card-del {
+.card-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.card-del, .card-edit {
   background: none;
   border: none;
   color: #555;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
   padding: 2px 4px;
   border-radius: 4px;
@@ -246,6 +252,118 @@ body {
 }
 
 .card-del:hover { color: var(--red); background: rgba(231,76,60,0.1); }
+.card-edit:hover { color: var(--accent); background: var(--accent-dim); }
+
+/* Inline edit form inside a card-item */
+.card-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  grid-column: 1 / -1;
+}
+
+.card-edit-form .edit-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.card-edit-form input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  padding: 6px 10px;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.card-edit-form input:focus { border-color: var(--accent); }
+
+.card-edit-form .edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.card-edit-form .btn-save-edit {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 14px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.card-edit-form .btn-save-edit:hover { opacity: 0.82; }
+
+.card-edit-form .btn-cancel-edit {
+  background: none;
+  color: var(--subtext);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 12px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.card-edit-form .btn-cancel-edit:hover { color: var(--text); }
+
+/* Storage meter */
+.storage-meter {
+  margin-bottom: 10px;
+}
+
+.storage-bar-wrap {
+  height: 4px;
+  background: var(--surface2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.storage-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease, background-color 0.3s;
+  background: var(--accent);
+}
+
+.storage-bar.warn  { background: #e0a050; }
+.storage-bar.danger { background: var(--red); }
+
+.storage-text {
+  font-size: 11px;
+  color: var(--subtext);
+}
+
+.search-input {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: var(--text);
+  padding: 5px 10px;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 160px;
+  font-family: inherit;
+}
+
+.search-input:focus { border-color: var(--accent); }
+.search-input::placeholder { color: var(--subtext); }
+
+.field-hint {
+  font-size: 12px;
+  color: var(--subtext);
+  line-height: 1.5;
+}
 
 .empty-state {
   text-align: center;

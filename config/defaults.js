@@ -3,5 +3,11 @@ const DEFAULTS = {
   adBlocker: true,
   toneTranslator: true,
   flashcards: true,
-  toneApiUrl: ''
+  toneApiUrl: '',
+  showAfterMinutes: 15,
+  displayDurationSeconds: 12,
+  siteExceptions: {},
+  customAdKeywords: [],
+  customAdHrefPatterns: [],
+  adBlockerAllowlist: []
 };

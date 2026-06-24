@@ -61,8 +61,11 @@ MindTab/
 │   └── mindtab{16,32,48,128}.svg
 ├── sources/                  # Translated READMEs (ES, FR, DE, PT)
 ├── ui/
-│   ├── popup.{html,css,js}   # Extension popup
-│   └── cards.{html,css,js}   # Flashcard manager page
+│   ├── popup.{html,css,js}      # Extension popup
+│   ├── cards.{html,css,js}      # Flashcard manager page
+│   ├── settings.{html,css,js}   # Settings page
+│   ├── stats.{html,js}          # Stats dashboard
+│   └── onboarding.html          # First-install onboarding page
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
 │   └── PULL_REQUEST_TEMPLATE.md
@@ -83,7 +86,7 @@ MindTab/
 | uBlock Origin quick-fixes | `uBlockOrigin/uAssets/filters/quick-fixes.txt` |
 | AdGuard social widgets | `AdguardTeam/AdguardFilters/AnnoyancesFilter/sections/social-widget.txt` |
 
-The parser pulls out `domain##selector` cosmetic filter lines for `youtube.com`, `instagram.com`, and `facebook.com`. Procedural filters (`:has()`, `:upward()`, etc.) are skipped since they can't be used as plain `querySelectorAll` selectors.
+The parser pulls out `domain##selector` cosmetic filter lines for `youtube.com`, `instagram.com`, `facebook.com`, `reddit.com`, `linkedin.com`, `tiktok.com`, and `threads.net`. Procedural filters (`:has()`, `:upward()`, etc.) are skipped since they can't be used as plain `querySelectorAll` selectors.
 
 Parsed selectors are stored in `chrome.storage.local` as `mindtabExternalFilters`. On each page load, `controller.js` reads them and merges them into `window.__MindTab.filters.feedSanitizer` on top of the bundled fallback selectors in `config/filters.json`.
 
@@ -148,6 +151,8 @@ Edit `config/filters.json` under `feedSanitizer`. Standard CSS selectors, one pe
 - URL patterns: `adBlocker.hrefPatterns` — matched against `href`
 
 ### Changing flashcard timing
+
+Use Settings → Flashcards to adjust timing via sliders (Show after: 5–60 min; Display for: 5–30 sec). Values are stored in sync storage and override the defaults in `config/flashcards.json`. To change the defaults directly, edit that file:
 
 ```json
 "settings": {
