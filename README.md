@@ -11,6 +11,7 @@
 
 [![Wiki](https://img.shields.io/badge/wiki-documentation-555555?logo=github&logoColor=white)](https://aetherassembly.org/wiki/mindtab)
 [![Manifest V3](https://img.shields.io/badge/Manifest-V3-f97316)](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json)
+[![GitLab Mirror](https://img.shields.io/badge/mirror-GitLab-FC6D26?logo=gitlab&logoColor=white)](https://gitlab.com/Aster1630/MindTab)
 
 Firefox-first (MV3), also works in Chrome and Edge.
 
