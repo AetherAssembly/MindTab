@@ -5,6 +5,7 @@
 [![Tests](https://img.shields.io/github/actions/workflow/status/AetherAssembly/MindTab/lint.yml?label=Tests)](https://github.com/AetherAssembly/MindTab/actions/workflows/lint.yml)
 [![CodeQL](https://img.shields.io/github/actions/workflow/status/AetherAssembly/MindTab/codeql.yml?label=CodeQL)](https://github.com/AetherAssembly/MindTab/actions/workflows/codeql.yml)
 [![Firefox Add-on](https://img.shields.io/amo/v/mindtab?label=Firefox&logo=firefox-browser&logoColor=white)](https://addons.mozilla.org/firefox/addon/mindtab/)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/fbgafnfmonfnhkdngnniiamoacmkijmk?label=Chrome&logo=google-chrome&logoColor=white)](https://chromewebstore.google.com/detail/mindtab/fbgafnfmonfnhkdngnniiamoacmkijmk)
 [![Version](https://img.shields.io/badge/version-1.4.0-4A90E2)](https://github.com/AetherAssembly/MindTab/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
@@ -23,11 +24,11 @@ Removes YouTube Shorts, Instagram Reels, and Facebook Reels from your feed using
 
 ### Ad Blocker
 
-Scans pages for scam ad patterns — fake download buttons, "you've won" pop-ups, fake virus warnings, phishing links — and hides them before you can accidentally click them.
+Scans pages for scam ad patterns; fake download buttons, "you've won" pop-ups, fake virus warnings, phishing links. Then hides them before you can accidentally click them.
 
 ### Writing Assistant
 
-A lightweight panel that appears whenever you're typing in a text field with at least 15 words. Runs entirely locally — no text is sent anywhere.
+A lightweight panel that appears whenever you're typing in a text field with at least 15 words. Runs entirely locally. no text is sent anywhere.
 
 Checks: tone detection (aggressive / passive-aggressive / formal / casual / positive / urgent), passive voice, hedge words, long sentences, filler words, repeated words, and Flesch-Kincaid readability grade. Optional: connect a self-hosted [LanguageTool](https://languagetool.org/) server for full grammar and spelling suggestions.
 
@@ -47,13 +48,13 @@ Install from the [Firefox Add-ons store](https://addons.mozilla.org/firefox/addo
 
 ### Chrome / Edge
 
-Search for **MindTab** on the Chrome Web Store and click Add to Chrome.
+Install from the [Chrome Web Store](https://chromewebstore.google.com/detail/mindtab/fbgafnfmonfnhkdngnniiamoacmkijmk?authuser=0&hl=en).
 
 ### Load manually (all browsers)
 
 - **Firefox:** `about:debugging` → This Firefox → Load Temporary Add-on → pick `manifest.json`
 - **Chrome/Edge:** `chrome://extensions` → Developer Mode → Load Unpacked → pick the MindTab folder
-- **Safari:** convert through Xcode — see the developer docs
+- **Safari:** convert through Xcode → see the [developer docs](DEVELOPMENT.md)
 
 ---
 
@@ -67,7 +68,7 @@ For full grammar and spelling checking, point MindTab at a self-hosted LanguageT
 
 ## Flashcard Manager
 
-Click **Manage Flashcards** in the popup to open the card editor. Add custom Q&A pairs, delete cards, or browse the 30 default cards. Cards and spaced-repetition progress can be exported as JSON and imported back — useful for moving between devices.
+Click **Manage Flashcards** in the popup to open the card editor. Add custom Q&A pairs, delete cards, or browse the 30 default cards. Cards and spaced-repetition progress can be exported as JSON and imported back. Useful for moving between devices.
 
 ---
 
@@ -79,7 +80,7 @@ All four features toggle independently from the popup. Filter lists update in th
 
 ## Contributing
 
-Bug reports, filter selector updates, new flashcard decks, and translations are welcome — open an issue or pull request. If you remix this for your school, workplace, or community, a credit to [AetherAssembly](https://aetherassembly.org/about) is appreciated (not required by the MIT license).
+Bug reports, filter selector updates, new flashcard decks, and translations are welcome! Just open an issue or pull request. If you remix this for your school, workplace, or community, a credit to [AetherAssembly](https://aetherassembly.org/about) is appreciated (not required by the MIT license).
 
 ---
 
@@ -89,6 +90,4 @@ Bug reports, filter selector updates, new flashcard decks, and translations are 
 
 ---
 
-<div align="center">
-  <p>Built with ethics and simplicity by <a href="https://aetherassembly.org/about">AetherAssembly</a></p>
-</div>
+Built with ethics and simplicity by [AetherAssembly](https://aetherassembly.org/about)
