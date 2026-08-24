@@ -6,7 +6,7 @@
 [![CodeQL](https://img.shields.io/github/actions/workflow/status/AetherAssembly/MindTab/codeql.yml?label=CodeQL)](https://github.com/AetherAssembly/MindTab/actions/workflows/codeql.yml)
 [![Firefox Add-on](https://img.shields.io/amo/v/mindtab?label=Firefox&logo=firefox-browser&logoColor=white)](https://addons.mozilla.org/firefox/addon/mindtab/)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/fbgafnfmonfnhkdngnniiamoacmkijmk?label=Chrome&logo=google-chrome&logoColor=white)](https://chromewebstore.google.com/detail/mindtab/fbgafnfmonfnhkdngnniiamoacmkijmk)
-[![Version](https://img.shields.io/badge/version-1.5.0-4A90E2)](https://github.com/AetherAssembly/MindTab/releases)
+[![Version](https://img.shields.io/badge/version-1.5.1-4A90E2)](https://github.com/AetherAssembly/MindTab/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 [![Wiki](https://img.shields.io/badge/wiki-documentation-555555?logo=github&logoColor=white)](https://aetherassembly.org/wiki/mindtab)
