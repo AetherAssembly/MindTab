@@ -31,7 +31,9 @@ async function saveDeletedDefaults(keys) {
   await chrome.storage.sync.set({ mindtabDeletedDefaults: keys });
 }
 
-function makeCardItem(card, { onDelete, onEdit } = {}) {
+function makeCardItem(card, options = {}) {
+  /** @type {{ onDelete?: (event?: Event, ...args: any[]) => any, onEdit?: (element: Element, card: any) => any }} */
+  const { onDelete, onEdit } = options;
   const li = document.createElement('li');
   li.className = 'card-item';
 

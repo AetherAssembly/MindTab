@@ -16,6 +16,7 @@ MindTab uses [Semantic Versioning](https://semver.org/).
 ### Development
 
 - **JavaScript type checking** - added TypeScript JSDoc checking across the extension source with a new `npm run typecheck` script
+- **Typecheck configuration** - added browser-extension ambient types, module scoping, and Node-compatible module resolution so `npm run typecheck` passes across the extension source
 - **Continuous integration** - CI now runs the JSDoc type check and uses Node.js 22 for lint and test jobs
 - **Dependency maintenance** - added weekly Dependabot updates for npm packages and GitHub Actions
 
