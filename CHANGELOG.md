@@ -5,6 +5,20 @@ All notable changes to MindTab will be documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 MindTab uses [Semantic Versioning](https://semver.org/).
 
+## [1.5.1] - 2026-08-24
+
+### Changed
+
+- **GitLab mirror** - added a README badge linking to the project's GitLab mirror
+- **Development dependency** - updated the indirect `postcss` dependency from 8.5.15 to 8.5.25, including its `nanoid` transitive dependency update
+- **Release version** - bumped the extension and npm package version to 1.5.1
+
+### Development
+
+- **JavaScript type checking** - added TypeScript JSDoc checking across the extension source with a new `npm run typecheck` script
+- **Continuous integration** - CI now runs the JSDoc type check and uses Node.js 22 for lint and test jobs
+- **Dependency maintenance** - added weekly Dependabot updates for npm packages and GitHub Actions
+
 ## [1.5.0] - 2026-06-24
 
 ### Added

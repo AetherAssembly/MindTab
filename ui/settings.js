@@ -1,3 +1,4 @@
+// @ts-check
 const DEFAULT_FILTER_LISTS = [
   'https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/annoyances-social.txt',
   'https://raw.githubusercontent.com/uBlockOrigin/uAssets/master/filters/quick-fixes.txt',

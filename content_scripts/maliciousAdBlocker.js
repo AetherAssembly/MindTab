@@ -1,3 +1,4 @@
+// @ts-check
 function initAdBlocker() {
   if (!window.__MindTab?.state?.adBlocker) return;
 

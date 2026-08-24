@@ -1,3 +1,4 @@
+// @ts-check
 // MindTab - Writing Assistant
 // Local analysis (always) + optional LanguageTool-compatible server for grammar/spelling.
 // Server field in settings page accepts any LanguageTool v2 endpoint, including self-hosted.

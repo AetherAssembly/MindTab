@@ -1,3 +1,4 @@
+// @ts-check
 function initFeedSanitizer() {
   if (!window.__MindTab?.state?.feedSanitizer) return;
 

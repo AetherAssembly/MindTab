@@ -1,14 +1,16 @@
 {
   "name": "mindtab",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Feed sanitizer, malicious ad blocker, tone awareness, and flash learning - all in one.",
   "type": "module",
   "scripts": {
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit --project jsconfig.json"
   },
   "devDependencies": {
     "jsdom": "^25.0.0",
+    "typescript": "^5.8.3",
     "vitest": "^4.1.6"
   }
 }

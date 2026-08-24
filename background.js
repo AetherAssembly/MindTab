@@ -1,3 +1,4 @@
+// @ts-check
 // MindTab background service worker
 // In Chrome (service worker), importScripts loads the shared constant.
 // In Firefox, manifest.json background.scripts lists defaults.js first, so it's already defined.

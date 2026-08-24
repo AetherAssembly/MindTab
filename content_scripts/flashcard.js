@@ -1,3 +1,4 @@
+// @ts-check
 async function initFlashcards() {
   if (!window.__MindTab?.state?.flashcards) return;
 

@@ -1,3 +1,4 @@
+// @ts-check
 function cardKey(c) {
   let h = 5381;
   for (let i = 0; i < c.q.length; i++) h = (h * 33 ^ c.q.charCodeAt(i)) >>> 0;

@@ -1,3 +1,4 @@
+// @ts-check
 const STORAGE_LIMIT = 7500;
 
 function cardKey(c) {

@@ -1,3 +1,4 @@
+// @ts-check
 // DEFAULTS loaded from config/defaults.js via popup.html script tag
 
 async function getState() {

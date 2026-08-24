@@ -1,3 +1,4 @@
+// @ts-check
 // MindTab - controller, always loaded first.
 // Loads bundled configs, merges community-fetched selectors, fires 'mindtab:ready'.
 
