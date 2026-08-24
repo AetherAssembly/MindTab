@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit --project jsconfig.json"
   },
   "devDependencies": {
-    "jsdom": "^25.0.0",
+    "jsdom": "^30.0.1",
     "typescript": "^5.8.3",
     "vitest": "^4.1.6"
   }
