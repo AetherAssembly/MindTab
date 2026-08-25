@@ -6,12 +6,11 @@ Security fixes are applied to the current release and the two most recent releas
 
 | Version | Status |
 | - | - |
-| v1.1.2 | ✅ Active support |
-| v1.1.0 | ✅ Active support |
-| < v1.0.x | ❌ Not supported |
+| v1.5.x | ✅ Active support |
+| v1.4.0 | ⚠️ deprecated; acknowledged, no longer actively patched |
+| < v1.3.x | ❌ Not supported |
 
 As new versions are released, this table will be updated to reflect the current support window. Versions that fall outside the two-major-version window enter deprecated status and are acknowledged but no longer actively patched. Versions older than that are archived to cold storage. Retrieval of archived versions is available as a paid service - contact us at [support@aetherassembly.org](mailto:support@aetherassembly.org) for details.
-
 
 ## Reporting a Vulnerability
 
@@ -43,7 +42,6 @@ MindTab is a browser extension with no backend of its own. Relevant security are
 - **Grammar server proxy** - if you're running the optional self-hosted server, report proxy-level issues here too
 
 Issues with the LanguageTool server itself should be reported upstream to the [LanguageTool project](https://github.com/languagetool-org/languagetool).
-
 
 ## Out of scope
 

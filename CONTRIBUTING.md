@@ -6,7 +6,7 @@ Thanks for your interest in improving MindTab! This guide covers everything you 
 
 MindTab is a **Manifest V3 browser extension** with no build step - all files are loaded directly by the browser.
 
-```
+```bash
 background.js           Service worker: filter list fetching, badge counter, alarm scheduling
 utils.js                Shared utility (escHtml)
 content_scripts/
@@ -34,11 +34,13 @@ tests/
 ## Loading the extension locally
 
 **Chrome / Edge**
+
 1. Open `chrome://extensions`
 2. Enable **Developer mode** (top-right toggle)
 3. Click **Load unpacked** and select this repository folder
 
 **Firefox**
+
 1. Open `about:debugging#/runtime/this-firefox`
 2. Click **Load Temporary Add-on**
 3. Select `manifest.json`
@@ -59,11 +61,12 @@ Tests use [Vitest](https://vitest.dev/) and cover the pure logic functions in `t
 
 `background.js` fetches three community-maintained ABP/uBlock cosmetic filter lists daily and parses them into plain CSS selectors per target domain. The parser (`parseFilterList`) processes lines like:
 
-```
+```bash
 youtube.com##ytd-rich-shelf-renderer[is-shorts]
 ```
 
 It skips:
+
 - Lines starting with `!` (comments), `[` (metadata), or `@@` (exception rules)
 - Rules with no domain prefix (global rules - too broad)
 - Procedural filters (`:matches-css`, `:upward(`, etc.) - not valid as `querySelectorAll` selectors
@@ -100,7 +103,7 @@ Default cards live in [`config/flashcards.json`](config/flashcards.json) under `
 MindTab uses [Conventional Commits](https://www.conventionalcommits.org/) style. Start every commit message with one of these prefixes so the history stays scannable and the changelog easy to write.
 
 | Prefix | When to use | Example |
-|--------|-------------|---------|
+| ------ | ----------- | ------- |
 | `feat:` | A new user-facing feature or behaviour | `feat: add SM-2 spaced repetition to flashcards` |
 | `fix:` | A bug fix | `fix: passive voice regex missing plural forms` |
 | `chore:` | Maintenance that isn't a feature or bug fix - dependency bumps, version bumps, file moves, deleting dead code | `chore: bump version to 1.2.0` |
@@ -111,6 +114,7 @@ MindTab uses [Conventional Commits](https://www.conventionalcommits.org/) style.
 | `security:` | Security-focused patches - CORS, input validation, XSS hardening | `security: reject spoofed extension origins in CORS check` |
 
 **Tips:**
+
 - Keep the subject line under 72 characters.
 - Use the imperative mood: "add X", "fix Y", not "added X" or "fixes Y".
 - If a commit touches multiple concerns, split it into separate commits.
@@ -121,7 +125,7 @@ MindTab uses [Conventional Commits](https://www.conventionalcommits.org/) style.
 Labels on pull requests are applied automatically by the [labeler workflow](.github/workflows/auto-label.yml) based on which files changed. You don't need to set them manually - they exist for filtering and release-note generation.
 
 | Label | Files that trigger it |
-|-------|-----------------------|
+| ----- | --------------------- |
 | `filters` | `config/filters.json` |
 | `content-script` | `content_scripts/**` |
 | `ui` | `ui/**` |
